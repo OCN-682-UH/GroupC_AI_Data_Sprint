@@ -1,0 +1,253 @@
+source_file,excel_row,date,site_raw,site_name,has_species_data,status
+OPIHI Data - Reformated.xlsx,5,2004-02-01,Kahana Bay,Kahana Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,6,2004-02-24,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,7,2004-03-04,Kahana Bay,Kahana Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,8,2005-02-01,Kahana Bay,Kahana Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,9,2005-02-18,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,10,2005-03-05,Kahana Bay,Kahana Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,11,2005-03-05,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,12,2005-03-29,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,13,2005-03-30,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,14,2005-04-22,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,15,2005-04-27,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,16,2005-04-29,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,17,2005-05-01,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,18,2005-05-01,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,19,2005-05-06,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,20,2005-05-07,Turtle Bay,Turtle Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,21,2005-05-21,Turtle Bay,Turtle Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,22,2005-05-24,Waipuilani,Waipuilani,TRUE,in master
+OPIHI Data - Reformated.xlsx,23,2005-06-04,Turtle Bay,Turtle Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,24,2006-04-17,Mapulehu,Mapulehu,TRUE,in master
+OPIHI Data - Reformated.xlsx,25,2006-04-17,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,26,2006-04-18,Waipuilani,Waipuilani,TRUE,in master
+OPIHI Data - Reformated.xlsx,27,2006-04-27,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,28,2006-04-28,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,29,2006-05-01,Morris Point,Morris Point,TRUE,in master
+OPIHI Data - Reformated.xlsx,30,2006-05-12,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,31,2006-05-15,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,32,2006-05-16,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,33,2006-05-17,Sandy Beach,Sandy Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,34,2007-04-05,Waiopae,Waiopae,TRUE,in master
+OPIHI Data - Reformated.xlsx,35,2007-04-18,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,36,2007-04-19,Maili Beach,Maili Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,37,2007-04-19,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,38,2007-04-20,Waipuilani,Waipuilani,TRUE,in master
+OPIHI Data - Reformated.xlsx,39,2007-04-20,Sandy Beach,Sandy Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,40,2007-05-01,Waipuilani,Waipuilani,TRUE,in master
+OPIHI Data - Reformated.xlsx,41,2007-05-01,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,42,2007-05-02,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,43,2007-05-04,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,44,2007-05-15,Hilo Yacht Club,Hilo Yacht Club,TRUE,in master
+OPIHI Data - Reformated.xlsx,45,2007-05-16,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,46,2007-05-17,Waiopae,Waiopae,TRUE,in master
+OPIHI Data - Reformated.xlsx,47,2007-05-18,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,48,2008-02-23,Maili Beach,Maili Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,49,2016-02-20,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,50,2016-02-27,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,51,2016-02-28,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,52,2016-02-28,Diamond Head,Leahi,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,53,2016-03-06,Sand Island,Mauliola,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,54,2016-03-08,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,55,2016-03-10,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,56,2016-03-10,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,57,2016-03-11,Sandy Beach,Sandy Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,58,2016-03-14,Waipuilani,Waipuilani,TRUE,in master
+OPIHI Data - Reformated.xlsx,59,2016-04-04,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,60,2016-04-05,Keiki Ponds,Keiki Ponds,TRUE,in master
+OPIHI Data - Reformated.xlsx,61,2016-04-05,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,63,2016-04-05,Kiholo Bay,Kiholo Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,64,2016-04-07,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,65,2016-04-07,Mapulehu,Mapulehu,TRUE,in master
+OPIHI Data - Reformated.xlsx,66,2016-04-08,Waiopae,Waiopae,TRUE,in master
+OPIHI Data - Reformated.xlsx,67,2016-04-08,Richardsons,Richardsons,TRUE,in master
+OPIHI Data - Reformated.xlsx,68,2016-04-08,Kahana Bay,Kahana Bay,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,69,2016-04-09,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,70,2016-04-10,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,71,2016-04-11,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,72,2016-04-11,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,73,2016-04-11,Fuji,Fuji,TRUE,in master
+OPIHI Data - Reformated.xlsx,74,2016-04-15,Napili Bay,Napili Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,75,2016-04-19,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,76,2016-04-19,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,77,2016-04-21,Morris Point,Morris Point,TRUE,in master
+OPIHI Data - Reformated.xlsx,78,2016-04-22,Keiki Bay,Keiki Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,79,2016-04-22,Moomomi,Moomomi,TRUE,in master
+OPIHI Data - Reformated.xlsx,80,2016-04-27,Wawaloli,Wawaloli,TRUE,in master
+OPIHI Data - Reformated.xlsx,81,2016-04-28,Waipuilani,Waipuilani,TRUE,in master
+OPIHI Data - Reformated.xlsx,82,2016-05-05,Kaupo,Kaupo,TRUE,in master
+OPIHI Data - Reformated.xlsx,83,2016-05-18,Keawakapu,Keawakapu,TRUE,in master
+OPIHI Data - Reformated.xlsx,84,2016-05-20,Keei,Keei,TRUE,in master
+OPIHI Data - Reformated.xlsx,85,2017-01-26,Mapulehu,Mapulehu,TRUE,in master
+OPIHI Data - Reformated.xlsx,86,2017-02-12,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,87,2017-02-22,Nukolii,Nukolii,TRUE,in master
+OPIHI Data - Reformated.xlsx,88,2017-02-25,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,89,2017-03-04,Waipuilani,Waipuilani,TRUE,in master
+OPIHI Data - Reformated.xlsx,90,2017-03-08,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,91,2017-03-09,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,92,2017-03-10,Kapukahehu Kaluakoʻi,Kapukahehu,TRUE,in master
+OPIHI Data - Reformated.xlsx,93,2017-03-10,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,94,2017-03-10,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,95,2017-03-12,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,96,2017-03-16,Holoholokai,Holoholokai,TRUE,in master
+OPIHI Data - Reformated.xlsx,97,2017-03-28,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,98,2017-03-29,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,99,2017-03-31,Sandy Beach,Sandy Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,100,2017-04-01,Napili Bay,Napili Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,101,2017-04-02,Old Airport,Old Airport,TRUE,in master
+OPIHI Data - Reformated.xlsx,102,2017-04-06,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,103,2017-04-07,Maili Beach,Maili Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,104,2017-04-09,Fuji,Fuji,TRUE,in master
+OPIHI Data - Reformated.xlsx,105,2017-04-10,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,106,2017-04-11,Fuji,Fuji,TRUE,in master
+OPIHI Data - Reformated.xlsx,107,2017-04-11,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,108,2017-04-12,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,109,2017-04-12,Sandy Beach West,Sandy Beach West,TRUE,in master
+OPIHI Data - Reformated.xlsx,110,2017-04-13,Hilo Yacht Club,Hilo Yacht Club,TRUE,in master
+OPIHI Data - Reformated.xlsx,111,2017-04-13,Keiki Bay,Keiki Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,112,2017-04-13,Turtle Bay,Turtle Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,113,2017-04-19,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,114,2017-04-19,Mahaulepu,Mahaulepu,TRUE,in master
+OPIHI Data - Reformated.xlsx,115,2017-04-25,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,116,2017-04-25,Maili Beach,Maili Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,117,2017-04-25,Hulopo'e Bay,Hulopoe Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,118,2017-04-26,Mahaulepu,Mahaulepu,TRUE,in master
+OPIHI Data - Reformated.xlsx,119,2017-04-26,Old Airport,Old Airport,TRUE,in master
+OPIHI Data - Reformated.xlsx,120,2017-04-26,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,121,2017-04-26,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,122,2017-04-27,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,123,2017-04-27,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,125,2017-04-28,Hulopo'e Bay,Hulopoe Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,126,2017-04-28,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,127,2017-04-28,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,128,2017-05-05,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,129,2017-05-05,Oneo Bay,Oneo Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,130,2017-05-10,Waipuilani,Waipuilani,TRUE,in master
+OPIHI Data - Reformated.xlsx,131,2017-05-10,Haneo'o Fishpond,Haneoo Fishpond,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,132,2017-05-11,Salt Pond,Salt Pond,TRUE,in master
+OPIHI Data - Reformated.xlsx,133,2017-05-11,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,134,2017-05-11,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,135,2017-05-11,Keawakapu,Keawakapu,TRUE,in master
+OPIHI Data - Reformated.xlsx,136,2017-05-12,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,137,2017-05-19,Salt Pond,Salt Pond,TRUE,in master
+OPIHI Data - Reformated.xlsx,138,2017-05-24,Waiopae,Waiopae,TRUE,in master
+OPIHI Data - Reformated.xlsx,139,2017-06-22,Sandy Beach,Sandy Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,140,2017-06-24,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,141,2017-06-25,Maili Beach,Maili Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,142,2018-02-03,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,143,2018-02-16,Diamond Head,Leahi,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,144,2018-02-17,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,145,2018-03-01,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,146,2018-03-01,Mapulehu,Mapulehu,TRUE,in master
+OPIHI Data - Reformated.xlsx,147,2018-03-04,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,148,2018-03-16,Waipuilani,Waipuilani,TRUE,in master
+OPIHI Data - Reformated.xlsx,149,2018-04-17,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,150,2018-04-18,Punalu'u Beach Park,Punaluu Beach Park,TRUE,in master
+OPIHI Data - Reformated.xlsx,151,2018-04-19,Maili Beach,Maili Beach,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,152,2018-04-21,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,153,2018-04-22,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,154,2018-04-23,Barbers Point,Kalaeloa,TRUE,in master
+OPIHI Data - Reformated.xlsx,155,2018-04-24,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,156,2018-04-24,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,157,2018-04-25,Old Airport,Old Airport,TRUE,in master
+OPIHI Data - Reformated.xlsx,158,2018-04-26,Kapukahehu Kaluakoʻi,Kapukahehu,TRUE,in master
+OPIHI Data - Reformated.xlsx,159,2018-04-27,Keawakapu,Keawakapu,TRUE,in master
+OPIHI Data - Reformated.xlsx,160,2018-04-29,Hulopo'e Bay,Hulopoe Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,161,2018-05-01,Baby Makapuu,Baby Makapuu,TRUE,in master
+OPIHI Data - Reformated.xlsx,162,2018-05-02,Sandy Beach,Sandy Beach,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,163,2018-05-02,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,164,2018-05-10,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,165,2018-05-11,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,166,2018-05-12,Hulopo'e Bay,Hulopoe Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,167,2018-05-14,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,168,2018-05-15,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,169,2018-05-15,Haneo'o Fishpond,Haneoo Fishpond,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,170,2018-05-16,Hilo Yacht Club,Hilo Yacht Club,TRUE,in master
+OPIHI Data - Reformated.xlsx,171,2018-05-16,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,172,2018-05-17,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,173,2018-05-18,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,174,2018-05-18,Hilo Yacht Club,Hilo Yacht Club,TRUE,in master
+OPIHI Data - Reformated.xlsx,175,2018-05-18,Sandy Beach,Sandy Beach,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,176,2018-05-19,Mahaulepu,Mahaulepu,TRUE,in master
+OPIHI Data - Reformated.xlsx,177,2018-05-21,Waipuilani,Waipuilani,TRUE,in master
+OPIHI Data - Reformated.xlsx,178,2018-05-28,Sandy Beach,Sandy Beach,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,179,2018-05-30,Salt Pond,Salt Pond,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,180,2018-05-31,Holoholokai,Holoholokai,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,181,2018-07-30,Sandy Beach,Sandy Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,182,2018-11-12,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,183,2019-01-20,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,184,2019-02-09,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,185,2019-02-19,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,186,2019-02-19,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,187,2019-02-20,Sand Island,Mauliola,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,188,2019-02-20,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,189,2019-02-21,Mokauea Island,Mokauea Island,TRUE,in master
+OPIHI Data - Reformated.xlsx,190,2019-02-23,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,192,2019-02-24,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,193,2019-03-01,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,194,2019-03-04,Salt Pond,Salt Pond,TRUE,in master
+OPIHI Data - Reformated.xlsx,195,2019-03-07,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,196,2019-03-07,Mapulehu,Mapulehu,TRUE,in master
+OPIHI Data - Reformated.xlsx,197,2019-03-09,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,198,2019-03-12,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,199,2019-03-12,Lanikai Point,Lanikai Point,TRUE,in master
+OPIHI Data - Reformated.xlsx,200,2019-04-01,Baby Makapuu,Baby Makapuu,TRUE,in master
+OPIHI Data - Reformated.xlsx,201,2019-04-02,Baby Makapuu,Baby Makapuu,TRUE,in master
+OPIHI Data - Reformated.xlsx,202,2019-04-02,Kamaole 2&3 Beach Parks,Kamaole Beach Park,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,203,2019-04-03,Baby Makapuu,Baby Makapuu,TRUE,in master
+OPIHI Data - Reformated.xlsx,204,2019-04-03,Sand Island,Mauliola,TRUE,in master
+OPIHI Data - Reformated.xlsx,205,2019-04-04,Baby Makapuu,Baby Makapuu,TRUE,in master
+OPIHI Data - Reformated.xlsx,206,2019-04-05,Kahalu'u Bay,Kahaluu Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,207,2019-04-07,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,208,2019-04-08,Sand Island,Mauliola,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,209,2019-04-08,Salt Pond,Salt Pond,TRUE,in master
+OPIHI Data - Reformated.xlsx,210,2019-04-09,Baby Makapuu,Baby Makapuu,TRUE,in master
+OPIHI Data - Reformated.xlsx,211,2019-04-09,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,212,2019-04-09,Sandy Beach,Sandy Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,213,2019-04-11,Sandy Beach,Sandy Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,214,2019-04-11,Lanikai Point,Lanikai Point,TRUE,in master
+OPIHI Data - Reformated.xlsx,215,2019-04-12,Lanikai Point,Lanikai Point,TRUE,in master
+OPIHI Data - Reformated.xlsx,216,2019-04-16,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,217,2019-04-16,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,218,2019-04-17,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,219,2019-04-17,Hilo Yacht Club,Hilo Yacht Club,TRUE,in master
+OPIHI Data - Reformated.xlsx,220,2019-04-18,Old Airport,Old Airport,TRUE,in master
+OPIHI Data - Reformated.xlsx,221,2019-04-18,Hilo Yacht Club,Hilo Yacht Club,TRUE,in master
+OPIHI Data - Reformated.xlsx,222,2019-04-18,Kona Bay Estates,Kona Bay Estates,TRUE,in master
+OPIHI Data - Reformated.xlsx,223,2019-04-18,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,224,2019-04-18,Waiʻanae High School Reef,Waianae High School Reef,TRUE,in master
+OPIHI Data - Reformated.xlsx,225,2019-04-18,Sandy Beach,Sandy Beach,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,226,2019-04-22,Fuji,Fuji,TRUE,in master
+OPIHI Data - Reformated.xlsx,227,2019-04-22,Waipouli,Waipouli,TRUE,in master
+OPIHI Data - Reformated.xlsx,228,2019-04-22,Onekahakaha,Onekahakaha,TRUE,in master
+OPIHI Data - Reformated.xlsx,229,2019-04-23,Diamond Head,Leahi,TRUE,in master
+OPIHI Data - Reformated.xlsx,230,2019-05-02,Kamaole 2&3 Beach Parks,Kamaole Beach Park,TRUE,in master
+OPIHI Data - Reformated.xlsx,231,2019-05-03,Maili Beach,Maili Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,232,2019-05-03,Mapulehu,Mapulehu,FALSE,compiled only - trip has no species data (known gap)
+OPIHI Data - Reformated.xlsx,233,2019-05-06,Maili Beach,Maili Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,234,2019-05-07,Maili Beach,Maili Beach,TRUE,in master
+OPIHI Data - Reformated.xlsx,235,2019-05-08,Sandy Beach West,Sandy Beach West,TRUE,in master
+OPIHI Data - Reformated.xlsx,236,2019-05-17,Kona Bay Estates,Kona Bay Estates,TRUE,in master
+OPIHI Data - Reformated.xlsx,237,2019-05-17,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,238,2019-05-17,Keawakapu,Keawakapu,TRUE,in master
+OPIHI Data - Reformated.xlsx,239,2019-05-20,Kaupo,Kaupo,TRUE,in master
+OPIHI Data - Reformated.xlsx,240,2019-09-26,Kapukahehu Kaluakoʻi,Kapukahehu,TRUE,in master
+OPIHI Data - Reformated.xlsx,241,2019-09-27,Kapukahehu Kaluakoʻi,Kapukahehu,TRUE,in master
+OPIHI Data - Reformated.xlsx,242,2020-01-09,Wawaloli,Wawaloli,TRUE,in master
+OPIHI Data - Reformated.xlsx,243,2020-01-10,Kahalu'u Bay,Kahaluu Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,244,2020-02-07,Kahalu'u Bay,Kahaluu Bay,TRUE,in master
+OPIHI Data - Reformated.xlsx,245,2020-02-21,Old Airport,Old Airport,TRUE,in master
+OPIHI Data - Reformated.xlsx,246,2020-02-24,Mapulehu,Mapulehu,TRUE,in master
+OPIHI Data - Reformated.xlsx,247,2020-03-03,Ewa Beach,Ewa,TRUE,in master
+OPIHI Data - Reformated.xlsx,248,2020-03-11,Baby Makapuu,Baby Makapuu,TRUE,in master
+OPIHI Data - Reformated.xlsx,249,2020-03-12,Baby Makapuu,Baby Makapuu,FALSE,compiled only - trip has no species data (known gap)
+Sandy Beach Only_.xlsx,4,2006-05-17,Sandy Beach,Sandy Beach,TRUE,in master
+Sandy Beach Only_.xlsx,5,2007-04-20,Sandy Beach,Sandy Beach,TRUE,in master
+Sandy Beach Only_.xlsx,6,2016-03-11,Sandy Beach,Sandy Beach,TRUE,in master
+Sandy Beach Only_.xlsx,7,2017-03-31,Sandy Beach,Sandy Beach,TRUE,in master
+Sandy Beach Only_.xlsx,8,2017-06-22,Sandy Beach,Sandy Beach,TRUE,in master
+Sandy Beach Only_.xlsx,9,2018-07-30,Sandy Beach,Sandy Beach,TRUE,in master
+Sandy Beach Only_.xlsx,10,2019-04-09,Sandy Beach,Sandy Beach,TRUE,in master
+Sandy Beach Only_.xlsx,11,2019-04-11,Sandy Beach,Sandy Beach,TRUE,in master
+Sandy Beach Only_.xlsx,12,2017-04-12,Sandy Beach West,Sandy Beach West,TRUE,in master
+Sandy Beach Only_.xlsx,13,2019-05-08,Sandy Beach West,Sandy Beach West,TRUE,in master

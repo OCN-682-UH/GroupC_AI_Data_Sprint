@@ -1,0 +1,22 @@
+1qq,Ω,,,P2,,,,,Percentage,
+Number of Points,Organism/Substrate,Percentage,,Number of Points,Organism/Substrate,Percentage,,Organism/Substrate,P1,P2
+1.0,Asparagopsis taxiformis,0.02040816327,,8.0,Turff Algea,0.1666666667,,Turf Algae,0.0,0.07058823529
+3.0,Bornetella sphaerica,0.0612244898,,6.0,Bare Rock,0.1111111111,,Bare Rock,0.03529411765,0.02352941176
+2.0,brown coloerd crust,0.04081632653,,2.0,Hypnea chordacea,0.05555555556,,Hypnea chordacea,,
+1.0,Hypnea cervicornis,0.02040816327,,7.0,Padina spp.,0.05555555556,,Brown Rock,,
+8.0,Sargassm Polyphyllum,0.1632653061,,2.0,Sand,0.1944444444,,Padina spp.,,
+3.0,Neomeris,0.0612244898,,1.0,Sargassum aquifolium,0.05555555556,,Sand,,
+21.0,Padina,0.4285714286,,1.0,Gelidiella acerosa*,0.02777777778,,Sargassum aquifolium,,
+8.0,Sand,0.1632653061,,1.0,Amansia glomerata*,0.02777777778,,Amansia glomerata,,
+3.0,Rock,0.0612244898,,2.0,Sargassum polyphyllum,0.02777777778,,Sargassum polyphyllum,,
+2.0,Leptolyngbya,0.04081632653,,1.0,Asparagopsis taxiformis,0.05555555556,,Asparagopsis taxiformis,,
+,,,,1.0,Halimeda discoidea,0.02777777778,,Halimeda discoidea,,
+,,,,2.0,Sphacelaria spp.,0.02777777778,,Sphacelaria spp.,,
+,,,,1.0,Dictyota sandvicensis,0.05555555556,,Dictyota sandvicensis,,
+,,,,1.0,Brown colored crust,0.02777777778,,Brown colored crust,,
+,,,,,,0.9166666667,,Asparagopsis taxiformis,,
+,,,,,,,,Bornetella sphaerica,,
+,,,,,,,,brown coloerd crust,,
+,,,,,,,,Hypnea cervicornis,,
+,,,,,,,,Neomeris,,
+,,,,,,,,Leptolyngbya,,
