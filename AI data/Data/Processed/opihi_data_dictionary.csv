@@ -1,0 +1,33 @@
+table,column,type,description
+master,survey_id,text,"Survey (site visit) ID, S0001..., ordered by date; joins to opihi_surveys"
+master,sample_id,text,"Sample ID (one quadrat, or one student group); joins to opihi_samples"
+master,date,date,Survey date (YYYY-MM-DD); blank if the source file records none
+master,year,integer,"Survey year (from the date, or from the file name for undated classroom files)"
+master,site_name,text,"Standardised site name, Hawaiian name first, no ʻokina/kahakō"
+master,site_alias_english,text,English name of the site where one is in common use
+master,island,text,Island
+master,latitude / longitude,number,Decimal degrees as recorded on legacy datasheets (blank for modern files)
+master,teacher_id,text,Anonymous teacher/school/team-leader ID(s); several joined with ';'
+master,resolution,text,'quadrat' = one row per quadrat; 'group_total' = classroom group totals
+master,sample_type,text,'quadrat' or 'student_group'
+master,group_label,text,"Student-group label (classroom files only), e.g. P1G3"
+master,transect,integer,Transect number within the survey
+master,quadrat,integer,Quadrat number along the transect (legacy files only)
+master,point_m,number,Quadrat position along the transect in metres
+master,n_quadrats,number,Quadrats in the sample: 1 for quadrats; group size for student groups
+master,taxon_raw,text,Taxon or substrate name exactly as written on the datasheet
+master,taxon_clean,text,"Standardised name: spelling fixed, current taxonomy (see taxon_crosswalk.csv)"
+master,analysis_taxon,text,Coarser name for consistent comparison across years (usually genus)
+master,category,text,"Algae, Cyanobacteria, Invertebrate, Coral, Substrate or Unknown"
+master,count,number,Point-intercept hits for this taxon in the sample (> 0; absences are implied)
+master,points_possible,number,25 x n_quadrats
+master,sample_flag,text,"QC flags on the sample, ';'-separated (see opihi_qc_flags.csv)"
+master,source_family,text,"Raw-file format family: A legacy, B modern, C classroom"
+master,source_cell,text,Raw file and Excel row/column the value came from
+surveys,start_time / stop_time / low_tide_time,text,"24-hour HH:MM; placeholders removed, 01-05 h assumed PM (flagged)"
+surveys,n_transects_reported / n_quad_per_t_reported,integer,Effort written on the legacy datasheet (may differ from actual)
+surveys,n_samples / n_quadrats,integer,Actual samples and quadrats in the cleaned data (sampling effort)
+surveys,src_key,text,Internal key back to the raw file/block
+samples,point_sum,number,Sum of all counts in the sample (25 expected per quadrat in modern files)
+samples,n_taxa,integer,Distinct non-substrate taxa recorded in the sample
+samples,sample_key,text,Internal key back to the raw file/row/column

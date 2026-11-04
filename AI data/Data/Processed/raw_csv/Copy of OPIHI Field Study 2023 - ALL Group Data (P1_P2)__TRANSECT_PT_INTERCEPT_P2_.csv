@@ -1,0 +1,16 @@
+TRANSECT POINT INTERCEPT,,,,,,,,--> compile data here,,,,,,,Graph the data for the transect point intercepts first.
+,,Organism Substrate,,,,,,,,,,,x-axis,y-axis,
+,NAME,Nainoa,Maia,Jahshua,Tyler,Dava,Alyssa,Natalie Choi,,NAME,Organism/Substrate,Number of Points,Organism/Substrate,Percentage,"<-- for the Percentage, you will need to divide by the total number of points, which is 5"
+Transect Point #,Location (m),P2G1,P2G2,P2G3,P2G4,P2G5,P2G6,P2G7,,Trey,Sargassum polyphylum,3.0,Sargassum polyphylum,0.0612244898,
+1.0,0.0,Sargassum aquifolium,Padina spp.,Sargassum aquifolium,Sargassum aquifolium,Sargassum polyphylum,Sargassum aquifolium,Sargassum polyphylum,,Chance,Sargassum aquifolium,5.0,Sargassum aquifolium,0.1020408163,
+2.0,2.0,Turf algae,Turf algae,Turf Algae,Turf Algae,Padina spp.,Turf,Padina spp.,,Shawn,Turf Algae,21.0,Turf Algae,0.4285714286,
+3.0,4.0,Turf algae,Turf algae,Turf Algae,Sand,Saragassum polyphylum,Sargassum aquifolium,Turf algae,,Dylan,Rock,6.0,Rock,0.1224489796,
+4.0,6.0,Turf algae,Turf algae,y,Padina spp.,Turf Algae,Turf Algae,Turf algae,,Christine,Padina spp,4.0,Padina spp,0.08163265306,
+5.0,8.0,Turf algae,rock,Turf Algae,Rock,rock,Rock,Turf algae,,Charlee,Sand,10.0,Sand,0.2040816327,
+6.0,10.0,Turf algae,sand,Turf Algae,Rock,sand,Rock,Turf algae,,,,,,,
+7.0,12.0,sand,sand,Sand,sand,sand,sand,sand,,,,,,,
+,,,,,,,,,,,TOTAL,49,,1,
+,,,,,,,,,,,,should be 49,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,3.0,,,,,,,

@@ -1,0 +1,12 @@
+P1,,,,P2,,,,,Percentage,
+Number of Points,Organism/Substrate,Percentage,,Number of Points,Organism/Substrate,Percentage,,Organism/Substrate,P1,P2
+9.0,rock,0.1836734694,,3.0,Sargassum polyphylum,0.0612244898,,Acanthophora spicifera,0.04081632653,0.0
+19.0,turf algae,0.387755102,,5.0,Sargassum aquifolium,0.1020408163,,Dendropoma gregarium,0.0612244898,0.0
+7.0,sand,0.1429,,21.0,Turf Algae,0.4285714286,,Padina spp.,0.1020408163,0.08163265306
+1.0,Turbinaria ornata,0.02040816327,,6.0,Rock,0.1224489796,,Sargassum aquifolium,0.0,0.1020408163
+3.0,Sargassum polyphylum,0.0612244898,,4.0,Padina spp,0.08163265306,,Sargassum polyphylum,0.0612244898,0.0612244898
+5.0,Padina spp.,0.1020408163,,10.0,Sand,0.2040816327,,Turbinaria ornata,0.02040816327,0.0
+3.0,Dendropoma gregarium,0.0612244898,,,,,,turf algae,0.387755102,0.4285714286
+2.0,Acanthophora spicifera,0.04081632653,,,,,,rock,0.1836734694,0.1224489796
+49,,1.000042857,,49,,1,,sand,0.1428571429,0.2040816327
+,,,,,,,,,1,1

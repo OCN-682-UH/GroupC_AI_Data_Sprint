@@ -1,0 +1,35 @@
+,,,,,,,,,x-axis,y-axis
+NAME,Miley,Charlize,Emily,Devan,Thymon,Brynn,Zayden,,,
+CHECKER #1,Natalia,Kainoa,Nyanna,Anthony,Brianne,Isabelle,Colten,,,
+CHECKER #2,Lexie,Dallas,Declan,Grace,Reesa,Alika,Olive,,x-axis,y-axis
+Organism,P1G1,P1G2,P1G3,P1G4,P1G5,P1G6,P1G7,TOTALS,Organism/Substrate,Percentage
+Padina spp.,26.0,15.0,10.0,12.0,12.0,24.0,19.0,118,Padina spp.,0.09632653061
+Turbinania ornata,,,1.0,3.0,,,,4,Turbinania ornata,0.003265306122
+Neomeris,,1.0,,,,,,1,Neomeris,0.0008163265306
+Dictyota spp.,,1.0,,2.0,,1.0,,4,Dictyota spp.,0.003265306122
+Hypnea,,1.0,,,,,,1,Hypnea,0.0008163265306
+Turf algae,23.0,30.0,57.0,110.0,74.0,80.0,54.0,428,Turf algae,0.3493877551
+Avrainvilea sp.,,,,,1.0,,,1,Avrainvilea sp.,0.0008163265306
+Caiclmus laevimanus,,,,,,,1.0,1,Caiclmus laevimanus,0.0008163265306
+Sargassum polyphyllum,13.0,5.0,,,19.0,,,37,Sargassum polyphyllum,0.03020408163
+Acanthophora spicifera,,,17.0,10.0,,,4.0,31,Acanthophora spicifera,0.02530612245
+Halimeda discoidea,,,,2.0,1.0,,,3,Halimeda discoidea,0.002448979592
+Sphacelaria spp.,,,,,,18.0,,18,Sphacelaria spp.,0.01469387755
+Bornatella sphaerica,47.0,,1.0,,,,,48,Bornatella sphaerica,0.03918367347
+Crustose Coralline Algae,,,,2.0,,,,2,Crustose Coralline Algae,0.0016
+Turbinaria ornata,10.0,8.0,1.0,,1.0,2.0,,22,Turbinaria ornata,0.01795918367
+Dendropoma gregarium,,,,,,,,0,Dendropoma gregarium,0
+Coelothrix irregularis,,,,,3.0,,,3,Coelothrix irregularis,0.002448979592
+Dendropoma gregarium,,,,4.0,26.0,20.0,10.0,60,Dendropoma gregarium,0.04897959184
+Unknown snail,,1.0,,,,,,1,Unknown snail,0.0008163265306
+Amansia glomerata,,,,,,,8.0,8,Amansia glomerata,0.006530612245
+unknown Fish,,1.0,,,,,,1,unknown Fish,0.0008163265306
+Byropsis Pennata,,,,,,,1.0,1,Byropsis pennata,0.0008163265306
+Hydroclathrus clathratus,,,,,,,1.0,1,Hydroclathrus clathratus,0.0008163265306
+Sargassum aquifolium,,,1.0,,,,1.0,2,Sargassum aquifolium,0.001632653061
+Sr aquifolium,,,2.0,,,,,2,Sr aquifolium,0.001632653061
+Drupa morum,,,1.0,,,,,1,Drupa morum,0.0008163265306
+sand,25.0,55.0,25.0,25.0,25.0,25.0,42.0,222,sand,0.1812244898
+rock,31.0,57.0,59.0,5.0,13.0,5.0,34.0,204,rock,0.1665306122
+TOTAL Points,175,175,175,175,175,175,175,1225,,0.9999673469
+# quadrats x 25 pts/quadrat = 175,175.0,175.0,175.0,175.0,175.0,175.0,175.0,1225,,
