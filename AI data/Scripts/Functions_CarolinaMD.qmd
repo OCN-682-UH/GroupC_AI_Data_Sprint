@@ -1,0 +1,29 @@
+---
+title: "Functions_CarolinaMD"
+author: "Carolina Melendez Declet"
+format: html
+---
+
+11/4/2026
+
+## Load Libraries 
+```{r}
+#| message: false
+
+library(tidyverse) 
+library(here)
+```
+
+## Load Data 
+```{r}
+#| message: false
+
+opihi_master <- read_csv(here("AI data","Data","Processed", "opihi_master.csv"))
+opihi_samples <- read_csv(here("AI data","Data","Processed", "opihi_samples.csv"))
+opihi_surveys <- read_csv(here("AI data","Data","Processed", "opihi_surveys.csv"))
+opihi_data_dictionary <-read_csv(here("AI data","Data","Processed", "opihi_data_dictionary.csv"))
+```
+
+
+
+
