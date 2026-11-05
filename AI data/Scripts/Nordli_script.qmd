@@ -1,0 +1,263 @@
+---
+title: "AI_Nordli"
+format: 
+  html:
+    code-fold: true # code hidden
+    code-summary: "Show Code"
+    mainfont: "Times new roman" # main body text
+    fontsize: 12pt # main font size
+    fontcolor: black # main font color
+    embed-resources: true # avoids the extra folders by placing outputs into the HTML itself 
+    toc: true
+    toc-depth: 2
+    toc-location: right
+    toc-title: "Table of Contents"
+    fig-align: center
+    theme: lumen
+editor: visual
+execute:
+  warning: false
+---
+
+# AI Script
+
+## load libraries 
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+library(stringr)
+```
+## Import data
+```{r}
+opihi_master          <- read_csv(here("AI data", "Data", "Processed", "opihi_master.csv"))
+opihi_unmatched_names <- read_csv(here("AI data", "Data", "Processed", "opihi_unmatched_names.csv"))
+opihi_surveys         <- read_csv(here("AI data", "Data", "Processed", "opihi_surveys.csv"))
+opihi_samples         <- read_csv(here("AI data", "Data", "Processed", "opihi_samples.csv"))
+opihi_qc_flags        <- read_csv(here("AI data", "Data", "Processed", "opihi_qc_flags.csv"))
+opihi_exclusions_log  <- read_csv(here("AI data", "Data", "Processed", "opihi_exclusions_log.csv"))
+opihi_data_dictionary <- read_csv(here("AI data", "Data", "Processed", "opihi_data_dictionary.csv"))
+```
+
+### Check that every master row traces back to a raw row
+```{r}
+opihi_master |> count(source_family)
+opihi_master |> group_by(source_family) |> slice_sample(n = 3) |> select(source_family, taxon_raw, count, source_cell)
+```
+
+### Step 1: Parse source_cell
+```{r}
+master_src <- opihi_master |>
+  mutate(
+    src_file  = str_extract(source_cell, "^[^|!]+"),
+    src_sheet = str_match(source_cell, "\\|([^!]+)!")[, 2],
+    src_row   = as.integer(str_match(source_cell, "!R(\\d+)")[, 2]),
+    src_col   = as.integer(str_match(source_cell, "C(\\d+)$")[, 2])
+  )
+
+master_src |>
+  count(source_family, has_sheet = !is.na(src_sheet), has_col = !is.na(src_col))
+```
+
+### Step 2: Read the raw cells with their true positions
+tidyxl keeps the real row/column numbers. readxl can silently skip leading blank rows, which would shift every row number.
+```{r}
+library(tidyxl)
+
+raw_dir   <- here("AI data", "Data", "Raw")   # adjust to wherever the xlsx files are
+raw_files <- list.files(raw_dir, pattern = "\\.xlsx$", full.names = TRUE, recursive = TRUE)
+
+raw_cells <- map(raw_files, \(p) {
+  xlsx_cells(p) |>
+    filter(!is_blank) |>
+    transmute(src_file = basename(p), sheet, row, col, data_type, numeric, character)
+}) |> list_rbind()
+
+# file names in master that don't exist in raw (should be empty)
+setdiff(unique(master_src$src_file), unique(raw_cells$src_file)) # got the Copy of OPIHI Field Study 2025 - All Group Data (P1_P2) - use this one
+
+# how many sheets does each workbook have? (this matters for families A and B)
+raw_cells |> distinct(src_file, sheet) |> count(src_file)
+```
+### When i ran setdiff(unique(master_src&.......) I got one output of one xlsx file. It means some master rows point to a raw file your code didn’t find or read, so those rows can’t be verified yet. There are a few likely causes, and these checks will narrow it down.
+```{r}
+missing_file <- setdiff(unique(master_src$src_file), unique(raw_cells$src_file))
+missing_file
+
+# 1. How much of master depends on it?
+master_src |> filter(src_file %in% missing_file) |> count(source_family, src_file) # output: Family C, Copy of OPIHI Field Study 2025 - ALL Group Data (P1_P2) - use this one, n=158
+
+# 2. Is it in the Raw folder at all, under any extension?
+list.files(raw_dir, recursive = TRUE)
+
+# 3. Is it there with a slightly different name? (extra space, "Copy of", case)
+basename(raw_files)[agrepl(missing_file, basename(raw_files), max.distance = 0.15)] # missing ! 
+
+# 4. Was it found by list.files but came back with no cells?
+missing_file %in% basename(raw_files)
+```
+the file got from the last message i sent you was "Copy of OPIHI Field Study 2025 - ALL Group Data (P1_P2) - use this one", however in the Raw folder there is a file "Copy of OPIHI Field Study 2025 - ALL Group Data (P1_P2) - use this one!" so there is an exclamation mark missing between the two
+
+Claude: That explains it, and the bug is in my parsing code, not your data. The file name actually ends in use this one!.xlsx, and source_cell uses ! to separate the file or sheet from the row. My regex stopped at the first !, so it cut the file name short. Your files are fine.
+
+Here’s the corrected parsing. It reads the file name up to .xlsx instead of up to the first !, and takes the row from the last !R:
+```{r}
+master_src <- opihi_master |>
+  mutate(
+    src_file  = str_extract(source_cell, "(?i)^.*?\\.xls[xm]?"),
+    src_sheet = str_match(source_cell, "\\|(.+)!R\\d+")[, 2],
+    src_row   = as.integer(str_match(source_cell, ".*!R(\\d+)")[, 2]),
+    src_col   = as.integer(str_match(source_cell, "C(\\d+)$")[, 2])
+  )
+
+# should now return character(0)
+setdiff(unique(master_src$src_file), unique(raw_cells$src_file))
+
+## check that the fix worked
+
+master_src |> filter(is.na(src_file) | is.na(src_row)) |> count(source_family)
+
+master_src |>
+  filter(str_detect(src_file, "use this one")) |>
+  distinct(source_cell, src_file, src_sheet, src_row, src_col) |>
+  slice_head(n = 5)
+
+# 1. Should print character(0)
+setdiff(unique(master_src$src_file), unique(raw_cells$src_file))
+
+# 2. Should return 0 rows
+master_src |> filter(is.na(src_file) | is.na(src_row)) |> count(source_family)
+```
+
+### Once both checks come back clean, you can run the Step 3 comparison (ab_check) and paste the count(source_family, status) output. That will show how well master agrees with raw for families A and B.
+```{r}
+ab_check <- master_src |>
+  filter(source_family %in% c("A", "B")) |>
+  left_join(raw_cells,
+            by = c("src_file", "src_row" = "row", "src_col" = "col"),
+            relationship = "many-to-many") |>
+  mutate(status = case_when(
+    is.na(data_type)      ~ "raw cell missing or blank",
+    data_type != "numeric" ~ "raw cell not numeric",
+    numeric != count      ~ "value mismatch",
+    TRUE                  ~ "match"
+  ))
+
+ab_check |> count(source_family, status)
+```
+
+The row counts don’t add up
+
+The four rows total 17,646 + 4,599 + 23 + 370 = 22,638, but all of master (A, B and C together) is 22,588. The A and B rows alone can’t exceed the whole file. This is the many-to-many join I warned about: A and B source_cell values have no sheet name, so a workbook with several sheets returns one hit per sheet for the same row and column. A real match on one sheet can then be paired with a non-match from another sheet and show up as a “mismatch”. So some of the 370 may be false alarms from my method.
+
+Fix it by giving each master row an ID and keeping only its best hit:
+
+```{r}
+master_src <- master_src |> mutate(master_id = row_number())
+
+ab_check <- master_src |>
+  filter(source_family %in% c("A", "B")) |>
+  left_join(raw_cells,
+            by = c("src_file", "src_row" = "row", "src_col" = "col"),
+            relationship = "many-to-many") |>
+  mutate(status = case_when(
+    is.na(data_type)       ~ "raw cell missing or blank",
+    data_type != "numeric" ~ "raw cell not numeric",
+    numeric != count       ~ "value mismatch",
+    TRUE                   ~ "match"
+  ))
+
+ab_best <- ab_check |>
+  mutate(rank = match(status, c("match", "value mismatch",
+                                "raw cell not numeric", "raw cell missing or blank"))) |>
+  group_by(master_id) |>
+  slice_min(rank, n = 1, with_ties = FALSE) |>
+  ungroup()
+
+nrow(ab_best)                              # should equal A + B rows in master ## Output: 22,241
+master_src |> count(source_family)         # compare - Yes, matches
+ab_best |> count(source_family, status)
+```
+
+HAS NOT BEEN RUN
+```{r}
+## the bottom two have not been run yet but part of Step 3
+
+# rows that matched more than one sheet (ambiguous source)
+ab_check |> count(source_cell) |> filter(n > 1)
+
+# look at the problems
+ab_check |> filter(status != "match") |>
+  select(source_family, taxon_raw, count, source_cell, numeric, status)
+```
+## check sheets with multible tabs
+```{r}
+sheets_per_file <- raw_cells |> distinct(src_file, sheet) |> count(src_file, name = "n_sheets")
+
+master_src |>
+  distinct(source_family, src_file) |>
+  left_join(sheets_per_file, by = "src_file") |>
+  arrange(source_family, src_file)
+```
+### Step 2: Use the taxon name to identify the right tab
+The correct tab is the one where the cell has the right value and the taxon name sits in the same row (or the same column, depending on layout).
+```{r}
+labels <- raw_cells |>
+  filter(data_type == "character") |>
+  transmute(src_file, sheet, row, col, label = str_squish(str_to_lower(character)))
+
+row_labels <- labels |> distinct(src_file, sheet, row, label) |> mutate(label_in_row = TRUE)
+col_labels <- labels |> distinct(src_file, sheet, col, label) |> mutate(label_in_col = TRUE)
+
+ab2 <- master_src |>
+  filter(source_family %in% c("A", "B")) |>
+  mutate(taxon_key = str_squish(str_to_lower(taxon_raw))) |>
+  left_join(raw_cells,
+            by = c("src_file", "src_row" = "row", "src_col" = "col"),
+            relationship = "many-to-many") |>
+  left_join(row_labels,
+            by = c("src_file", "sheet", "src_row" = "row", "taxon_key" = "label")) |>
+  left_join(col_labels,
+            by = c("src_file", "sheet", "src_col" = "col", "taxon_key" = "label")) |>
+  mutate(
+    label_ok = coalesce(label_in_row, FALSE) | coalesce(label_in_col, FALSE),
+    value_ok = !is.na(numeric) & numeric == count,
+    status = case_when(
+      label_ok & value_ok                  ~ "1 match",
+      label_ok & data_type %in% "numeric"  ~ "2 value mismatch",
+      label_ok                             ~ "3 raw cell not numeric",
+      value_ok                             ~ "4 value matches, taxon label not found on that tab",
+      TRUE                                 ~ "5 no usable match"
+    )
+  )
+
+ab_best2 <- ab2 |>
+  arrange(master_id, status) |>
+  distinct(master_id, .keep_all = TRUE)
+
+nrow(ab_best2)                       # should equal A + B rows in master: 22,241
+master_src |> count(source_family)
+ab_best2 |> count(source_family, status) # duplicate problem gone 
+```
+#### How to read the statuses
+1 match: verified on a specific tab.
+2 and 3: real findings. Use the diagnostic code from my last message (count(src_file, status), the ratio and diff tables, and the flagged vs unflagged check) on these rows only.
+4 and 5: inconclusive. The taxon name may be laid out differently from what the code expects (a merged header, or the name spelled differently on the datasheet). Open a handful in Excel before drawing conclusions. If many of them are in one file, that file needs a custom check.
+
+I’d expect the problem rows to drop a lot, but that’s a hypothesis until you see the output.
+If those two numbers match and count() shows only 1 match, A and B are fully verified.
+If the count shows only 1 match for A and B, that’s good news: **every A and B value in master was traced to a raw cell on a specific tab with the right taxon label**, and the 370 mismatches from before were false alarms caused by the multi-tab join.
+```{r}
+ab_best2 |> count(source_family, status)
+```
+That’s a strong result for A and B. Every one of those master values (about 22,200 rows) was traced to a raw cell on a specific tab, with the same number and the taxon name in the same row or column. So the AI didn’t alter or invent any values in those two families, and the 370 earlier mismatches were false alarms from the multi-tab join. That’s worth stating in your write-up.
+
+#### What this does and doesn’t prove
+
+It shows that everything in master is real. It doesn’t yet show that:
+
+- Nothing was lost. A value can be correct in master while other raw values never made it in. That’s the reverse check.
+- The values are attached to the right sample. A number can match a cell and still be assigned to the wrong site, date or quadrat. The match confirms the cell and the taxon label, not the sample metadata.
+- The taxon cleaning was right. Everything from taxon_raw to taxon_clean and analysis_taxon is still unchecked.
+- Family C is verified. It’s untouched so far.
+
