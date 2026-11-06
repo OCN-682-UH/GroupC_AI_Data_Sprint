@@ -42,8 +42,15 @@ library(ggspatial)
 
 ## Load Data
 
+Read in all of the data
+
 ```{r}
-read.csv("Data")
+master <- read_csv("AI_data/Data/Processed/opihi_master.csv")
+algae_review <- read_csv("AI_data/algae_origin_review.csv")
+raw <- read_csv("AI_data/Data/Processed/opihi_master.csv",show_col_types = FALSE)
+lookup <- read_csv("AI_data/algae_origin_lookup.csv", show_col_types = FALSE) |>
+  select(taxon_clean, origin_status)
+
 ```
 
 ## AI Conversations
@@ -54,6 +61,127 @@ read.csv("Data")
 
 Mapping Oʻahu
 
+Put points on all of the Locations
+
+```{r}
+geo("Diamond Head", method = "osm")
+geo("Ewa Beach", method = "osm")
+geo("Kahana Bay", method = "osm")
+geo("Sand Island, Hawaii", method = "osm")
+geo("Barbers Point, Hawaii", method = "osm")
+geo("Turtle Bay, Hawaii", method = "osm")
+geo("Sandy Beach, Hawaii", method = "osm")
+geo("Maili Point, Hawaii", method = "osm")
+geo("Baby Makapuu, Hawaii", method = "osm")
+
+oahu_sites <- tribble(
+  ~place,
+  "Diamond Head",
+  "Ewa Beach",
+  "Kahana Bay",
+  "Sand Island, Hawaii",
+  "Barbers Point, Hawaii", 
+  "Turtle Bay, Hawaii",
+  "Sandy Beach, Hawaii",
+  "Maili Point, Hawaii",
+  "Baby Makapuu, Hawaii"
+)
+
+oahu_geocoded <- oahu_sites |>
+  geocode(place, method = "osm") # geocode the 'place' column
+
+oahu_geocoded
+
+leaflet(oahu_geocoded) |>
+  addProviderTiles(providers$Esri.WorldImagery) |>
+  addMarkers(
+    lng = ~long, lat = ~lat,   # tidygeocoder always returns 'lat' and 'long'
+    label = ~place)            # hover to see place name
+```
+
+```{r}
+algae <- raw |>
+  filter(category == "Algae", island=="Oahu") |>
+  left_join(lookup, by = "taxon_clean") |>
+  mutate(origin_group = case_when(
+    origin_status %in% c("Native", "Native (likely)")             ~ "Native",
+    origin_status %in% c("Non-native", "Non-native (invasive)")   ~ "Non-native",
+    TRUE ~ "Unresolved"   # cryptogenic, genus-level, turf, unknown groups
+  ))
+
+
+
+```
+
+
+```{r}
+# ----  TIME SERIES: NATIVE vs NON-NATIVE, ONE GRAPH PER SITE ------------------
+site_year <- quad_long |>
+  group_by(site_name, year, origin_group) |>
+  summarise(n_quadrats = n_distinct(sample_id),
+            mean_cover = mean(cover),
+            se = sd(cover) / sqrt(n()),
+            .groups = "drop")
+
+# Only sites with enough survey years for a line to mean anything
+min_years <- 3
+sites_to_plot <- site_year |>
+  group_by(site_name) |>
+  summarise(n_years = n_distinct(year), .groups = "drop") |>
+  filter(n_years >= min_years) |>
+  pull(site_name)
+sites_to_plot
+
+cols <- c("Native" = "#2ca25f", "Non-native" = "#e34a33")
+
+plot_site <- function(site) {
+  site_year |>
+    filter(site_name == site) |>
+    ggplot(aes(year, mean_cover, color = origin_group)) +
+    geom_linerange(aes(ymin = pmax(mean_cover - se, 0), ymax = mean_cover + se),
+                   alpha = 0.4) +
+    geom_line(linewidth = 0.9) +
+    geom_point(aes(size = n_quadrats)) +
+    scale_color_manual(values = cols, name = NULL) +
+    scale_size_continuous(name = "Quadrats", range = c(1.5, 5)) +
+    scale_x_continuous(breaks = scales::breaks_pretty()) +
+    labs(title = site, x = "Year", y = "Mean % cover per quadrat",
+         caption = "Points = survey years; bars = +/- 1 SE; unresolved taxa excluded") +
+    theme_minimal(base_size = 12)
+}
+
+# View a single site (swap the name to change locations)
+plot_site("Leahi")
+
+# Save one PNG per site
+dir.create("site_timeseries", showWarnings = FALSE)
+walk(sites_to_plot, \(s)
+  ggsave(file.path("site_timeseries",
+                   paste0(str_replace_all(tolower(s), "[^a-z0-9]+", "_"), ".png")),
+         plot_site(s), width = 7, height = 4, dpi = 300))
+
+# One-page overview of all selected sites
+p_all <- site_year |>
+  filter(site_name %in% sites_to_plot) |>
+  ggplot(aes(year, mean_cover, color = origin_group)) +
+  geom_line(linewidth = 0.8) +
+  geom_point(aes(size = n_quadrats)) +
+  facet_wrap(~ site_name, scales = "free_y") +
+  scale_color_manual(values = cols, name = NULL) +
+  labs(x = "Year", y = "Mean % cover per quadrat", size = "Quadrats") +
+  theme_minimal(base_size = 11)
+ggsave("site_timeseries/all_sites_overview.png", p_all,
+       width = 11, height = 8, dpi = 300)
+
+p_all
+
+```
+
+
+
+
+
+
 ```{r}
 oahu_bbox <- st_as_sfc(
   st_bbox(c(xmin = -158.35, ymin = 21.22,
@@ -61,15 +189,15 @@ oahu_bbox <- st_as_sfc(
           crs = 4326)   # WGS84 lat/lon
 )
 
-tiles_satellite <- get_tiles(
-  oahu_bbox,               # the area to download
-  provider = "Esri.WorldImagery", # which tile source to use
-  zoom = 16,                  # level of detail (3 = continent, 20 = building)
-  crop = TRUE,                # clip to our exact bbox (vs. slightly larger)
-  cachedir = here("data") # save tiles to disk
-)
+## DO NOT RUN THIS
+#tiles_satellite <- get_tiles(
+#  oahu_bbox,               # the area to download
+#  provider = "Esri.WorldImagery", # which tile source to use
+#  zoom = 16,                  # level of detail (3 = continent, 20 = building)
+#  crop = TRUE,                # clip to our exact bbox (vs. slightly larger)
+#  cachedir = here("data") # save tiles to disk
+#)
 
-class(tiles_satellite)
 ```
 
 ```{r}
@@ -148,26 +276,3 @@ p_loc <- freq_loc |>
   theme_minimal()
 ```
 
-Detection frequency through time (with effort bars underneath via patchwork if desired)
-
-```{r}
-p_year <- ggplot(freq_year, aes(year, freq)) +
-  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) +
-  geom_line() +
-  geom_point(aes(size = n_events)) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  labs(x = "Year", y = "Detection frequency", size = "Events") +
-  theme_minimal()
-```
-
-Seasonality: detection frequency by calendar month
-
-```{r}
-p_month <- ggplot(freq_month, aes(factor(month, 1:12, month.abb), freq)) +
-  geom_col(fill = "steelblue", alpha = 0.7) +
-  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
-  geom_text(aes(y = 1.02, label = n_events), size = 2.7) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1.05)) +
-  labs(x = NULL, y = "Detection frequency", subtitle = "Numbers = survey events") +
-  theme_minimal()
-```
