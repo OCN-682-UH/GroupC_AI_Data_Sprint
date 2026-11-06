@@ -38,6 +38,7 @@ library(maptiles)
 library(tidyterra)
 library(tidygeocoder)
 library(ggspatial)
+library(leafpop)
 ```
 
 ## Load Data
@@ -46,14 +47,56 @@ Read in all of the data
 
 ```{r}
 master <- read_csv("AI_data/Data/Processed/opihi_master.csv")
-algae_review <- read_csv("AI_data/algae_origin_review.csv")
+algae_review <- read_csv("AI_data/Data/Algae/algae_origin_review.csv")
 raw <- read_csv("AI_data/Data/Processed/opihi_master.csv",show_col_types = FALSE)
-lookup <- read_csv("AI_data/algae_origin_lookup.csv", show_col_types = FALSE) |>
+lookup <- read_csv("AI_data/Data/Algae/algae_origin_lookup.csv", show_col_types = FALSE) |>
   select(taxon_clean, origin_status)
 
 ```
 
+
+Organizing data:
+
+```{r}
+algae <- raw |>
+  filter(category == "Algae", island=="Oahu") |>
+  left_join(lookup, by = "taxon_clean") |>
+  mutate(origin_group = case_when(
+    origin_status %in% c("Native", "Native (likely)")             ~ "Native",
+    origin_status %in% c("Non-native", "Non-native (invasive)")   ~ "Non-native",
+    TRUE ~ "Unresolved"   # cryptogenic, genus-level, turf, unknown groups
+  ))
+```
 ## AI Conversations
+
+Differentiating native algae from invasive algae. When asking AI (Claude) to clean the master sheet and create new sheets only displaying algae data, I mentioned that I planned to differentiate native and non-native limu. Claude did this on itʻs own, with itʻs own sources and created a new data sheet with the algae species organized as either "Native", "Non-native(Invasive)", or "Unresolved." As seen in conversation and data below:
+
+**ME**: I can first make a new data sheet that only has algae. Then I can plot and interactive map that shows where the native vs non-native algae was found around the island. Secondly, I want to make a plot showing the abundance of native vs non-native species on a time series line graph for each location. So it would be two lines and I would change out the location for each, resulting in around 8 graphs?
+
+**CLAUDE**: I wrote algae_map_and_timeseries.R, which covers all three steps. I haven’t run it, since R isn’t available in my sandbox, so expect to fix a small thing or two on the first run.
+What the script does
+1. Algae-only sheet. It writes algae_only.csv, with each record labeled Native, Non-native, or Unresolved. It also writes a companion quadrat_samples.csv listing every quadrat surveyed, including ones with no algae. Without that second file, empty quadrats disappear from an algae-only sheet and average cover comes out too high.
+2. Interactive map. Each location gets a green circle for native algae and a red circle for non-native algae, sized by mean % cover. The circles are offset a few hundred meters east and west so both stay visible, and you can toggle each layer. Clicking a site shows its cover values, number of quadrats, and survey years. The map is saved as oahu_native_vs_nonnative_map.html.
+3. Time series. There are two lines per location, native and non-native. plot_site("Leahi") draws one site, and changing the name switches locations. The script also saves a PNG for each site and one overview page with all of them.
+
+I made a review sheet and a script that merges your decisions back, so you don’t have to edit the lookup by hand. I haven’t run the R script.
+How to clean it up
+1. Open algae_origin_review.csv. It lists 109 taxa, with the ones that most need a decision first. The first 30 rows are the “check” taxa, such as Turbinaria ornata, Spyridia filamentosa, and Colpomenia sinuosa, followed by the 46 genus-level entries, then my 29 “likely native” and 4 non-native calls to confirm.
+2. Fill in your_status using only Native, Non-native, Cryptogenic, or Unresolved. Put your source in source_or_note. Leave a row blank to keep the current status.
+3. Run update_origin_lookup.R. It checks that your entries are valid, writes an updated algae_origin_lookup.csv, keeps a backup of the old one, and prints what’s still undecided.
+Re-run algae_map_and_timeseries.R. I updated it to accept the new labels, and the map and graphs will pick up your changes. Cryptogenic and Unresolved taxa are left off the native and non-native lines.
+4. Where to look things up
+* UH Reefalgae field guide (hawaii.edu/reefalgae), which marks algae as alien, native, or unknown origin.
+* AlgaeBase, filtered to the Hawaiian Islands.
+* Carlton & Eldredge (2009), the Bishop Museum list of introduced and cryptogenic marine species in Hawaiʻi.
+* A local expert. Your organization may already have someone who can confirm the less certain taxa.
+
+
+*All of the algae from these data sheets were cross checked with the book ʻHawaiian Reef Plantsʻ as well as Algae Base.*
+```{r}
+head(lookup)
+```
+
 
 ### Plotting
 
@@ -92,6 +135,13 @@ oahu_geocoded <- oahu_sites |>
 
 oahu_geocoded
 
+```
+
+```{r}
+#| label: fig-sample_sites
+#| echo: true
+#| fig-cap: Oʻahu algae sampling locations.
+
 leaflet(oahu_geocoded) |>
   addProviderTiles(providers$Esri.WorldImagery) |>
   addMarkers(
@@ -100,23 +150,146 @@ leaflet(oahu_geocoded) |>
 ```
 
 ```{r}
-algae <- raw |>
-  filter(category == "Algae", island=="Oahu") |>
+# Every quadrat surveyed on Oahu (so quadrats with no algae count as 0)
+samples <- raw |>
+  filter(sample_type == "quadrat", island == "Oahu") |>
+  distinct(sample_id, site_name, year, lat = latitude, lon = longitude, points_possible)
+
+# Algae points per quadrat
+algae_pts <- raw |>
+  filter(category == "Algae", sample_type == "quadrat") |>
+  group_by(sample_id) |>
+  summarise(points = sum(count, na.rm = TRUE), .groups = "drop")
+
+# Mean % cover per site
+site_algae <- samples |>
+  left_join(algae_pts, by = "sample_id") |>
+  mutate(cover = pmin(100 * replace_na(points, 0) / points_possible, 100)) |>
+  group_by(site_name, lat, lon) |>
+  summarise(mean_cover = mean(cover), n_quadrats = n(), .groups = "drop")
+
+# Algae points per quadrat, split into native vs non-native
+group_pts <- raw |>
+  filter(category == "Algae", sample_type == "quadrat") |>
   left_join(lookup, by = "taxon_clean") |>
   mutate(origin_group = case_when(
-    origin_status %in% c("Native", "Native (likely)")             ~ "Native",
-    origin_status %in% c("Non-native", "Non-native (invasive)")   ~ "Non-native",
-    TRUE ~ "Unresolved"   # cryptogenic, genus-level, turf, unknown groups
-  ))
+    origin_status %in% c("Native", "Native (likely)")           ~ "Native",
+    origin_status %in% c("Non-native", "Non-native (invasive)") ~ "Non-native",
+    TRUE ~ "Unresolved")) |>
+  filter(origin_group %in% c("Native", "Non-native")) |>
+  group_by(sample_id, origin_group) |>
+  summarise(points = sum(count, na.rm = TRUE), .groups = "drop")
 
+quad <- samples |>
+  crossing(origin_group = c("Native", "Non-native")) |>
+  left_join(group_pts, by = c("sample_id", "origin_group")) |>
+  mutate(cover = pmin(100 * replace_na(points, 0) / points_possible, 100))
 
+# Site level (map circles) and site x year level (popup graphs)
+site_group <- quad |>
+  group_by(site_name, lat, lon, origin_group) |>
+  summarise(mean_cover = mean(cover), n_quadrats = n_distinct(sample_id),
+            .groups = "drop")
 
+site_year <- quad |>
+  group_by(site_name, year, origin_group) |>
+  summarise(mean_cover = mean(cover), n_quadrats = n_distinct(sample_id),
+            .groups = "drop")
+
+```
+
+### Plotting % Cover of Native vs Non-Native
+
+```{r}
+map_cols <- c("Native (likely)"       = "#2ca25f",
+              "Non-native (invasive)" = "#e34a33")
+
+popup_tbl <- quad |>
+  group_by(site_name, origin_group) |>
+  summarise(mean_cover = mean(cover), .groups = "drop") |>
+  pivot_wider(names_from = origin_group, values_from = mean_cover) |>
+  rename(native_cover = Native, nonnative_cover = `Non-native`)
+
+site_info <- quad |>
+  group_by(site_name) |>
+  summarise(n_quadrats = n_distinct(sample_id),
+            first_year = min(year), last_year = max(year),
+            n_years = n_distinct(year), .groups = "drop")
+
+site_map <- site_group |>
+  select(-n_quadrats) |>                      # avoid the duplicate column name
+  left_join(popup_tbl, by = "site_name") |>
+  left_join(site_info, by = "site_name") |>
+  mutate(popup = paste0("<b>", site_name, "</b><br>",
+                        "Native: ", round(native_cover, 1), "% cover<br>",
+                        "Non-native: ", round(nonnative_cover, 1), "% cover<br>",
+                        "Quadrats: ", n_quadrats, "<br>",
+                        "Survey years: ", n_years, " (", first_year, "-", last_year, ")"))
+
+native_pts <- site_map |> filter(origin_group == "Native")
+nonnat_pts <- site_map |> filter(origin_group == "Non-native")
+
+offset_deg <- 0.0035   # nudges the two circles ~400 m apart; set to 0 to stack them
+max_cover <- max(site_map$mean_cover, na.rm = TRUE)   # largest circle = highest cover
+```
+
+```{r}
+#| label: fig-invasive-native
+#| echo: true
+#| fig-cap: Mean percent cover of Native and Non-native algae across Oʻahu sampling locations.
+
+leaflet() |>
+  addProviderTiles(providers$Esri.WorldImagery) |>
+  addCircleMarkers(
+    data = native_pts, lng = ~lon - offset_deg, lat = ~lat,
+    radius = ~4 + 14 * sqrt(mean_cover / max_cover),
+    fillColor = map_cols[["Native (likely)"]], fillOpacity = 0.85,
+    color = "white", weight = 1,
+    label = ~paste0(site_name, " - native: ", round(mean_cover, 1), "% cover"),
+    popup = ~popup, group = "Native") |>
+  addCircleMarkers(
+    data = nonnat_pts, lng = ~lon + offset_deg, lat = ~lat,
+    radius = ~4 + 14 * sqrt(mean_cover / max_cover),
+    fillColor = map_cols[["Non-native (invasive)"]], fillOpacity = 0.85,
+    color = "white", weight = 1,
+    label = ~paste0(site_name, " - non-native: ", round(mean_cover, 1), "% cover"),
+    popup = ~popup, group = "Non-native") |>
+  addLayersControl(overlayGroups = c("Native", "Non-native"),
+                   options = layersControlOptions(collapsed = FALSE)) |>
+  addLegend("bottomright",
+            colors = unname(map_cols), labels = names(map_cols),
+            title = "Mean % cover<br>(all years)", opacity = 1) |>
+  fitBounds(-158.30, 21.25, -157.62, 21.72)
+```
+
+### Plotting Total % Algae cover
+
+```{r}
+#| label: fig-percent-cover
+#| echo: true
+#| fig-cap: Mean percent cover of total algae across Oʻahu sampling locations.
+
+pal <- colorNumeric("YlGn", site_algae$mean_cover)
+
+leaflet(site_algae) |>
+  addProviderTiles(providers$Esri.WorldImagery) |>
+  addCircleMarkers(
+    lng = ~lon, lat = ~lat,
+    radius = ~4 + 14 * sqrt(mean_cover / max(mean_cover)),   # bigger = more algae
+    fillColor = ~pal(mean_cover), fillOpacity = 0.9,
+    color = "white", weight = 1,
+    label = ~paste0(site_name, ": ", round(mean_cover, 1), "% algae cover"),
+    popup = ~paste0("<b>", site_name, "</b><br>Mean cover: ",
+                    round(mean_cover, 1), "%<br>Quadrats: ", n_quadrats)) |>
+  addLegend("bottomright", pal = pal, values = ~mean_cover,
+            title = "Mean % algae cover") |>
+  fitBounds(-158.30, 21.25, -157.62, 21.72)   # whole island
 ```
 
 
 ```{r}
 # ----  TIME SERIES: NATIVE vs NON-NATIVE, ONE GRAPH PER SITE ------------------
-site_year <- quad_long |>
+site_year <- quad |>
   group_by(site_name, year, origin_group) |>
   summarise(n_quadrats = n_distinct(sample_id),
             mean_cover = mean(cover),
@@ -134,145 +307,34 @@ sites_to_plot
 
 cols <- c("Native" = "#2ca25f", "Non-native" = "#e34a33")
 
+## Plot function for each individual site
+
 plot_site <- function(site) {
   site_year |>
-    filter(site_name == site) |>
+    filter(site_name == site) |> # site is the variable that changes
     ggplot(aes(year, mean_cover, color = origin_group)) +
-    geom_linerange(aes(ymin = pmax(mean_cover - se, 0), ymax = mean_cover + se),
-                   alpha = 0.4) +
     geom_line(linewidth = 0.9) +
-    geom_point(aes(size = n_quadrats)) +
+    geom_point(size = 2) +
     scale_color_manual(values = cols, name = NULL) +
-    scale_size_continuous(name = "Quadrats", range = c(1.5, 5)) +
-    scale_x_continuous(breaks = scales::breaks_pretty()) +
-    labs(title = site, x = "Year", y = "Mean % cover per quadrat",
-         caption = "Points = survey years; bars = +/- 1 SE; unresolved taxa excluded") +
-    theme_minimal(base_size = 12)
+    labs(title = site, x = "Year", y = "Mean % Cover Per Quadrat", size=NULL) +
+    theme_classic(base_size = 12)
 }
+```
+
+```{r}
+#| label: fig-leahi
+#| echo: true
+#| fig-cap: Percent algal cover per quadrat at Leahi sampling location from 2005 to 2025.
 
 # View a single site (swap the name to change locations)
 plot_site("Leahi")
 
-# Save one PNG per site
-dir.create("site_timeseries", showWarnings = FALSE)
-walk(sites_to_plot, \(s)
-  ggsave(file.path("site_timeseries",
-                   paste0(str_replace_all(tolower(s), "[^a-z0-9]+", "_"), ".png")),
-         plot_site(s), width = 7, height = 4, dpi = 300))
-
-# One-page overview of all selected sites
-p_all <- site_year |>
-  filter(site_name %in% sites_to_plot) |>
-  ggplot(aes(year, mean_cover, color = origin_group)) +
-  geom_line(linewidth = 0.8) +
-  geom_point(aes(size = n_quadrats)) +
-  facet_wrap(~ site_name, scales = "free_y") +
-  scale_color_manual(values = cols, name = NULL) +
-  labs(x = "Year", y = "Mean % cover per quadrat", size = "Quadrats") +
-  theme_minimal(base_size = 11)
-ggsave("site_timeseries/all_sites_overview.png", p_all,
-       width = 11, height = 8, dpi = 300)
-
-p_all
-
-```
-
-
-
-
-
-
-```{r}
-oahu_bbox <- st_as_sfc(
-  st_bbox(c(xmin = -158.35, ymin = 21.22,
-            xmax = -157.60, ymax = 21.75),
-          crs = 4326)   # WGS84 lat/lon
-)
-
-## DO NOT RUN THIS
-#tiles_satellite <- get_tiles(
-#  oahu_bbox,               # the area to download
-#  provider = "Esri.WorldImagery", # which tile source to use
-#  zoom = 16,                  # level of detail (3 = continent, 20 = building)
-#  crop = TRUE,                # clip to our exact bbox (vs. slightly larger)
-#  cachedir = here("data") # save tiles to disk
-#)
-
 ```
 
 ```{r}
-# geom_spatraster_rgb() is from {tidyterra}
-# It reads the 3 color layers and renders them as a photo
-ggplot() +
-  geom_spatraster_rgb(data = tiles_satellite) +
-  coord_sf(crs = 4326) +
-  theme_minimal()
+#| label: fig-mauliola
+#| echo: true
+#| fig-cap: Percent algal cover per quadrat at Mauliola sampling location from 2005 to 2025.
+
+plot_site("Mauliola")
 ```
-
-```{r}
-world <- map_data("world")
-
-head(world)
-
-Hawaii <- world |>
-  filter(subregion == "Hawaii")
-
-ggplot() +
-  geom_polygon(data = Hawaii,
-               aes(x = long, y = lat,
-                   group = group),
-               color = "black") +
-  coord_map() +
-  theme_void()
-
-
-
-```
-
-```{r}
-ggplot() +
-  geom_polygon(data = CA_data,
-               aes(x = long, y = lat,
-                   group = group),
-               color = "black") +
-  coord_map() +
-  theme_void()
-
-region_names <- maps::map("worldHires", plot = FALSE, namesonly = TRUE)
-oahu_regions <- grep("Oahu", region_names, value = TRUE)
-if (length(oahu_regions) == 0) {
-  stop("No 'Oahu' region found in mapdata::worldHires. ",
-       "Check: grep('Hawaii', maps::map('worldHires', plot = FALSE, namesonly = TRUE), value = TRUE)")
-}
-oahu <- maps::map("worldHires", regions = oahu_regions, fill = TRUE,
-                  plot = FALSE) |>
-  st_as_sf()
-if (is.na(st_crs(oahu))) st_crs(oahu) <- 4326
-bb <- st_bbox(oahu)
-```
-
-Location x year presence/absence/not-surveyed tile map (the core figure)
-
-```{r}
-p_tile <- ggplot(state_loc_year, aes(year, fct_rev(factor(location)), fill = state)) +
-  geom_tile(color = "white") +
-  geom_text(aes(label = ifelse(is.na(n_events), "", n_events)), size = 2.5) +
-  scale_fill_manual(values = state_cols, name = NULL) +
-  labs(x = "Year", y = NULL,
-       title = "Where and when was the taxon recorded?",
-       subtitle = "Numbers = survey events; grey = no survey that year") +
-  theme_minimal() + theme(legend.position = "bottom")
-```
-
-Detection frequency by location, with Wilson CI and effort labels
-
-```{r}
-p_loc <- freq_loc |>
-  ggplot(aes(freq, fct_reorder(location, freq))) +
-  geom_pointrange(aes(xmin = lower, xmax = upper)) +
-  geom_text(aes(label = paste0("n=", n_events)), nudge_y = 0.3, size = 2.7) +
-  scale_x_continuous(labels = scales::percent, limits = c(0, 1)) +
-  labs(x = "Proportion of survey events with detection", y = NULL) +
-  theme_minimal()
-```
-
