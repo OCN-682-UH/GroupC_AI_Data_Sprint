@@ -1,0 +1,118 @@
+taxon_clean,analysis_taxon,n_records,n_sites,first_year,last_year,origin_status,confidence,notes
+Acanthophora spicifera,Acanthophora spicifera,703,22,2004,2026,Non-native (invasive),Sourced,Introduced to Oahu c. 1950 (hull fouling); listed as invasive
+Avrainvillea lacerata,Avrainvillea spp.,186,5,2006,2024,Non-native (invasive),Sourced,Formerly A. amadelpha; listed as alien/invasive in Hawaii
+Gracilaria salicornia,Gracilaria spp.,272,14,2006,2024,Non-native (invasive),Sourced,Introduced 1970s for aquaculture; listed as invasive
+Hypnea musciformis,Hypnea spp.,48,3,2005,2026,Non-native (invasive),Sourced,Introduced 1970s for carrageenan; listed as invasive
+Ahnfeltiopsis concinna,Ahnfeltiopsis spp.,56,11,2016,2020,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Ahnfeltiopsis flabelliformis,Ahnfeltiopsis spp.,10,2,2016,2017,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Akalaphycus setchelliae,Akalaphycus setchelliae,5,3,2016,2016,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Asparagopsis taxiformis,Asparagopsis spp.,63,16,2005,2025,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Bornetella sphaerica,Bornetella sphaerica,208,12,2005,2026,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Chaetomorpha antennina,Chaetomorpha spp.,26,10,2006,2019,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Chnoospora minima,Chnoospora spp.,24,9,2007,2019,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Codium arabicum,Codium spp.,35,6,2007,2024,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Codium edule,Codium spp.,66,7,2006,2026,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Dichotomaria marginata,Dichotomaria marginata,4,2,2017,2024,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Dictyopteris sandvicensis,Dictyopteris spp.,1,0,2025,2025,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Dictyosphaeria cavernosa,Dictyosphaeria spp.,74,8,2006,2025,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Dictyosphaeria versluysii,Dictyosphaeria spp.,212,13,2005,2026,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Dictyota acutiloba,Dictyota spp.,96,8,2006,2025,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Dictyota sandvicensis,Dictyota spp.,123,13,2006,2026,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Gelidiella acerosa,Gelidiella spp.,79,11,2008,2025,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Gelidium pusillum,Gelidium pusillum,15,6,2016,2019,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Halimeda discoidea,Halimeda spp.,161,13,2004,2025,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Laurencia dotyi,Laurencia spp.,5,2,2017,2018,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Laurencia mcdermidiae,Laurencia spp.,132,9,2007,2026,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Microdictyon setchellianum,Microdictyon spp.,250,16,2004,2025,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Portieria hornemannii,Portieria hornemannii,9,2,2017,2024,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Pterocladiella caerulescens,Pterocladiella spp.,67,13,2006,2019,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Pterocladiella capillacea,Pterocladiella spp.,31,10,2007,2019,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Sargassum aquifolium,Sargassum spp.,205,8,2016,2026,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Sargassum polyphyllum,Sargassum spp.,98,7,2017,2025,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Ulva fasciata,Ulva spp.,105,12,2004,2026,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Ulva reticulata,Ulva spp.,6,2,2005,2007,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Wrangelia elegantissima,Wrangelia spp.,16,7,2005,2017,Native (likely),Verify,From background knowledge; confirm against Hawaii marine algae checklist
+Amansia glomerata,Amansia spp.,26,8,2007,2025,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Asteronema breviarticulatum,Asteronema spp.,64,17,2004,2025,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Boodlea composita,Boodlea composita,17,7,2016,2019,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Botryocladia skottsbergii,Botryocladia spp.,1,1,2007,2007,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Bryopsis pennata,Bryopsis spp.,1,0,2023,2023,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Caulerpa racemosa,Caulerpa spp.,11,5,2008,2025,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Caulerpa sertularioides,Caulerpa spp.,16,3,2017,2025,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Centroceras clavulatum,Centroceras clavulatum,12,4,2017,2017,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Chaetomorpha basiretrorsa,Chaetomorpha spp.,12,3,2024,2026,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Champia parvula,Champia parvula,2,2,2017,2019,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Codium reediae,Codium spp.,3,1,2024,2024,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Coelothrix irregularis,Coelothrix irregularis,24,6,2007,2023,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Colpomenia sinuosa,Colpomenia spp.,67,16,2005,2025,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Dasya iridescens,Dasya spp.,2,1,2024,2024,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Dictyopteris plagiogramma,Dictyopteris spp.,1,1,2026,2026,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Gelidiopsis intricata,Gelidiopsis spp.,8,3,2016,2017,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Hydroclathrus clathratus,Hydroclathrus clathratus,13,3,2005,2024,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Hypnea cervicornis,Hypnea spp.,27,6,2006,2018,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Hypnea chordacea,Hypnea spp.,14,6,2007,2019,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Jania pumila,Jania spp.,6,2,2024,2026,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Laurencia crustiformans,Laurencia spp.,1,1,2026,2026,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Laurencia dendroidea,Laurencia spp.,40,9,2017,2019,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Laurencia majuscula,Laurencia spp.,16,2,2024,2024,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Lobophora obscura,Lobophora spp.,69,2,2024,2026,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Lobophora variegata,Lobophora spp.,51,7,2005,2019,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Palisada parvipapillata,Palisada parvipapillata,49,11,2016,2019,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Parvocaulis parvulus,Parvocaulis parvulus,1,1,2017,2017,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Spyridia filamentosa,Spyridia spp.,79,11,2007,2023,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Turbinaria ornata,Turbinaria ornata,466,24,2004,2026,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Ulva flexuosa,Ulva spp.,35,12,2006,2026,Unresolved (check),Verify,Origin uncertain or cryptogenic; confirm before analysis
+Ahnfeltiopsis spp.,Ahnfeltiopsis spp.,1,1,2024,2024,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Amansia spp.,Amansia spp.,6,1,2024,2024,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Asparagopsis spp.,Asparagopsis spp.,6,2,2024,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Asteronema spp.,Asteronema spp.,30,2,2024,2024,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Avrainvillea spp.,Avrainvillea spp.,4,1,2023,2024,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Botryocladia spp.,Botryocladia spp.,2,1,2026,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Bryopsis spp.,Bryopsis spp.,37,15,2007,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Caulerpa spp.,Caulerpa spp.,8,5,2017,2019,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Ceramium spp.,Ceramium spp.,9,2,2024,2024,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Chnoospora spp.,Chnoospora spp.,3,2,2024,2024,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Chondria spp.,Chondria spp.,3,1,2017,2017,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Cladophora spp.,Cladophora/Cladophoropsis spp.,84,4,2024,2025,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Cladophora/Cladophoropsis spp.,Cladophora/Cladophoropsis spp.,221,28,2004,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Codium spp.,Codium spp.,181,15,2005,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Colpomenia spp.,Colpomenia spp.,66,2,2024,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Dasya spp.,Dasya spp.,6,4,2016,2019,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Dictyopteris spp.,Dictyopteris spp.,43,6,2007,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Dictyosphaeria spp.,Dictyosphaeria spp.,441,17,2006,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Dictyota spp.,Dictyota spp.,518,20,2004,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Galaxaura spp.,Galaxaura spp.,45,13,2016,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Galaxaura/Liagora spp.,Galaxaura/Liagora spp.,2,2,2018,2018,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Gelidiales (unidentified),Gelidiales (unidentified),25,5,2005,2019,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Gelidiella spp.,Gelidiella spp.,4,3,2024,2025,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Gelidiopsis spp.,Gelidiopsis spp.,2,1,2019,2019,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Gracilaria spp.,Gracilaria spp.,2,2,2024,2024,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Grateloupia spp.,Grateloupia spp.,7,4,2016,2017,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Griffithsia spp.,Griffithsia spp.,12,3,2017,2018,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Halimeda spp.,Halimeda spp.,40,2,2024,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Hypnea spp.,Hypnea spp.,319,16,2016,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Jania spp.,Jania spp.,204,4,2024,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Laurencia spp.,Laurencia spp.,863,22,2004,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Liagora spp.,Liagora spp.,88,10,2006,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Lobophora spp.,Lobophora spp.,28,3,2024,2025,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Martensia spp.,Martensia spp.,2,1,2005,2017,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Microdictyon spp.,Microdictyon spp.,106,4,2024,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Neomeris spp.,Neomeris spp.,181,8,2005,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Padina spp.,Padina spp.,2838,35,2004,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Pterocladiella spp.,Pterocladiella spp.,130,15,2016,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Rhodymenia spp.,Rhodymenia spp.,2,2,2017,2017,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Sargassum spp.,Sargassum spp.,750,30,2004,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Sphacelaria spp.,Sphacelaria spp.,125,21,2007,2026,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Spyridia spp.,Spyridia spp.,1,0,2025,2025,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Trichogloea spp.,Trichogloea spp.,7,4,2006,2024,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Ulva spp.,Ulva spp.,85,15,2016,2025,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Valonia spp.,Valonia spp.,43,2,2019,2024,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Wrangelia spp.,Wrangelia spp.,5,1,2025,2025,Unresolved (genus-level),n/a,Genus may contain both native and non-native species
+Articulated coralline algae,Articulated coralline algae,266,20,2007,2026,Not assignable (functional group),n/a,"Group, not a species"
+Brown crust,Brown crust,389,23,2005,2026,Not assignable (functional group),n/a,"Group, not a species"
+Crustose coralline algae,Crustose coralline algae,1536,41,2004,2026,Not assignable (functional group),n/a,"Group, not a species"
+Turf algae,Turf algae,3950,43,2004,2026,Not assignable (functional group),n/a,"Group, not a species"
+Unknown brown algae,Unknown algae,23,9,2017,2019,Not assignable (functional group),n/a,"Group, not a species"
+Unknown fuzzy algae,Unknown algae,9,7,2017,2019,Not assignable (functional group),n/a,"Group, not a species"
+Unknown green algae,Unknown algae,18,6,2017,2025,Not assignable (functional group),n/a,"Group, not a species"
+Unknown red algae,Unknown algae,224,13,2004,2019,Not assignable (functional group),n/a,"Group, not a species"
