@@ -1,0 +1,173 @@
+---
+title: "AI_community_C"
+format:
+  html:
+    code-fold: TRUE
+    code-summary: "Show code"
+    toc: TRUE
+    toc-depth: 4
+    toc-location: right
+    toc-title: "Table of Contents"
+    fig-align: center
+warning: FALSE
+theme: cosmo
+editor: visual
+---
+
+# AI Community Intertidal Clean up
+
+Group Questions: Species occurrence: For a selected taxon or group, where and when was it recorded? Make an occurrence or detection-frequency summary, explicitly distinguishing absence from not surveyed and accounting for sampling effort.
+
+# Cleaning Data
+
+## Load Libraries
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(dplyr)
+library(ggplot2)
+library(here)
+library(stringr)
+library(maps)
+library(mapdata)
+library(mapproj)
+library(leaflet)
+library(sf)
+library(maptiles)
+library(tidyterra)
+library(tidygeocoder)
+library(ggspatial)
+```
+
+## Load Data
+
+```{r}
+read.csv("Data")
+```
+
+## AI Conversations
+
+### Plotting
+
+#### AI generated plots:
+
+Mapping Oʻahu
+
+```{r}
+oahu_bbox <- st_as_sfc(
+  st_bbox(c(xmin = -158.35, ymin = 21.22,
+            xmax = -157.60, ymax = 21.75),
+          crs = 4326)   # WGS84 lat/lon
+)
+
+tiles_satellite <- get_tiles(
+  oahu_bbox,               # the area to download
+  provider = "Esri.WorldImagery", # which tile source to use
+  zoom = 16,                  # level of detail (3 = continent, 20 = building)
+  crop = TRUE,                # clip to our exact bbox (vs. slightly larger)
+  cachedir = here("data") # save tiles to disk
+)
+
+class(tiles_satellite)
+```
+
+```{r}
+# geom_spatraster_rgb() is from {tidyterra}
+# It reads the 3 color layers and renders them as a photo
+ggplot() +
+  geom_spatraster_rgb(data = tiles_satellite) +
+  coord_sf(crs = 4326) +
+  theme_minimal()
+```
+
+```{r}
+world <- map_data("world")
+
+head(world)
+
+Hawaii <- world |>
+  filter(subregion == "Hawaii")
+
+ggplot() +
+  geom_polygon(data = Hawaii,
+               aes(x = long, y = lat,
+                   group = group),
+               color = "black") +
+  coord_map() +
+  theme_void()
+
+
+
+```
+
+```{r}
+ggplot() +
+  geom_polygon(data = CA_data,
+               aes(x = long, y = lat,
+                   group = group),
+               color = "black") +
+  coord_map() +
+  theme_void()
+
+region_names <- maps::map("worldHires", plot = FALSE, namesonly = TRUE)
+oahu_regions <- grep("Oahu", region_names, value = TRUE)
+if (length(oahu_regions) == 0) {
+  stop("No 'Oahu' region found in mapdata::worldHires. ",
+       "Check: grep('Hawaii', maps::map('worldHires', plot = FALSE, namesonly = TRUE), value = TRUE)")
+}
+oahu <- maps::map("worldHires", regions = oahu_regions, fill = TRUE,
+                  plot = FALSE) |>
+  st_as_sf()
+if (is.na(st_crs(oahu))) st_crs(oahu) <- 4326
+bb <- st_bbox(oahu)
+```
+
+Location x year presence/absence/not-surveyed tile map (the core figure)
+
+```{r}
+p_tile <- ggplot(state_loc_year, aes(year, fct_rev(factor(location)), fill = state)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = ifelse(is.na(n_events), "", n_events)), size = 2.5) +
+  scale_fill_manual(values = state_cols, name = NULL) +
+  labs(x = "Year", y = NULL,
+       title = "Where and when was the taxon recorded?",
+       subtitle = "Numbers = survey events; grey = no survey that year") +
+  theme_minimal() + theme(legend.position = "bottom")
+```
+
+Detection frequency by location, with Wilson CI and effort labels
+
+```{r}
+p_loc <- freq_loc |>
+  ggplot(aes(freq, fct_reorder(location, freq))) +
+  geom_pointrange(aes(xmin = lower, xmax = upper)) +
+  geom_text(aes(label = paste0("n=", n_events)), nudge_y = 0.3, size = 2.7) +
+  scale_x_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(x = "Proportion of survey events with detection", y = NULL) +
+  theme_minimal()
+```
+
+Detection frequency through time (with effort bars underneath via patchwork if desired)
+
+```{r}
+p_year <- ggplot(freq_year, aes(year, freq)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) +
+  geom_line() +
+  geom_point(aes(size = n_events)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(x = "Year", y = "Detection frequency", size = "Events") +
+  theme_minimal()
+```
+
+Seasonality: detection frequency by calendar month
+
+```{r}
+p_month <- ggplot(freq_month, aes(factor(month, 1:12, month.abb), freq)) +
+  geom_col(fill = "steelblue", alpha = 0.7) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  geom_text(aes(y = 1.02, label = n_events), size = 2.7) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1.05)) +
+  labs(x = NULL, y = "Detection frequency", subtitle = "Numbers = survey events") +
+  theme_minimal()
+```
