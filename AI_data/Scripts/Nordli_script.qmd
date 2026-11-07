@@ -37,6 +37,8 @@ opihi_samples         <- read_csv(here("AI_data", "Data", "Processed", "opihi_sa
 opihi_qc_flags        <- read_csv(here("AI_data", "Data", "Processed", "opihi_qc_flags.csv"))
 opihi_exclusions_log  <- read_csv(here("AI_data", "Data", "Processed", "opihi_exclusions_log.csv"))
 opihi_data_dictionary <- read_csv(here("AI_data", "Data", "Processed", "opihi_data_dictionary.csv"))
+opihi_compiled_crosscheck <- read_csv(here("AI_data", "Data", "Processed", "opihi_compiled_crosscheck.csv"))
+
 ```
 
 ### Check that every master row traces back to a raw row
@@ -877,3 +879,222 @@ Survey-level flags are now done:
 📝 no_metadata_match (1): the flag name contradicts its own detail text. Noted.
 
 That finishes qc_flags. Next on the list is compiled_crosscheck, then the exclusions and the taxon/site name audit.
+
+## Next: compiled_crosscheck. Start with the overview:
+```{r}
+names(opihi_compiled_crosscheck)
+opihi_compiled_crosscheck |> count(has_species_data, status)
+```
+The count matches the handoff guide exactly: 18 trips are “compiled only” (no species data) and 234 are “in master”.
+
+The next step tests both claims instead of trusting the labels.
+
+### Step 2: check that the 234 “in master” trips really are in master, and list the 18.
+```{r}
+# 1. trips said to be in master: does master have that site + date?
+in_master_missing <- opihi_compiled_crosscheck |>
+  filter(has_species_data) |>
+  anti_join(opihi_surveys |> distinct(site_name, date), by = c("site_name", "date"))
+nrow(in_master_missing)    # expect 0
+
+in_master_missing |> select(source_file, excel_row, date, site_raw, site_name) |> print(n = Inf)
+
+# 2. the 18 compiled-only trips
+opihi_compiled_crosscheck |>
+  filter(!has_species_data) |>
+  arrange(date) |>
+  select(source_file, excel_row, date, site_raw, site_name) |>
+  print(n = Inf)
+```
+*Checked all these rows in excel sheet manually to verify no species counts recorded.* 
+
+Then compiled_crosscheck is fully verified, and you checked all 18 rather than just 3:
+
+✅ All 234 “in master” trips have a matching site and date in master.
+✅ All 18 “compiled only” trips really have no species data, so no surveys are missing from master.
+
+## Next: the exclusions log. 
+These are the 427 rows the AI left out of master. The goal is to confirm nothing real was thrown away. Start with the overview:
+```{r}
+names(opihi_exclusions_log)
+
+opihi_exclusions_log |> count(level, reason, sort = TRUE) |> print(n = Inf)
+
+opihi_exclusions_log |>
+  filter(reason == "blank_template_row") |>
+  count(source_file, sort = TRUE) |>
+  print(n = Inf)
+```
+Next: see what a blank-row reference looks like. To check these rows against the raw cells, I need the format of source_ref first:
+```{r}
+opihi_exclusions_log |>
+  filter(reason == "blank_template_row") |>
+  group_by(source_file) |>
+  slice_head(n = 3) |>
+  select(source_file, source_ref, detail) |>
+  print(width = Inf)
+```
+The output shows what we needed:
+
+- The reference format is file|r0627, so the number after the r is the row in the raw sheet. It matches what you saw earlier in Excel for the Longitudinal rows (r0064, r0173, r0202, r0228), so it counts as the Excel row number.
+- The 2024 datasheet rows (294 of the 309) say date: NA site: NA, and the 2026 Longitudinal rows (15) say date: NA site: Mauliola. So they are template rows with no date, as the rule says.
+
+Next step: check the raw cells for these 309 rows. The question is whether any of them has a count above zero in a taxon column. I’m using the columns that master itself reads taxon counts from, so the transect and quadrat-position numbers on those rows don’t count as hits.
+```{r}
+bl <- opihi_exclusions_log |>
+  filter(reason == "blank_template_row") |>
+  mutate(src_file = source_file,
+         row = as.integer(str_extract(source_ref, "(?<=\\|r)\\d+")))
+
+anyNA(bl$row)          # should be FALSE, yes
+
+# columns that hold taxon counts in these two files, according to master
+taxon_cols <- master_src |>
+  filter(src_file %in% unique(bl$src_file)) |>
+  distinct(src_file, src_col)
+
+# raw cells on the counts tab, in those columns only
+cells <- raw_cells |>
+  filter(str_detect(sheet, regex("pt\\s*counts", ignore_case = TRUE))) |>
+  semi_join(taxon_cols, by = c("src_file", "col" = "src_col"))
+
+nrow(cells)            # should be a big number, not 0
+
+# any value above 0 in a taxon column on an excluded row?
+hits <- bl |>
+  inner_join(cells, by = c("src_file", "row")) |>
+  filter(data_type == "numeric", numeric > 0)
+
+nrow(hits)             # want 0
+```
+anyNA(bl$row) is FALSE, nrow(cells) is 5,154 and nrow(hits) is 0. 
+So the 309 blank template rows pass: no excluded row has a count above zero in a taxon column.
+```{r}
+two <- opihi_exclusions_log |>
+  filter(reason == "no_taxon_data", !str_detect(source_file, "Longitudinal")) |>
+  mutate(src_file = source_file,
+         row = as.integer(str_extract(source_ref, "(?<=\\|r)\\d+")))
+
+two |> select(source_file, source_ref, detail)
+
+taxon_cols2 <- master_src |>
+  filter(src_file %in% two$src_file) |>
+  distinct(src_file, src_col)
+
+raw_cells |>
+  inner_join(two |> select(src_file, row), by = c("src_file", "row")) |>
+  semi_join(taxon_cols2, by = c("src_file", "col" = "src_col")) |>
+  count(src_file, sheet, data_type, has_count = coalesce(numeric, 0) > 0)
+```
+That output isn’t a valid test, and the mistake is in my code. I left out the filter for the counts tab that the previous check had. The one row it found is on the Metadata tab of the BIOL 499 file, not the counts tab. The same row and column numbers on a different tab say nothing about the excluded row. I’d ignore that result: the “1 numeric cell with a count” doesn’t mean a real count was dropped.
+This version adds the tab filter:
+```{r}
+raw_cells |>
+  filter(str_detect(sheet, regex("pt\\s*counts", ignore_case = TRUE))) |>
+  inner_join(two |> select(src_file, row), by = c("src_file", "row")) |>
+  semi_join(taxon_cols2, by = c("src_file", "col" = "src_col")) |>
+  count(src_file, sheet, data_type, has_count = coalesce(numeric, 0) > 0)
+```
+Both rows pass: the empty table means neither excluded row has anything in a taxon column on the counts tab.
+
+That one survey (the 2020 block08 survey) is the last open item on the exclusions log, and it’s the only exclusion that might involve real counts, because the AI dropped the whole block for missing date, site and school.
+
+Step: find where block08 sits in the 2020 file. The legacy files have one block per field trip side by side, so this shows which columns each block uses. Block08 is excluded and won’t appear, but its columns should be the gap between two neighbours:
+```{r}
+opihi_samples |>
+  filter(str_detect(sample_key, "^OPIHI data 2020\\.xlsx")) |>
+  mutate(block = str_match(sample_key, "\\|(block\\d+)\\|")[, 2],
+         col   = as.integer(str_match(sample_key, "\\|c(\\d+)$")[, 2])) |>
+  group_by(block) |>
+  summarise(first_col = min(col), last_col = max(col), n_samples = n()) |>
+  arrange(first_col)
+```
+Manually checked OPIHI 2020 data and block 8 is missing metadate, but has species counts. 
+
+This is the first finding where the AI’s cleaning dropped real counts. Every other exclusion we checked held up, but block08 has data and no metadata, which is why the AI excluded it as no_survey_metadata. The exclusion was applied correctly, but the rule behind it cost data. Nothing about the date or site can be recovered from the block itself. I’ve added this to the limitations list.
+
+Step: measure how much was excluded. This counts the positive numbers from column FO onward in that file, without printing any values:
+```{r}
+col_letter <- function(n) {
+  s <- ""
+  while (n > 0) { r <- (n - 1) %% 26; s <- paste0(LETTERS[r + 1], s); n <- (n - 1) %/% 26 }
+  s
+}
+
+b8 <- raw_cells |>
+  filter(src_file == "OPIHI data 2020.xlsx", col >= 171)
+
+b8 |> count(sheet, data_type)
+
+b8 |>
+  filter(data_type == "numeric", numeric > 0) |>
+  summarise(cells_with_counts = n(),
+            n_columns = n_distinct(col),
+            first_col = min(col), last_col = max(col),
+            first_row = min(row), last_row = max(row)) |>
+  mutate(first_letter = col_letter(first_col), last_letter = col_letter(last_col))
+```
+looked at raw excel sheet for layout
+
+Two details worth noting:
+
+- The transect and quadrat numbers are written in the row 13 labels, so if this block were added, those columns could be filled from the sheet and wouldn’t need to be inferred.
+- The tab is called All_raw_data_OPIHI_16-20, which suggests it compiles 2016 to 2020. That means the year can’t safely be assumed to be 2020 just from the file name.
+
+Next step: see whether the blocks’ order in the file gives any clue about when block08 was recorded. This shows the date and site of the seven blocks that did make it into master:
+
+```{r}
+opihi_surveys |>
+  filter(source_file == "OPIHI data 2020.xlsx") |>
+  mutate(block = str_match(src_key, "\\|(block\\d+)")[, 2]) |>
+  select(block, date, year, site_name, island, n_samples) |>
+  arrange(block) |>
+  print(n = Inf)
+```
+That order changes what I said earlier. I assumed block08 would come after block07, but the blocks run from newest (block01, March) to oldest (block07, January). Block08 sits to the right of block07, so if the file keeps that order, block08 is from January 2020 or earlier. It could easily be from 2019 or before. So I can’t give it a year, even an inferred one. All seven neighbours being in 2020 doesn’t make it 2020.
+
+That settles what we know about this block:
+
+It has real counts: 20 quadrats and 38 detections.
+It has no site. The sheet has only placeholders, and nothing in the file points to a place.
+It has no reliable date or year. The best we can say is “on or before January 2020”.
+
+That’s different from S0251 and S0252. Those were kept with a year, and S0251 had a site we could recover. Block08 has neither. Here are the options:
+A. Leave it excluded and document it. The 38 detections stay unrecoverable in the processed files.
+
+Option A is the right call for this block, and it’s now noted for the write-up. With that, the exclusions log is done. All 427 entries are accounted for, and block08 is the one that cost real data (20 quadrats, 38 detections, no site and no reliable date).
+
+## Next is the taxon and site name audit, 
+which is what your unmatched_names file was supposed to cover. The S0251 names are a good place to start, because you already spotted likely typos in them (like “Turbinania”, “Caiclmus” and “Byropsis”), so we know what the crosswalk should have caught. Run this:
+
+```{r}
+master_completed |>
+  filter(survey_id == "S0251") |>
+  distinct(taxon_raw, taxon_clean, analysis_taxon, category) |>
+  arrange(taxon_clean) |>
+  print(n = Inf, width = Inf)
+```
+Good news first: no typo got through in this survey. By my reading, every misspelling was mapped to the right species. This also explains why unmatched_names is empty. The handoff guide says 300 raw spellings were mapped to 215 clean names, which suggests the crosswalk was built from the same data it was then applied to. If so, nothing in this data could ever fail to match. The file will only fill up when new datasheets arrive, so it tells you nothing about whether the existing mappings are right. That’s worth a line in the write-up.
+
+Two mappings look wrong:
+
+- “unknown Fish” is categorised as Invertebrate. The dictionary’s categories are Algae, Cyanobacteria, Invertebrate, Coral, Substrate and Unknown, with nothing for fish. The AI put the fish in the nearest bin instead of flagging the gap.
+- Dendropoma gregarium became “Dendropoma gregaria”. The raw sheet has the spelling that, as far as I can tell, is the accepted name, while “gregaria” is listed as an incorrect gender ending. The AI changed a correct raw spelling into a variant. There’s a possible reason: the OPIHI program’s own organism pages use “gregaria”. So it may have followed the program’s usage on purpose. Either way, it moved the data away from the accepted spelling, and I’d flag it. 
+
+Neither is a counting error, so the totals are untouched. I’ve added both to the findings list.
+
+Next step: see how many master rows these two affect, and what the crosswalk’s own note says about them:
+```{r}
+opihi_master |>
+  filter(str_detect(taxon_clean, regex("fish|gregari", ignore_case = TRUE))) |>
+  count(taxon_raw, taxon_clean, category, name = "n_rows")
+
+cw_path <- list.files(here(), pattern = "taxon_crosswalk\\.csv$", recursive = TRUE, full.names = TRUE)
+cw_path
+taxon_cw <- read_csv(cw_path[1])
+
+taxon_cw |>
+  filter(str_detect(taxon_clean, regex("fish|gregari", ignore_case = TRUE))) |>
+  select(taxon_key, taxon_clean, category, review_note)
+```
+
