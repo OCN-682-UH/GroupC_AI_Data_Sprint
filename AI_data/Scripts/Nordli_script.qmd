@@ -30,13 +30,13 @@ library(stringr)
 ```
 ## Import data
 ```{r}
-opihi_master          <- read_csv(here("AI data", "Data", "Processed", "opihi_master.csv"))
-opihi_unmatched_names <- read_csv(here("AI data", "Data", "Processed", "opihi_unmatched_names.csv"))
-opihi_surveys         <- read_csv(here("AI data", "Data", "Processed", "opihi_surveys.csv"))
-opihi_samples         <- read_csv(here("AI data", "Data", "Processed", "opihi_samples.csv"))
-opihi_qc_flags        <- read_csv(here("AI data", "Data", "Processed", "opihi_qc_flags.csv"))
-opihi_exclusions_log  <- read_csv(here("AI data", "Data", "Processed", "opihi_exclusions_log.csv"))
-opihi_data_dictionary <- read_csv(here("AI data", "Data", "Processed", "opihi_data_dictionary.csv"))
+opihi_master          <- read_csv(here("AI_data", "Data", "Processed", "opihi_master.csv"))
+opihi_unmatched_names <- read_csv(here("AI_data", "Data", "Processed", "opihi_unmatched_names.csv"))
+opihi_surveys         <- read_csv(here("AI_data", "Data", "Processed", "opihi_surveys.csv"))
+opihi_samples         <- read_csv(here("AI_data", "Data", "Processed", "opihi_samples.csv"))
+opihi_qc_flags        <- read_csv(here("AI_data", "Data", "Processed", "opihi_qc_flags.csv"))
+opihi_exclusions_log  <- read_csv(here("AI_data", "Data", "Processed", "opihi_exclusions_log.csv"))
+opihi_data_dictionary <- read_csv(here("AI_data", "Data", "Processed", "opihi_data_dictionary.csv"))
 ```
 
 ### Check that every master row traces back to a raw row
@@ -64,7 +64,7 @@ tidyxl keeps the real row/column numbers. readxl can silently skip leading blank
 ```{r}
 library(tidyxl)
 
-raw_dir   <- here("AI data", "Data", "Raw")   # adjust to wherever the xlsx files are
+raw_dir   <- here("AI_data", "Data", "Raw")   # adjust to wherever the xlsx files are
 raw_files <- list.files(raw_dir, pattern = "\\.xlsx$", full.names = TRUE, recursive = TRUE)
 
 raw_cells <- map(raw_files, \(p) {
@@ -579,8 +579,8 @@ master_completed |> filter(is.na(site_name)) |> count(survey_id)   # only S0252 
 sum(master_completed$count) == sum(opihi_master$count)      # TRUE
 
 # --- save as new files, originals untouched ---
-write_csv(surveys_completed, here("AI data", "Data", "Processed", "opihi_surveys_completed.csv"))
-write_csv(master_completed,  here("AI data", "Data", "Processed", "opihi_master_completed.csv"))
+write_csv(surveys_completed, here("AI_data", "Data", "Processed", "opihi_surveys_completed.csv"))
+write_csv(master_completed,  here("AI_data", "Data", "Processed", "opihi_master_completed.csv"))
 ```
 Fill transect for 2023 Leahi Quadrat Pt intercepts
 ```{r}
