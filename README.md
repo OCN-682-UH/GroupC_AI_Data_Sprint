@@ -1,4 +1,4 @@
-# Group C AI Data Sprint
+# Group C AI_data Sprint
 
 ## Cam, Linnea, Jasmine, Carolina
 

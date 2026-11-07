@@ -756,4 +756,124 @@ full_join(
   by = "flag", suffix = c("_samples", "_qcflags")) |>
   print(n = Inf)
 ```
+Step 7: survey-level flags
+```{r}
+# do flagged surveys exist in the survey table?
+opihi_qc_flags |> filter(level == "survey") |>
+  anti_join(opihi_surveys, by = c("ref" = "survey_id")) |> nrow()    # expect 0
 
+# the 12 smaller survey flags, in full
+opihi_qc_flags |>
+  filter(level == "survey", flag != "placeholder_time_removed") |>
+  arrange(flag) |>
+  print(n = Inf, width = Inf)
+```
+The 57 doesn’t mean the flags are broken. It means my join used the wrong key, and that’s my mistake. The ref for survey flags isn’t a survey ID like S0251. It’s a text key built from file, date and site, such as OPIHI 2024 datasheet .xlsx|2024-03-26|Mauliola. None of those will match survey_id, so all 57 came back unmatched.
+
+Step 8: find which survey column matches the flag ref.
+```{r}
+names(opihi_surveys)
+
+# which column(s) hold keys like the flag refs?
+survey_refs <- opihi_qc_flags |> filter(level == "survey") |> pull(ref)
+opihi_surveys |>
+  summarise(across(everything(), ~ sum(as.character(.x) %in% survey_refs))) |>
+  pivot_longer(everything(), names_to = "column", values_to = "matches") |>
+  filter(matches > 0)
+```
+All 57 survey flags match the src_key column, so every survey-level flag points to a real survey. That pass is the survey-level counterpart of the sample check.
+
+The flag check on its own isn’t the interesting part here. The 3 site corrections are where your judgment is needed. Next, see what master actually did with them.
+
+Step 9: look at the 3 site-corrected surveys.
+```{r}
+opihi_qc_flags |>
+  filter(level == "survey", flag == "site_corrected_by_coordinates") |>
+  left_join(opihi_surveys, by = c("ref" = "src_key")) |>
+  select(survey_id, source_file, year, date, site_name, island,
+         latitude, longitude, n_samples, detail) |>
+  print(width = Inf)
+```
+The “(0.00 km)” in each detail line is a useful clue. The coordinates sit exactly on the reference point for those sites, so they weren’t GPS readings taken in the field. They were almost certainly copied from a site list. That means each survey has two conflicting site entries, and either could be the slip.
+
+Step 10 (revised): first test whether teachers stick to one island, then look at the three flagged surveys.
+```{r}
+# 1. across the whole dataset: how many islands does each teacher survey?
+opihi_surveys |>
+  filter(!is.na(teacher_id)) |>
+  group_by(teacher_id) |>
+  summarise(n_surveys = n(), n_islands = n_distinct(island)) |>
+  count(n_islands, name = "n_teachers")
+
+# 2. the three flagged surveys and their teachers' other surveys
+flagged_ids <- c("S0143", "S0210", "S0167")
+opihi_surveys |> filter(survey_id %in% flagged_ids) |> select(survey_id, teacher_id)
+
+opihi_surveys |>
+  filter(teacher_id %in% teacher_id[survey_id %in% flagged_ids]) |>
+  count(teacher_id, island, site_name, sort = TRUE) |>
+  print(n = Inf)
+```
+One survey is settled, and the other two need different evidence.
+
+S0143 (Kalaeloa label → Onekahakaha) supports master’s choice. Its teacher, T040, has no surveys on Oahu at all, only Onekahakaha on Hawaii. The Kalaeloa label is the likely slip, so filing it at Onekahakaha looks right.
+
+S0167 and S0210 can’t be decided by teacher. Both belong to T043, who appears on five islands (Oahu, Kauai, Hawaii, Maui and Molokai). That’s almost certainly not one real teacher. More likely it’s a shared or placeholder ID used for a whole file or for surveys with unknown teachers. T043 also has surveys at both original labels (3 at Waipouli and 3 at Maili Beach), so the teacher data points both ways. I’ve added all of this to the tracker.
+
+Step 11: check the neighbors in the same file. Rows from one class trip usually sit next to each other in a legacy file. If the surveys entered just before and after S0167 and S0210 are all at one site or on one island, that’s good evidence for which entry is right.
+```{r}
+# what is T043? which files does it come from?
+opihi_surveys |> filter(teacher_id == "T043") |> count(source_file)
+
+# surveys in the 2019 file, in date order, around the two flagged ones
+opihi_surveys |>
+  filter(source_file == "OPIHI data 2019.xlsx") |>
+  arrange(date) |>
+  select(survey_id, date, site_name, island, teacher_id, src_key) |>
+  print(n = Inf)
+```
+
+```{r}
+master_src |>
+  filter(survey_id %in% c("S0143", "S0167", "S0210")) |>
+  group_by(survey_id, src_file, src_sheet) |>
+  summarise(first_row = min(src_row), last_row = max(src_row), .groups = "drop")
+```
+
+Then all three are settled, and master is correct for every one. Each block’s own location, typed in both the header and the totals row, matches master’s site and its coordinates.
+
+Next: the 45 placeholder_time_removed flags. These are the largest survey flag type, and we haven’t looked at them yet. This shows what they say, and whether the times really are blank in master for those surveys:
+```{r}
+pt <- opihi_qc_flags |>
+  filter(level == "survey", flag == "placeholder_time_removed") |>
+  left_join(opihi_surveys, by = c("ref" = "src_key"))
+
+# what the flag details say
+pt |> count(detail, sort = TRUE) |> print(n = Inf, width = Inf)
+
+# are the times actually blank now?
+pt |> summarise(n = n(),
+                start_blank = sum(is.na(start_time)),
+                stop_blank  = sum(is.na(stop_time)))
+
+# which files they come from
+pt |> count(source_file, sort = TRUE)
+```
+
+That’s a clean result.
+
+What it shows:
+
+- All 45 have exactly the same “time”: a start of 0.0 (midnight) and a stop of 0.0417 (1:00 AM). Excel stores times as fractions of a day, and 1/24 = 0.0417. Forty-five identical midnight-to-1 AM surveys aren’t real. They’re a template default that was never filled in.
+- All 45 are now blank in master, for both start and stop. So the rule was applied every time, and nothing was left behind.
+- They’re almost all in the old files: 2004–2008, with 43 of the 45. The one in 2017 is the exception; the template was probably reused once.
+
+Survey-level flags are now done:
+
+✅ All 57 point to real surveys.
+✅ placeholder_time_removed (45) is correct.
+✅ site_corrected_by_coordinates (3): master is right, but the “labelled” sites come from a parser bug.
+📝 time_assumed_pm (5) and no_site_or_date_in_file (2) are reasonable and noted.
+📝 no_metadata_match (1): the flag name contradicts its own detail text. Noted.
+
+That finishes qc_flags. Next on the list is compiled_crosscheck, then the exclusions and the taxon/site name audit.
