@@ -1,0 +1,7 @@
+change,rows,reason
+"S0251: site recovered as Leahi (site_name, site_alias_english, island)",125,chart titles in the 2023 group file name Diamond Head (Le'ahi); no cell holds the site
+S0251: transect filled from the group label (P#G# -> transect #),125,group labels encode the transect; column left blank by the cleaning
+taxon 'Dendropoma gregaria' -> 'Dendropoma gregarium',215,accepted spelling; the AI used the majority raw spelling
+category of 'Unknown fish': Invertebrate -> Vertebrate,1,fish are vertebrates; the category list had no vertebrate option
+"merged duplicate taxon rows in S0251-003 (Sargassum aquifolium 1+2 = 3, Turbinaria ornata 1+1 = 2)",2,"typo and correct spelling entered on separate sheet lines (confirmed in raw file); counts summed, both source cells kept"
+"site 'Sandy Beach West' -> 'Sandy Beach' (surveys S0101, S0214)",54,same site under two names

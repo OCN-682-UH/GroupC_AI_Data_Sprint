@@ -1085,7 +1085,7 @@ Neither is a counting error, so the totals are untouched. I’ve added both to t
 
 Next step: see how many master rows these two affect, and what the crosswalk’s own note says about them:
 ```{r}
-opihi_master |>
+master_completed |>
   filter(str_detect(taxon_clean, regex("fish|gregari", ignore_case = TRUE))) |>
   count(taxon_raw, taxon_clean, category, name = "n_rows")
 
@@ -1096,5 +1096,344 @@ taxon_cw <- read_csv(cw_path[1])
 taxon_cw |>
   filter(str_detect(taxon_clean, regex("fish|gregari", ignore_case = TRUE))) |>
   select(taxon_key, taxon_clean, category, review_note)
+```
+- Dendropoma: this changes the picture from yesterday. Most of the raw sheets already say gregaria (172 rows), so the AI went with the majority spelling and merged the other 43 rows into it. All three spellings ending up as one taxon is the important part, and that’s correct. The only question is which spelling to use as the label. The other chat thought gregarium is the accepted form. If that matters for your write-up, confirm it in WoRMS (marinespecies.org) rather than relying on either of us. Either way, the counts are right.
+- Unknown fish: this is just 1 row, but it’s plainly mislabelled. The dictionary has no vertebrate category, so the AI put it in the nearest bin. That’s easy to fix in master: set its category to Unknown, or add a Vertebrate category if your group prefers.
+
+Use gregarium instead and add vertebrate group
+
+```{r}
+n_before <- nrow(master_completed)
+
+master_completed <- master_completed |>
+  mutate(
+    # 1. Dendropoma: use the accepted spelling
+    across(c(taxon_clean, analysis_taxon),
+           ~ if_else(.x == "Dendropoma gregaria", "Dendropoma gregarium", .x)),
+    # 2. the unknown fish is a vertebrate
+    category = if_else(coalesce(taxon_clean == "Unknown fish", FALSE),
+                       "Vertebrate", category)
+  )
+
+# checks
+nrow(master_completed) == n_before    # expect TRUE: no rows added or lost
+
+master_completed |>
+  filter(str_detect(taxon_clean, regex("fish|gregari", ignore_case = TRUE))) |>
+  count(taxon_raw, taxon_clean, analysis_taxon, category, name = "n_rows")
+
+# record the changes
+change_log <- tribble(
+  ~change,                                        ~rows, ~reason,
+  "taxon 'Dendropoma gregaria' -> 'Dendropoma gregarium'", 215, "accepted spelling; AI used majority raw spelling",
+  "category of 'Unknown fish' Invertebrate -> Vertebrate",   1, "fish are vertebrates; dictionary had no vertebrate category"
+)
+change_log
+```
+Next: duplicate taxa within a sample. When the crosswalk merges several raw spellings into one clean name, two of those spellings could appear in the same quadrat. Master would then have two rows for one taxon in one sample, so the taxon would be counted twice in richness, or its points split across rows. This check finds those cases:
+
+```{r}
+dups <- master_completed |>
+  count(sample_id, taxon_clean, name = "n_rows") |>
+  filter(n_rows > 1)
+
+nrow(dups)                       # expect 0
+dups |> count(taxon_clean, sort = TRUE) |> print(n = 20)
+```
+Two duplicates out of about 22,600 rows is close to clean, but they’re worth understanding. Each is a single sample where one taxon appears on two rows: Sargassum aquifolium once, and Turbinaria ornata once.
+
+Both names were typo targets in S0251 (“Sr aquifolium” became Sargassum aquifolium, and “Turbinania ornata” became Turbinaria ornata). So my guess is that the sheet listed both the misspelled and the correct name as separate rows, and both had counts in the same quadrat. Once the crosswalk fixed the typo, they collapsed onto the same name.
+```{r}
+master_completed |>
+  semi_join(dups, by = c("sample_id", "taxon_clean")) |>
+  select(survey_id, sample_id, taxon_raw, taxon_clean, where(is.numeric)) |>
+  arrange(sample_id, taxon_clean) |>
+  print(width = Inf)
+```
+Both duplicates are in the same sample, S0251-003: transect 3 of the survey you recovered earlier. Each is a typo spelling and the correct spelling on separate lines of the sheet:
+
+My recommendation is to sum each pair into one row. The observers wrote two separate lines in the sheet, so these are two records of the same taxon, not a copy of one record. The quadrat count isn’t a concern either: this sample is a transect total (7 quadrats, 175 possible points), so 3 and 2 are well within range.
+
+The one judgment call is Turbinaria: equal counts of 1 + 1 could be one observation written twice. Without the original field notes, there’s no way to tell. Summing keeps both records, and the change log will record the choice either way.
+
+the excel sheet has two rows with observations for turbinaria just with different spelling
+Merge
+```{r}
+cols_before <- names(master_completed)
+total_before <- sum(master_completed$count, na.rm = TRUE)
+dup_keys <- dups |> select(sample_id, taxon_clean)
+
+merged <- master_completed |>
+  semi_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  group_by(across(-c(taxon_raw, count))) |>
+  summarise(taxon_raw = paste(taxon_raw, collapse = "; "),
+            count = sum(count), .groups = "drop")
+nrow(merged)    # expect 2, got 4
+
+master_completed <- master_completed |>
+  anti_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  bind_rows(merged) |>
+  select(all_of(cols_before))
+
+# checks
+nrow(master_completed)                                    # expect 22586 (2 fewer), got 22588
+sum(master_completed$count, na.rm = TRUE) == total_before # expect TRUE (no count lost)
+master_completed |> count(sample_id, taxon_clean) |> filter(n > 1) |> nrow()  # expect 0, got 2 
+
+change_log <- change_log |> add_row(
+  change = "merged duplicate taxon rows in S0251-003 (Sargassum aquifolium 1+2, Turbinaria ornata 1+1)",
+  rows = 2,
+  reason = "typo and correct spelling on separate sheet lines collapsed to same taxon; counts summed")
+```
+No harm done to the data, but nothing merged either: nrow(merged) came out as 4, which is the case I mentioned. The two rows in each pair differ in some other column as well, so group_by kept them apart.
+master_completed is effectively unchanged. The 4 rows were taken out and put straight back, so it’s still 22,588 rows with the same total, and the 2 duplicates are still there.
+change_log now has a wrong entry, saying the merge happened. Remove it:
+
+```{r}
+change_log <- change_log |> slice(1:2)
+change_log    # should show only the gregarium and fish rows
+```
+Next: find which column differs. This lists only the columns where the two rows in a pair disagree:
+```{r}
+master_completed |>
+  semi_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  group_by(sample_id, taxon_clean) |>
+  summarise(across(everything(), n_distinct), .groups = "drop") |>
+  select(sample_id, taxon_clean, where(~ is.numeric(.x) && any(.x > 1)))
+```
+
+```{r}
+cols_before  <- names(master_completed)
+total_before <- sum(master_completed$count, na.rm = TRUE)
+
+merged <- master_completed |>
+  semi_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  group_by(across(-c(taxon_raw, count, source_cell))) |>
+  summarise(taxon_raw   = paste(taxon_raw, collapse = "; "),
+            source_cell = paste(source_cell, collapse = "; "),
+            count       = sum(count), .groups = "drop")
+nrow(merged)    # expect 2 — if not 2, STOP and send me the output
+
+master_completed <- master_completed |>
+  anti_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  bind_rows(merged) |>
+  select(all_of(cols_before))
+
+# checks
+nrow(master_completed)                                    # expect 22586
+sum(master_completed$count, na.rm = TRUE) == total_before # expect TRUE
+master_completed |> count(sample_id, taxon_clean) |> filter(n > 1) |> nrow()  # expect 0
+master_completed |> semi_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  select(sample_id, taxon_raw, taxon_clean, count, source_cell)   # the 2 merged rows
+```
+
+```{r}
+master_src |>
+  filter(taxon_clean == "Turbinaria ornata", str_detect(src_sheet, "P1")) |>
+  group_by(src_file, src_sheet, survey_id, taxon_raw) |>
+  summarise(n_samples = n(), total = sum(count), .groups = "drop") |>
+  print(width = Inf)
+```
+add merge entry
+```{r}
+change_log <- change_log |> add_row(
+  change = "merged duplicate taxon rows in S0251-003 (Sargassum aquifolium 1+2 = 3, Turbinaria ornata 1+1 = 2)",
+  rows = 2,
+  reason = "typo and correct spelling entered on separate sheet lines (confirmed in raw file); counts summed, both source cells kept")
+change_log    # should now show 3 rows
+```
+change_log now has its 3 entries:
+
+Dendropoma gregaria renamed to gregarium (215 rows)
+Unknown fish recategorised from Invertebrate to Vertebrate (1 row)
+The S0251-003 merge (2 rows)
+That completes the taxon audit.
+
+Next: the site name audit.
+```{r}
+surveys_completed |>
+  count(island, site_name, name = "n_surveys") |>
+  arrange(island, site_name) |>
+  print(n = Inf)
+
+# any site name filed on more than one island?
+surveys_completed |>
+  group_by(site_name) |>
+  summarise(islands = paste(sort(unique(island)), collapse = ", "),
+            n_islands = n_distinct(island), .groups = "drop") |>
+  filter(n_islands > 1)
+```
+sandy beach west is also sandy beach
+
+Then those 2 surveys should be filed under Sandy Beach. Since you need one master list, update both surveys_completed and master_completed so they stay consistent, and log the change.
+```{r}
+# how many rows are affected, before changing anything
+surveys_completed |> filter(site_name == "Sandy Beach West") |> select(survey_id, source_file, date)
+n_master_sbw <- master_completed |> filter(site_name == "Sandy Beach West") |> nrow()
+n_master_sbw
+
+# rename
+surveys_completed <- surveys_completed |>
+  mutate(site_name = if_else(site_name == "Sandy Beach West", "Sandy Beach", site_name, missing = NA))
+master_completed <- master_completed |>
+  mutate(site_name = if_else(site_name == "Sandy Beach West", "Sandy Beach", site_name, missing = NA))
+
+# checks
+sum(surveys_completed$site_name == "Sandy Beach West", na.rm = TRUE)   # expect 0
+sum(master_completed$site_name  == "Sandy Beach West", na.rm = TRUE)   # expect 0
+surveys_completed |> filter(site_name == "Sandy Beach") |> nrow()      # expect 10 (8 + 2)
+
+# log it
+change_log <- change_log |> add_row(
+  change = "site 'Sandy Beach West' -> 'Sandy Beach' (2 surveys)",
+  rows   = n_master_sbw,
+  reason = "same site under two names (confirmed by Alan)")
+change_log
+```
+All the checks passed:
+
+0 “Sandy Beach West” left in either table
+Sandy Beach now has 10 surveys
+change_log has 4 entries, the latest being the rename (54 master rows)
+
+Next: the calibration step for the block-location check. This is the 3-part chunk from earlier:
+```{r}
+# 1. confirm the NA-site survey
+surveys_completed |> filter(is.na(site_name)) |> select(survey_id, source_file, year)
+
+# 2. the data-column range of the two known blocks
+master_src |>
+  filter(survey_id %in% c("S0210", "S0211")) |>
+  group_by(survey_id, src_sheet) |>
+  summarise(min_col = min(src_col), max_col = max(src_col),
+            min_row = min(src_row), max_row = max(src_row), .groups = "drop")
+
+# 3. where site names appear in that part of the sheet (prints site matches only, no other text)
+site_keys <- c("kamaole", "maili", "leahi|diamond head", "waipouli")
+raw_cells |>
+  filter(src_file == "OPIHI data 2019.xlsx", col >= 250, col <= 270,
+         data_type == "character") |>
+  mutate(site_match = map_chr(character, \(x) {
+    hit <- site_keys[str_detect(tolower(x), site_keys)]
+    if (length(hit)) hit[1] else NA_character_ })) |>
+  filter(!is.na(site_match)) |>
+  select(sheet, row, col, site_match) |>
+  arrange(col, row)
+```
+So each block’s location is written at the start of its own columns: in the totals row at the block’s first column, and in the header two columns further right. A block “owns” every column from its first data column up to the column before the next block starts. That gives a rule that can be applied to every legacy survey.
+```{r}
+# site names and the text patterns that identify them in the raw sheets
+site_lookup <- tribble(~site_name, ~pattern,
+  "Hilo Yacht Club","hilo yacht", "Holoholokai","holoholokai", "Kahaluu Bay","kahaluu|kahalu'u",
+  "Kaupo","kaupo", "Keei","keei|ke'ei", "Keiki Ponds","keiki pond", "Kiholo Bay","kiholo",
+  "Kona Bay Estates","kona bay", "Old Airport","old airport", "Onekahakaha","onekahakaha",
+  "Oneo Bay","oneo", "Punaluu Beach Park","punaluu|punalu'u", "Richardsons","richardson",
+  "Waiopae","waiopae", "Wawaloli","wawaloli", "Fuji","fuji", "Mahaulepu","mahaulepu|maha'ulepu",
+  "Nukolii","nukolii", "Salt Pond","salt pond", "Waipouli","waipouli", "Hulopoe Bay","hulopoe",
+  "Kamaole Beach Park","kamaole", "Keawakapu","keawakapu", "Napili Bay","napili",
+  "Waipuilani","waipuilani", "Kapukahehu","kapukahehu", "Mapulehu","mapulehu",
+  "Moomomi","moomomi|mo'omomi", "Morris Point","morris", "Baby Makapuu","makapuu|makapu'u",
+  "Ewa","\\bewa\\b|'ewa", "Kahana Bay","kahana", "Kalaeloa","kalaeloa", "Keiki Bay","keiki bay",
+  "Lanikai Point","lanikai", "Leahi","leahi|diamond head", "Maili Beach","maili|ma'ili",
+  "Mauliola","mauliola", "Mokauea Island","mokauea", "Sandy Beach","sandy",
+  "Turtle Bay","turtle bay", "Waianae High School Reef","waianae")
+
+# legacy (block-based) surveys and the columns each block owns
+legacy <- surveys_completed |>
+  filter(str_detect(src_key, "\\|block")) |>
+  select(survey_id, source_file, date, site_name)
+
+spans <- master_src |>
+  semi_join(legacy, by = "survey_id") |>
+  group_by(survey_id, src_file) |>
+  summarise(min_col = min(src_col), max_col = max(src_col), .groups = "drop") |>
+  group_by(src_file) |> arrange(min_col, .by_group = TRUE) |>
+  mutate(end_col = lead(as.numeric(min_col), default = Inf) - 1) |> ungroup()
+
+# 0. any legacy file with more than one tab? (would need extra care)
+raw_cells |> filter(src_file %in% spans$src_file) |>
+  distinct(src_file, sheet) |> count(src_file) |> filter(n > 1)
+
+# find every site label in those files
+cells <- raw_cells |>
+  filter(src_file %in% spans$src_file, data_type == "character") |>
+  mutate(txt = tolower(character))
+site_hits <- map_dfr(seq_len(nrow(site_lookup)), \(i)
+  cells |> filter(str_detect(txt, site_lookup$pattern[i])) |>
+    transmute(src_file, row, col, label_site = site_lookup$site_name[i]))
+
+# which labels sit inside each survey's own block
+own <- site_hits |>
+  inner_join(spans, by = "src_file", relationship = "many-to-many") |>
+  filter(col >= min_col, col <= end_col) |>
+  group_by(survey_id) |>
+  summarise(labels = paste(sort(unique(label_site)), collapse = ", "), .groups = "drop")
+
+block_check <- legacy |>
+  left_join(own, by = "survey_id") |>
+  mutate(status = case_when(
+    is.na(labels) ~ "no label found",
+    map2_lgl(site_name, coalesce(labels, ""), \(s, l) s %in% str_split_1(l, ", ")) ~ "match",
+    TRUE ~ "different"))
+
+# results
+block_check |> count(status)
+block_check |> filter(status != "match") |>
+  select(survey_id, source_file, date, master_site = site_name, labels_in_block = labels, status) |>
+  arrange(status, source_file, date) |>
+  print(n = Inf, width = Inf)
+```
+No legacy survey is filed under a different site from the one written in its own block. So the parser bug we found didn’t put any survey at the wrong site; it only affected the wording of the three flags. That’s a key point for the write-up.
+
+The 38 “no label found” follow a clear pattern. Every one of them is Mauliola, Kalaeloa or Hulopoe Bay. My guess is that their blocks use other names for these places that my patterns didn’t include:
+
+Next: rerun with those alternative names, and ignore ʻokina and apostrophes when matching.
+```{r}
+site_lookup <- site_lookup |>
+  mutate(pattern = case_when(
+    site_name == "Mauliola"    ~ "mauliola|sand island",
+    site_name == "Kalaeloa"    ~ "kalaeloa|barbers? ?point|barber's point",
+    site_name == "Hulopoe Bay" ~ "hulopoe",
+    TRUE ~ str_remove_all(pattern, "'")))   # apostrophe variants no longer needed
+
+cells <- raw_cells |>
+  filter(src_file %in% spans$src_file, data_type == "character") |>
+  mutate(txt = tolower(character) |> str_remove_all("['ʻ‘’`]"))
+
+site_hits <- map_dfr(seq_len(nrow(site_lookup)), \(i)
+  cells |> filter(str_detect(txt, site_lookup$pattern[i])) |>
+    transmute(src_file, row, col, label_site = site_lookup$site_name[i]))
+
+own <- site_hits |>
+  inner_join(spans, by = "src_file", relationship = "many-to-many") |>
+  filter(col >= min_col, col <= end_col) |>
+  group_by(survey_id) |>
+  summarise(labels = paste(sort(unique(label_site)), collapse = ", "), .groups = "drop")
+
+block_check <- legacy |>
+  left_join(own, by = "survey_id") |>
+  mutate(status = case_when(
+    is.na(labels) ~ "no label found",
+    map2_lgl(site_name, coalesce(labels, ""), \(s, l) s %in% str_split_1(l, ", ")) ~ "match",
+    TRUE ~ "different"))
+
+block_check |> count(status)
+block_check |> filter(status != "match") |>
+  select(survey_id, source_file, date, master_site = site_name, labels_in_block = labels, status) |>
+  arrange(status, source_file, date) |>
+  print(n = Inf, width = Inf)
+```
+
+Save 
+```{r}
+out_dir <- here("AI_data", "Data", "Processed")
+
+write_csv(master_completed,  file.path(out_dir, "opihi_master_completed.csv"))
+write_csv(surveys_completed, file.path(out_dir, "opihi_surveys_completed.csv"))
+write_csv(change_log,        file.path(out_dir, "opihi_change_log.csv"))
+
+# check what was written
+read_csv(file.path(out_dir, "opihi_master_completed.csv"), show_col_types = FALSE) |> nrow()   # expect 22586
+read_csv(file.path(out_dir, "opihi_change_log.csv"), show_col_types = FALSE)                   # expect 4 rows
 ```
 
