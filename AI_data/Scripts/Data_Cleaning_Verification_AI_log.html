@@ -2248,6 +2248,7 @@ vertical-align: -.125em;
   <li><a href="#is-every-legacy-survey-filed-under-the-site-written-in-its-own-block" id="toc-is-every-legacy-survey-filed-under-the-site-written-in-its-own-block" class="nav-link" data-scroll-target="#is-every-legacy-survey-filed-under-the-site-written-in-its-own-block">9.1 Is every legacy survey filed under the site written in its own block?</a></li>
   </ul></li>
   <li><a href="#part-10-save-the-final-files" id="toc-part-10-save-the-final-files" class="nav-link" data-scroll-target="#part-10-save-the-final-files">Part 10 · Save the final files</a></li>
+  <li><a href="#part-11-decision-for-each-flag-type-7-nov" id="toc-part-11-decision-for-each-flag-type-7-nov" class="nav-link" data-scroll-target="#part-11-decision-for-each-flag-type-7-nov">Part 11 · Decision for each flag type (7 Nov)</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
   <ul class="collapse">
   <li><a href="#where-the-ai-was-wrong-and-how-it-was-caught" id="toc-where-the-ai-was-wrong-and-how-it-was-caught" class="nav-link" data-scroll-target="#where-the-ai-was-wrong-and-how-it-was-caught">Where the AI was wrong, and how it was caught</a></li>
@@ -3842,6 +3843,227 @@ vertical-align: -.125em;
 </div>
 <hr>
 </section>
+<section id="part-11-decision-for-each-flag-type-7-nov" class="level1">
+<h1>Part 11 · Decision for each flag type (7 Nov)</h1>
+<blockquote class="blockquote">
+<p><strong>Me:</strong> let’s finish the keep/fix/exclude table for the flags.</p>
+<p><strong>Claude:</strong> Drafted a decision for each flag type from the checks above. Five types (7 flags) had not been looked at individually, so their details are printed below before deciding.</p>
+</blockquote>
+<div class="cell">
+<details class="code-fold">
+<summary>Show Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a>opihi_qc_flags <span class="sc">|&gt;</span></span>
+<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(flag, <span class="st">&quot;total_points_mismatch|date_inferred|header_inferred|group_label_mismatch|metadata_date_mismatch|no_metadata_match&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb142-3"><a href="#cb142-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(level, ref, flag, detail) <span class="sc">|&gt;</span></span>
+<span id="cb142-4"><a href="#cb142-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(flag) <span class="sc">|&gt;</span></span>
+<span id="cb142-5"><a href="#cb142-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>, <span class="at">width =</span> <span class="cn">Inf</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 4
+   level  ref                                                  
+   &lt;chr&gt;  &lt;chr&gt;                                                
+ 1 sample S0246-037                                            
+ 2 sample S0252-005                                            
+ 3 sample S0128-011                                            
+ 4 survey RAW Mauliola OPIHI Data 2026.xlsx|2026-04-20|Mauliola
+ 5 survey OPIHI 2024 datasheet .xlsx|2024-03-26|Mauliola       
+ 6 sample S0231-027                                            
+ 7 sample S0231-034                                            
+ 8 sample S0234-002                                            
+ 9 sample S0234-013                                            
+10 sample S0234-039                                            
+11 sample S0234-040                                            
+12 sample S0231-028                                            
+13 sample S0234-006                                            
+14 sample S0234-012                                            
+15 sample S0236-005                                            
+   flag                                
+   &lt;chr&gt;                               
+ 1 date_inferred                       
+ 2 group_label_mismatch                
+ 3 header_inferred                     
+ 4 metadata_date_mismatch              
+ 5 no_metadata_match                   
+ 6 total_points_mismatch               
+ 7 total_points_mismatch               
+ 8 total_points_mismatch               
+ 9 total_points_mismatch               
+10 total_points_mismatch               
+11 total_points_mismatch               
+12 total_points_mismatch;points_over_25
+13 total_points_mismatch;points_over_25
+14 total_points_mismatch;points_over_25
+15 total_points_mismatch;points_over_25
+   detail                                                                       
+   &lt;chr&gt;                                                                        
+ 1 OPIHI 2026 Longitudinal Monitoring Data.xlsx|r0040                           
+ 2 Copy of OPIHI Field Study 2025 - ALL Group Data (P1_P2) - use this one!.xlsx…
+ 3 OPIHI data 2017.xlsx|block06|c0153                                           
+ 4 metadata row matched on file + site within 7 days (data-row date kept)       
+ 5 metadata row matched on file + site within 7 days (data-row date kept)       
+ 6 OPIHI 2024 datasheet .xlsx|r0218                                             
+ 7 OPIHI 2024 datasheet .xlsx|r0232                                             
+ 8 OPIHI 2024 datasheet .xlsx|r0238                                             
+ 9 OPIHI 2024 datasheet .xlsx|r0249                                             
+10 OPIHI 2024 datasheet .xlsx|r0275                                             
+11 OPIHI 2024 datasheet .xlsx|r0276                                             
+12 OPIHI 2024 datasheet .xlsx|r0217                                             
+13 OPIHI 2024 datasheet .xlsx|r0242                                             
+14 OPIHI 2024 datasheet .xlsx|r0248                                             
+15 OPIHI 2024 datasheet .xlsx|r0343                                             </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. total_points_mismatch: typed &quot;Total Points&quot; in the 2024 sheet vs the sum of the cells</span></span>
+<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> <span class="fu">xlsx_cells</span>(<span class="fu">file.path</span>(raw_dir, <span class="st">&quot;OPIHI 2024 datasheet .xlsx&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(sheet, <span class="fu">regex</span>(<span class="st">&quot;pt</span><span class="sc">\\</span><span class="st">s*counts&quot;</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>tp_col <span class="ot">&lt;-</span> pts <span class="sc">|&gt;</span></span>
+<span id="cb144-6"><a href="#cb144-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(character, <span class="fu">regex</span>(<span class="st">&quot;^</span><span class="sc">\\</span><span class="st">s*total</span><span class="sc">\\</span><span class="st">s*points&quot;</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb144-7"><a href="#cb144-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(col) <span class="sc">|&gt;</span> <span class="fu">pull</span>(col)</span>
+<span id="cb144-8"><a href="#cb144-8" aria-hidden="true" tabindex="-1"></a>tp_col    <span class="co"># expect one column number</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 95 68</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a>opihi_qc_flags <span class="sc">|&gt;</span></span>
+<span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(flag, <span class="st">&quot;total_points_mismatch&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb146-3"><a href="#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">row =</span> <span class="fu">as.integer</span>(<span class="fu">str_extract</span>(detail, <span class="st">&quot;(?&lt;=</span><span class="sc">\\</span><span class="st">|r)</span><span class="sc">\\</span><span class="st">d+&quot;</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb146-4"><a href="#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(pts <span class="sc">|&gt;</span> <span class="fu">filter</span>(col <span class="sc">==</span> tp_col[<span class="dv">1</span>]) <span class="sc">|&gt;</span> <span class="fu">select</span>(row, <span class="at">typed_total =</span> numeric), <span class="at">by =</span> <span class="st">&quot;row&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb146-5"><a href="#cb146-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(opihi_samples <span class="sc">|&gt;</span> <span class="fu">select</span>(sample_id, point_sum, points_possible), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;ref&quot;</span> <span class="ot">=</span> <span class="st">&quot;sample_id&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb146-6"><a href="#cb146-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">difference =</span> typed_total <span class="sc">-</span> point_sum) <span class="sc">|&gt;</span></span>
+<span id="cb146-7"><a href="#cb146-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ref, row, typed_total, point_sum, points_possible, difference)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 6
+   ref         row typed_total point_sum points_possible difference
+   &lt;chr&gt;     &lt;int&gt;       &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;      &lt;dbl&gt;
+ 1 S0231-027   218          25        18              25          7
+ 2 S0231-028   217          25        27              25         -2
+ 3 S0231-034   232          26        25              25          1
+ 4 S0234-002   238          20        25              25         -5
+ 5 S0234-006   242          25        26              25         -1
+ 6 S0234-012   248          21        26              25         -5
+ 7 S0234-013   249          24        25              25         -1
+ 8 S0234-039   275          13        25              25        -12
+ 9 S0234-040   276          14        25              25        -11
+10 S0236-005   343          25        27              25         -2</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. the two &quot;inferred&quot; samples next to their neighbours</span></span>
+<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a>opihi_samples <span class="sc">|&gt;</span></span>
+<span id="cb148-3"><a href="#cb148-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(survey_id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;S0246&quot;</span>, <span class="st">&quot;S0128&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb148-4"><a href="#cb148-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sample_id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;S0246-036&quot;</span>, <span class="st">&quot;S0246-037&quot;</span>, <span class="st">&quot;S0246-038&quot;</span>,</span>
+<span id="cb148-5"><a href="#cb148-5" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;S0128-010&quot;</span>, <span class="st">&quot;S0128-011&quot;</span>, <span class="st">&quot;S0128-012&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb148-6"><a href="#cb148-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sample_id, transect, quadrat, point_m, point_sum, sample_flag)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  sample_id transect quadrat point_m point_sum sample_flag    
+  &lt;chr&gt;        &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;          
+1 S0128-010        1      10      18         1 &lt;NA&gt;           
+2 S0128-011        2       1      NA        20 header_inferred
+3 S0128-012        2       2       5        22 &lt;NA&gt;           
+4 S0246-036        3      NA      12        25 &lt;NA&gt;           
+5 S0246-037        4      NA       0        25 date_inferred  
+6 S0246-038        4      NA       1        25 &lt;NA&gt;           </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Claude:</strong> The typed totals are the unreliable part. In 5 samples the cells add up to exactly 25 while the typed total is wrong; in 4 the cells exceed 25 (these are also flagged over 25); in 1 they add up to 18. The two inferred samples fit between their neighbours. (“Total Points” matched two columns, 95 and 68; column 95 holds the quadrat totals.)</p>
+</blockquote>
+<p><strong>My decisions:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 5%">
+<col style="width: 39%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>n</th>
+<th>Evidence</th>
+<th>Decision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>points_over_25</code></td>
+<td>230</td>
+<td>Rule recomputed exactly; 174 legacy + 56 modern</td>
+<td><strong>Keep, flagged.</strong> Fine for detection; exclude or note for percent cover</td>
+</tr>
+<tr class="even">
+<td><code>total_points_mismatch</code></td>
+<td>10</td>
+<td>5 sum to 25 with wrong typed totals; 4 over 25; 1 sums to 18</td>
+<td><strong>Keep the cell values</strong></td>
+</tr>
+<tr class="odd">
+<td><code>placeholder_time_removed</code></td>
+<td>45</td>
+<td>All 00:00–01:00 template; all blank</td>
+<td><strong>Fix (applied by the AI)</strong></td>
+</tr>
+<tr class="even">
+<td><code>site_corrected_by_coordinates</code></td>
+<td>3</td>
+<td>Raw blocks checked; 227 of 227 legacy sites match</td>
+<td><strong>Keep</strong> master’s site; flag text is wrong</td>
+</tr>
+<tr class="odd">
+<td><code>time_assumed_pm</code></td>
+<td>5</td>
+<td>Fits the low tide times</td>
+<td><strong>Keep</strong></td>
+</tr>
+<tr class="even">
+<td><code>no_site_or_date_in_file</code></td>
+<td>2</td>
+<td>S0251 recovered; S0252 not recoverable</td>
+<td><strong>Fix S0251 (done); keep S0252</strong>, excluded from site/time analyses</td>
+</tr>
+<tr class="odd">
+<td><code>metadata_date_mismatch</code></td>
+<td>1</td>
+<td>Matched within 7 days; data-row date kept</td>
+<td><strong>Keep</strong></td>
+</tr>
+<tr class="even">
+<td><code>no_metadata_match</code></td>
+<td>1</td>
+<td>Detail says it did match</td>
+<td><strong>Keep</strong>; flag name is wrong</td>
+</tr>
+<tr class="odd">
+<td><code>date_inferred</code></td>
+<td>1</td>
+<td>S0246-037 fits its neighbours</td>
+<td><strong>Keep</strong></td>
+</tr>
+<tr class="even">
+<td><code>header_inferred</code></td>
+<td>1</td>
+<td>S0128-011 = T2 Q1, between T1 Q10 and T2 Q2</td>
+<td><strong>Keep</strong></td>
+</tr>
+<tr class="odd">
+<td><code>group_label_mismatch</code></td>
+<td>1</td>
+<td>In S0252, which has no site</td>
+<td><strong>Keep</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
 <section id="summary" class="level1">
 <h1>Summary</h1>
 <table class="caption-top table">
@@ -3892,10 +4114,13 @@ vertical-align: -.125em;
 <td>Corrections applied</td>
 <td>S0251 site and transects; <em>Dendropoma gregarium</em>; fish → Vertebrate; S0251-003 duplicates merged; Sandy Beach West → Sandy Beach</td>
 </tr>
+<tr class="even">
+<td>Flag decisions</td>
+<td>All flag types decided; none required a change to the counts</td>
+</tr>
 </tbody>
 </table>
 <p><strong>Limitations:</strong> block08 (2020 file) excluded with 20 quadrats and 38 detections; S0252 has no site; the <em>Turbinaria</em> merge (1 + 1) assumes two separate records.</p>
-<p><strong>Open items:</strong> my keep/fix/exclude rule for each flag type.</p>
 <section id="where-the-ai-was-wrong-and-how-it-was-caught" class="level2">
 <h2 class="anchored" data-anchor-id="where-the-ai-was-wrong-and-how-it-was-caught">Where the AI was wrong, and how it was caught</h2>
 <table class="caption-top table">

@@ -898,10 +898,72 @@ write_csv(change_log,        file.path(proc_dir, "opihi_change_log.csv"))
 
 ------------------------------------------------------------------------
 
+# Part 11 · Decision for each flag type (7 Nov)
+
+> **Me:** let's finish the keep/fix/exclude table for the flags.
+>
+> **Claude:** Drafted a decision for each flag type from the checks above. Five types (7 flags) had not been looked at individually, so their details are printed below before deciding.
+
+```{r}
+#| label: flag-details
+opihi_qc_flags |>
+  filter(str_detect(flag, "total_points_mismatch|date_inferred|header_inferred|group_label_mismatch|metadata_date_mismatch|no_metadata_match")) |>
+  select(level, ref, flag, detail) |>
+  arrange(flag) |>
+  print(n = Inf, width = Inf)
+```
+
+```{r}
+#| label: flag-details-check
+# 1. total_points_mismatch: typed "Total Points" in the 2024 sheet vs the sum of the cells
+pts <- xlsx_cells(file.path(raw_dir, "OPIHI 2024 datasheet .xlsx")) |>
+  filter(str_detect(sheet, regex("pt\\s*counts", ignore_case = TRUE)))
+
+tp_col <- pts |>
+  filter(str_detect(character, regex("^\\s*total\\s*points", ignore_case = TRUE))) |>
+  distinct(col) |> pull(col)
+tp_col    # expect one column number
+
+opihi_qc_flags |>
+  filter(str_detect(flag, "total_points_mismatch")) |>
+  mutate(row = as.integer(str_extract(detail, "(?<=\\|r)\\d+"))) |>
+  left_join(pts |> filter(col == tp_col[1]) |> select(row, typed_total = numeric), by = "row") |>
+  left_join(opihi_samples |> select(sample_id, point_sum, points_possible), by = c("ref" = "sample_id")) |>
+  mutate(difference = typed_total - point_sum) |>
+  select(ref, row, typed_total, point_sum, points_possible, difference)
+
+# 2. the two "inferred" samples next to their neighbours
+opihi_samples |>
+  filter(survey_id %in% c("S0246", "S0128")) |>
+  filter(sample_id %in% c("S0246-036", "S0246-037", "S0246-038",
+                          "S0128-010", "S0128-011", "S0128-012")) |>
+  select(sample_id, transect, quadrat, point_m, point_sum, sample_flag)
+```
+> **Claude:** The typed totals are the unreliable part. In 5 samples the cells add up to exactly 25 while the typed total is wrong; in 4 the cells exceed 25 (these are also flagged over 25); in 1 they add up to 18. The two inferred samples fit between their neighbours. ("Total Points" matched two columns, 95 and 68; column 95 holds the quadrat totals.)
+
+**My decisions:**
+
+| Flag | n | Evidence | Decision |
+|------------------|----|------------------------------|------------------------|
+| `points_over_25` | 230 | Rule recomputed exactly; 174 legacy + 56 modern | **Keep, flagged.** Fine for detection; exclude or note for percent cover |
+| `total_points_mismatch` | 10 | 5 sum to 25 with wrong typed totals; 4 over 25; 1 sums to 18 | **Keep the cell values** |
+| `placeholder_time_removed` | 45 | All 00:00–01:00 template; all blank | **Fix (applied by the AI)** |
+| `site_corrected_by_coordinates` | 3 | Raw blocks checked; 227 of 227 legacy sites match | **Keep** master's site; flag text is wrong |
+| `time_assumed_pm` | 5 | Fits the low tide times | **Keep** |
+| `no_site_or_date_in_file` | 2 | S0251 recovered; S0252 not recoverable | **Fix S0251 (done); keep S0252**, excluded from site/time analyses |
+| `metadata_date_mismatch` | 1 | Matched within 7 days; data-row date kept | **Keep** |
+| `no_metadata_match` | 1 | Detail says it did match | **Keep**; flag name is wrong |
+| `date_inferred` | 1 | S0246-037 fits its neighbours | **Keep** |
+| `header_inferred` | 1 | S0128-011 = T2 Q1, between T1 Q10 and T2 Q2 | **Keep** |
+| `group_label_mismatch` | 1 | In S0252, which has no site | **Keep** |
+
+
+------------------------------------------------------------------------
+
 # Summary
 
 | Area | Result |
-|----|----|
+|------------------------------------|------------------------------------|
 | Families A and B vs raw cells | 22,241 of 22,241 match |
 | Family C vs raw cells | 347 of 347, both directions |
 | Master vs sample table | Totals agree in all 7,216 samples; `n_taxa` excludes substrate |
@@ -911,15 +973,14 @@ write_csv(change_log,        file.path(proc_dir, "opihi_change_log.csv"))
 | Compiled cross-check | 234 found; 18 confirmed empty |
 | Exclusions (427) | All accounted for; block08 is the one real data loss |
 | Corrections applied | S0251 site and transects; *Dendropoma gregarium*; fish → Vertebrate; S0251-003 duplicates merged; Sandy Beach West → Sandy Beach |
+| Flag decisions | All flag types decided; none required a change to the counts |
 
 **Limitations:** block08 (2020 file) excluded with 20 quadrats and 38 detections; S0252 has no site; the *Turbinaria* merge (1 + 1) assumes two separate records.
-
-**Open items:** my keep/fix/exclude rule for each flag type.
 
 ## Where the AI was wrong, and how it was caught
 
 | \# | AI error | How it was caught | Fix |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | 1 | Regex cut file names at the first `!` | I noticed the missing "!" in the file name | Read up to `.xlsx` |
 | 2 | Many-to-many join gave 370 false mismatches | Row counts exceeded the master | Require the taxon label on the same tab |
 | 3 | Reverse check looked only in column A | `Inf` in `c_layout` | Search columns A and B |
