@@ -2,7 +2,7 @@
 # Group C 
 
 ## Authors
-Cam Nemeth, Linnea Nordlli, Jasmine Chang, and Carolina Melendez Declet
+Cam Nemeth, Linnea Nordlli, Jasmine-Kuʻupua Chang, and Carolina Melendez Declet
 
 *University of Hawai'i at Mānoa*
 
@@ -27,8 +27,10 @@ Generative AI was used to assist with coding and troubleshooting. All AI- genera
 ## Group AI Developer Log 
 [Insert here]
 
-## Quarto Report 
+## Final Quarto Report 
 [Link here] 
+
+This contains our final script. 
 
 ## Individual Reflection 
 [Insert PDF here]
