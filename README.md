@@ -27,7 +27,7 @@ Generative AI was used to assist with coding and troubleshooting. All AI- genera
 ## Group AI Developer Log 
 [Insert here]
 
-## Quarto Report 
+## Final Quarto Report 
 [Link here] 
 
 ## Individual Reflection 
