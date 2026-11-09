@@ -2,7 +2,7 @@
 # Group C 
 
 ## Authors
-Cam Nemeth, Linnea Nordlli, Jasmine Chang, and Carolina Melendez Declet
+Cam Nemeth, Linnea Nordlli, Jasmine-Kuʻupua Chang, and Carolina Melendez Declet
 
 *University of Hawai'i at Mānoa*
 
