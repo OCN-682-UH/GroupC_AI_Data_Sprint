@@ -38,4 +38,8 @@ This contains our final script.
 ## Directory
 [AI Data Cleaning: Verification and Cross-checking](https://01a1b9de-66ea-2d11-92d7-54ebd44e5b60.share.connect.posit.cloud)
 
+## References 
+
+Huisman, J. M., Abbott, I. A., & Smith, C. M. (2007). Hawaiian reef plants. University of Hawaiʻi Sea Grant College Program. 
+
 
