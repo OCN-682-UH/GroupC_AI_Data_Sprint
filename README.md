@@ -30,6 +30,8 @@ Generative AI was used to assist with coding and troubleshooting. All AI- genera
 ## Final Quarto Report 
 [Link here] 
 
+This contains our final script. 
+
 ## Individual Reflection 
 [Insert PDF here]
 
