@@ -46,14 +46,13 @@ library(leafpop)
 Read in all of the data
 
 ```{r}
-master <- read_csv("AI_data/Data/Processed/opihi_master.csv")
+master <- read_csv("AI_data/Data/Processed/opihi_master_completed.csv")
 algae_review <- read_csv("AI_data/Data/Algae/algae_origin_review.csv")
 raw <- read_csv("AI_data/Data/Processed/opihi_master.csv",show_col_types = FALSE)
 lookup <- read_csv("AI_data/Data/Algae/algae_origin_lookup.csv", show_col_types = FALSE) |>
   select(taxon_clean, origin_status)
 
 ```
-
 
 Organizing data:
 
@@ -67,36 +66,22 @@ algae <- raw |>
     TRUE ~ "Unresolved"   # cryptogenic, genus-level, turf, unknown groups
   ))
 ```
+
 ## AI Conversations
 
 Differentiating native algae from invasive algae. When asking AI (Claude) to clean the master sheet and create new sheets only displaying algae data, I mentioned that I planned to differentiate native and non-native limu. Claude did this on itʻs own, with itʻs own sources and created a new data sheet with the algae species organized as either "Native", "Non-native(Invasive)", or "Unresolved." As seen in conversation and data below:
 
 **ME**: I can first make a new data sheet that only has algae. Then I can plot and interactive map that shows where the native vs non-native algae was found around the island. Secondly, I want to make a plot showing the abundance of native vs non-native species on a time series line graph for each location. So it would be two lines and I would change out the location for each, resulting in around 8 graphs?
 
-**CLAUDE**: I wrote algae_map_and_timeseries.R, which covers all three steps. I haven’t run it, since R isn’t available in my sandbox, so expect to fix a small thing or two on the first run.
-What the script does
-1. Algae-only sheet. It writes algae_only.csv, with each record labeled Native, Non-native, or Unresolved. It also writes a companion quadrat_samples.csv listing every quadrat surveyed, including ones with no algae. Without that second file, empty quadrats disappear from an algae-only sheet and average cover comes out too high.
-2. Interactive map. Each location gets a green circle for native algae and a red circle for non-native algae, sized by mean % cover. The circles are offset a few hundred meters east and west so both stay visible, and you can toggle each layer. Clicking a site shows its cover values, number of quadrats, and survey years. The map is saved as oahu_native_vs_nonnative_map.html.
-3. Time series. There are two lines per location, native and non-native. plot_site("Leahi") draws one site, and changing the name switches locations. The script also saves a PNG for each site and one overview page with all of them.
+**CLAUDE**: I wrote algae_map_and_timeseries.R, which covers all three steps. I haven’t run it, since R isn’t available in my sandbox, so expect to fix a small thing or two on the first run. What the script does 1. Algae-only sheet. It writes algae_only.csv, with each record labeled Native, Non-native, or Unresolved. It also writes a companion quadrat_samples.csv listing every quadrat surveyed, including ones with no algae. Without that second file, empty quadrats disappear from an algae-only sheet and average cover comes out too high. 2. Interactive map. Each location gets a green circle for native algae and a red circle for non-native algae, sized by mean % cover. The circles are offset a few hundred meters east and west so both stay visible, and you can toggle each layer. Clicking a site shows its cover values, number of quadrats, and survey years. The map is saved as oahu_native_vs_nonnative_map.html. 3. Time series. There are two lines per location, native and non-native. plot_site("Leahi") draws one site, and changing the name switches locations. The script also saves a PNG for each site and one overview page with all of them.
 
-I made a review sheet and a script that merges your decisions back, so you don’t have to edit the lookup by hand. I haven’t run the R script.
-How to clean it up
-1. Open algae_origin_review.csv. It lists 109 taxa, with the ones that most need a decision first. The first 30 rows are the “check” taxa, such as Turbinaria ornata, Spyridia filamentosa, and Colpomenia sinuosa, followed by the 46 genus-level entries, then my 29 “likely native” and 4 non-native calls to confirm.
-2. Fill in your_status using only Native, Non-native, Cryptogenic, or Unresolved. Put your source in source_or_note. Leave a row blank to keep the current status.
-3. Run update_origin_lookup.R. It checks that your entries are valid, writes an updated algae_origin_lookup.csv, keeps a backup of the old one, and prints what’s still undecided.
-Re-run algae_map_and_timeseries.R. I updated it to accept the new labels, and the map and graphs will pick up your changes. Cryptogenic and Unresolved taxa are left off the native and non-native lines.
-4. Where to look things up
-* UH Reefalgae field guide (hawaii.edu/reefalgae), which marks algae as alien, native, or unknown origin.
-* AlgaeBase, filtered to the Hawaiian Islands.
-* Carlton & Eldredge (2009), the Bishop Museum list of introduced and cryptogenic marine species in Hawaiʻi.
-* A local expert. Your organization may already have someone who can confirm the less certain taxa.
-
+I made a review sheet and a script that merges your decisions back, so you don’t have to edit the lookup by hand. I haven’t run the R script. How to clean it up 1. Open algae_origin_review.csv. It lists 109 taxa, with the ones that most need a decision first. The first 30 rows are the “check” taxa, such as Turbinaria ornata, Spyridia filamentosa, and Colpomenia sinuosa, followed by the 46 genus-level entries, then my 29 “likely native” and 4 non-native calls to confirm. 2. Fill in your_status using only Native, Non-native, Cryptogenic, or Unresolved. Put your source in source_or_note. Leave a row blank to keep the current status. 3. Run update_origin_lookup.R. It checks that your entries are valid, writes an updated algae_origin_lookup.csv, keeps a backup of the old one, and prints what’s still undecided. Re-run algae_map_and_timeseries.R. I updated it to accept the new labels, and the map and graphs will pick up your changes. Cryptogenic and Unresolved taxa are left off the native and non-native lines. 4. Where to look things up \* UH Reefalgae field guide (hawaii.edu/reefalgae), which marks algae as alien, native, or unknown origin. \* AlgaeBase, filtered to the Hawaiian Islands. \* Carlton & Eldredge (2009), the Bishop Museum list of introduced and cryptogenic marine species in Hawaiʻi. \* A local expert. Your organization may already have someone who can confirm the less certain taxa.
 
 *All of the algae from these data sheets were cross checked with the book ʻHawaiian Reef Plantsʻ as well as Algae Base.*
+
 ```{r}
 head(lookup)
 ```
-
 
 ### Plotting
 
@@ -148,6 +133,8 @@ leaflet(oahu_geocoded) |>
     lng = ~long, lat = ~lat,   # tidygeocoder always returns 'lat' and 'long'
     label = ~place)            # hover to see place name
 ```
+
+All sampling sites for algae on Oʻahu are displayed in @fig-sample_sites.
 
 ```{r}
 # Every quadrat surveyed on Oahu (so quadrats with no algae count as 0)
@@ -285,7 +272,6 @@ leaflet(site_algae) |>
             title = "Mean % algae cover") |>
   fitBounds(-158.30, 21.25, -157.62, 21.72)   # whole island
 ```
-
 
 ```{r}
 # ----  TIME SERIES: NATIVE vs NON-NATIVE, ONE GRAPH PER SITE ------------------
