@@ -46,7 +46,7 @@ library(leafpop)
 Read in all of the data
 
 ```{r}
-master <- read_csv("AI_data/Data/Processed/opihi_master.csv")
+master <- read_csv("AI_data/Data/Processed/opihi_master_completed.csv")
 algae_review <- read_csv("AI_data/Data/Algae/algae_origin_review.csv")
 raw <- read_csv("AI_data/Data/Processed/opihi_master.csv",show_col_types = FALSE)
 lookup <- read_csv("AI_data/Data/Algae/algae_origin_lookup.csv", show_col_types = FALSE) |>
@@ -148,6 +148,7 @@ leaflet(oahu_geocoded) |>
     lng = ~long, lat = ~lat,   # tidygeocoder always returns 'lat' and 'long'
     label = ~place)            # hover to see place name
 ```
+All sampling sites for algae on Oʻahu are displayed in @fig-sample_sites.
 
 ```{r}
 # Every quadrat surveyed on Oahu (so quadrats with no algae count as 0)
