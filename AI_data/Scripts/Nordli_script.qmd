@@ -30,13 +30,15 @@ library(stringr)
 ```
 ## Import data
 ```{r}
-opihi_master          <- read_csv(here("AI data", "Data", "Processed", "opihi_master.csv"))
-opihi_unmatched_names <- read_csv(here("AI data", "Data", "Processed", "opihi_unmatched_names.csv"))
-opihi_surveys         <- read_csv(here("AI data", "Data", "Processed", "opihi_surveys.csv"))
-opihi_samples         <- read_csv(here("AI data", "Data", "Processed", "opihi_samples.csv"))
-opihi_qc_flags        <- read_csv(here("AI data", "Data", "Processed", "opihi_qc_flags.csv"))
-opihi_exclusions_log  <- read_csv(here("AI data", "Data", "Processed", "opihi_exclusions_log.csv"))
-opihi_data_dictionary <- read_csv(here("AI data", "Data", "Processed", "opihi_data_dictionary.csv"))
+opihi_master          <- read_csv(here("AI_data", "Data", "Processed", "opihi_master.csv"))
+opihi_unmatched_names <- read_csv(here("AI_data", "Data", "Processed", "opihi_unmatched_names.csv"))
+opihi_surveys         <- read_csv(here("AI_data", "Data", "Processed", "opihi_surveys.csv"))
+opihi_samples         <- read_csv(here("AI_data", "Data", "Processed", "opihi_samples.csv"))
+opihi_qc_flags        <- read_csv(here("AI_data", "Data", "Processed", "opihi_qc_flags.csv"))
+opihi_exclusions_log  <- read_csv(here("AI_data", "Data", "Processed", "opihi_exclusions_log.csv"))
+opihi_data_dictionary <- read_csv(here("AI_data", "Data", "Processed", "opihi_data_dictionary.csv"))
+opihi_compiled_crosscheck <- read_csv(here("AI_data", "Data", "Processed", "opihi_compiled_crosscheck.csv"))
+
 ```
 
 ### Check that every master row traces back to a raw row
@@ -64,7 +66,7 @@ tidyxl keeps the real row/column numbers. readxl can silently skip leading blank
 ```{r}
 library(tidyxl)
 
-raw_dir   <- here("AI data", "Data", "Raw")   # adjust to wherever the xlsx files are
+raw_dir   <- here("AI_data", "Data", "Raw")   # adjust to wherever the xlsx files are
 raw_files <- list.files(raw_dir, pattern = "\\.xlsx$", full.names = TRUE, recursive = TRUE)
 
 raw_cells <- map(raw_files, \(p) {
@@ -260,4 +262,1178 @@ It shows that everything in master is real. It doesn’t yet show that:
 - The values are attached to the right sample. A number can match a cell and still be assigned to the wrong site, date or quadrat. The match confirms the cell and the taxon label, not the sample metadata.
 - The taxon cleaning was right. Everything from taxon_raw to taxon_clean and analysis_taxon is still unchecked.
 - Family C is verified. It’s untouched so far.
+
+## Next steps: Family C
+
+Family C (about 1,300 rows by subtraction). source_cell only gives the row, so I need the sample’s column from opihi_samples. Run this and paste the output:
+```{r}
+glimpse(opihi_samples)
+glimpse(opihi_exclusions_log)
+```
+The first line tells me how master links to samples. The other two show how a C row’s sample connects to a raw column.
+```{r}
+intersect(names(opihi_master), names(opihi_samples))
+
+opihi_master |>
+  filter(source_family == "C") |>
+  select(any_of(c("sample_id", "sample_key")), taxon_raw, count, source_cell) |>
+  slice_head(n = 8)
+
+opihi_samples |>
+  filter(str_detect(sample_key, "Field Study 2023")) |>
+  select(sample_id, sample_key) |>
+  slice_head(n = 5)
+```
+Next
+Exclusions: how much was dropped and why
+```{r}
+# ---- 1. Exclusions: how much was dropped and why ----
+opihi_exclusions_log |> count(level, reason, sort = TRUE)
+```
+
+
+```{r}
+opihi_exclusions_log |>
+  filter(level == "survey") |>
+  count(source_file, reason, detail, sort = TRUE) |>
+  print(n = Inf)
+```
+
+2. Does master add up to the sample table?
+```{r}
+master_totals <- opihi_master |>
+  group_by(sample_id) |>
+  summarise(master_sum = sum(count), master_taxa = n(), .groups = "drop")
+```
+
+
+```{r}
+sample_mismatch <- opihi_samples |>
+  left_join(master_totals, by = "sample_id") |>
+  mutate(master_sum  = replace_na(master_sum, 0),
+         master_taxa = replace_na(master_taxa, 0)) |>
+  filter(point_sum != master_sum | n_taxa != master_taxa)
+```
+
+
+```{r}
+nrow(sample_mismatch)
+```
+
+
+```{r}
+sample_mismatch |>
+  mutate(unflagged = is.na(sample_flag)) |>
+  count(unflagged)
+```
+
+3. Family C: master vs raw cells
+```{r}
+# needs raw_cells and row_labels from earlier; re-run those chunks if you restarted R
+c_check <- master_src |>
+  filter(source_family == "C") |>
+  left_join(opihi_samples |> select(sample_id, sample_key), by = "sample_id") |>
+  mutate(
+    src_col   = as.integer(str_match(sample_key, "\\|c(\\d+)$")[, 2]),
+    taxon_key = str_squish(str_to_lower(taxon_raw))
+  ) |>
+  left_join(raw_cells,
+            by = c("src_file", "src_sheet" = "sheet", "src_row" = "row", "src_col" = "col")) |>
+  left_join(row_labels,
+            by = c("src_file", "src_sheet" = "sheet", "src_row" = "row", "taxon_key" = "label")) |>
+  mutate(
+    label_ok = coalesce(label_in_row, FALSE),
+    value_ok = !is.na(numeric) & numeric == count,
+    status = case_when(
+      label_ok & value_ok                 ~ "match",
+      label_ok & data_type %in% "numeric" ~ "value mismatch",
+      label_ok                            ~ "raw cell not numeric",
+      value_ok                            ~ "value matches, taxon label not in that row",
+      TRUE                                ~ "no usable match"
+    ))
+```
+
+
+```{r}
+nrow(c_check)   # should be 347
+```
+
+
+```{r}
+c_check |> count(status)
+```
+
+Good news first: all three families check out against raw. A and B (22,241 rows) and C (347 rows) add up to all 22,588 master rows, and every value traced to the correct raw cell. Nothing in master was altered or invented. The remaining problems are in the sample totals and in what was excluded.
+
+The sample totals check is your first red flag
+
+730 of 7,216 samples (about 10%) don’t agree with master, either in point_sum or in n_taxa, and 672 of them have no sample_flag. I wouldn’t call these errors yet. Master matches raw cell for cell, so the mismatch probably comes from how point_sum or n_taxa is defined, or from samples with no master rows. Run this to find out which:
+```{r}
+sm <- sample_mismatch |>
+  mutate(diff_sum  = point_sum - master_sum,
+         diff_taxa = n_taxa - master_taxa,
+         src_file  = str_extract(sample_key, "^[^|]+"))
+
+# Is it the sum, the taxa count, or both?
+sm |> count(sum_off = diff_sum != 0, taxa_off = diff_taxa != 0)
+
+# What do the differences look like?
+sm |> count(diff_sum, diff_taxa, sort = TRUE) |> print(n = 20)
+
+# Concentrated in particular files?
+sm |> count(src_file, sort = TRUE)
+
+# Samples with nothing in master, and master rows with no sample
+sm |> filter(master_taxa == 0) |> count()
+sum(is.na(opihi_master$sample_id))
+```
+How to read it:
+
+Only taxa_off is TRUE: the sums agree and just the taxon count differs. The likely cause is n_taxa counting at a different level (for example analysis_taxon) than my n(), which counts taxon_clean rows. That would be a definition issue, not a data problem.
+sum_off is TRUE: points are missing or added. If master is lower than point_sum, check whether the missing amount matches the exclusions (the 6 invalid-taxon observations, for example). If it’s higher, something was counted twice.
+Concentrated in one or two files: that file has a quirk worth opening in Excel.
+Your exclusions are mostly small and mostly benign
+
+Of 427 exclusions, 309 are blank template rows and 109 are rows with no taxon data. Those are very likely legitimate, but the 109 deserve a spot check because “no taxon data” is a judgment call. The interesting ones are tiny:
+
+6 invalid_taxon_name observations. These are real counts the AI threw out because it couldn’t recognize the name, which makes them your actual “unmatched” records. They should have appeared in unmatched_names (still empty), so the AI logged them as exclusions instead.
+1 survey (OPIHI data 2020.xlsx, block08) dropped for no_survey_metadata, with date, location and school all missing.
+1 example_row and 1 summary_row, which should be fine.
+
+This is reassuring. All 730 mismatches have diff_sum = 0, so every sample’s total points agree between the sample table and master. No counts were lost or added. The only difference is that master has 1 to 4 more taxon rows per sample than n_taxa says (diff_taxa is always negative). That looks like a difference in how taxa are counted, not a data loss.
+
+**Two other things stand out:**
+
+- Every one of the 7,216 samples has rows in master, because master_totals also has 7,216 rows. No sample was dropped entirely.
+- The mismatches are in the newer files. The biggest is OPIHI 2024 datasheet (536 of 730), followed by the 2026 files, BIOL 499, and the 2023 and 2025 group files. None of the older OPIHI data 20xx files appear at all. So whatever causes this is tied to the newer formats.
+
+**What could cause it**
+
+n_taxa is smaller than master’s row count. The likely explanations are:
+
+1. n_taxa counts distinct taxon_clean or analysis_taxon, while master has several rows that collapse into one (for example Padina spp and Padina sp. in the same sample).
+2. n_taxa excludes substrate (Rock, sand, Rubble), while master keeps those rows.
+3. Master has duplicate rows for the same taxon in one sample.
+
+```{r}
+# The 9 rows that matter most
+opihi_exclusions_log |>
+  filter(level != "row" | reason %in% c("example_row", "summary_row")) |>
+  View()
+
+# Spot check for the 109 "no taxon data" rows
+opihi_exclusions_log |> filter(reason == "no_taxon_data") |> count(source_file, sort = TRUE)
+opihi_exclusions_log |> filter(reason == "no_taxon_data") |>
+  slice_sample(n = 10) |> select(source_file, source_ref, detail)
+```
+Did a manual check on the longitudinal monitoring data excel sheet. 
+
+- only one tab (Quadrat PtCounts) has values in BF: Header is missing (no species name), but it is under the algae section of the sheet, looks like species name is missing and rather in that cell where species name is supposed to be there is a number (3), the rest of the column besides that is empty.
+- Row 64 has no data entry (no species observations), just transect (#3) and quadrat location (0m). Row 173 and 202 only have transect number, and 228 only has date and location. it doesn't look like any rows below 96 (starting at 97) have any counts, some are completely blank, others just have date and location, all the way until 266. then no cells at all have anything. For the Transect tab, the Mauliola row 86-101 have no organisms listed just has recorder, date, location, transect number and transect points but no organisms or counts. and Metadata tab has one line entry for Mauliola with missing entries as well (besides recorders, location, and time).
+
+AI:What the finding show:
+- The six '3.0' exclusions. Column BF has no species header, one stray “3” sits where the name should be, and the rest of the column is empty. The log says those six cells had count 0, and the AI correctly refused to treat “3” as a taxon. This is a data-entry problem in the raw sheet, not a data loss. If the 3 was meant to be a count for some species, it’s unrecoverable from the file, so just record it as an issue for the data owners.
+- The 107 no_taxon_data rows. Your description matches the log’s logic. Rows with only metadata (date, location, transect) were labelled no_taxon_data, and fully blank rows were labelled blank_template_row. Rows 97 to 266 are pre-filled template rows with no observations, and row 64 and the other examples you checked are quadrat locations with nothing recorded. I’d count these exclusions as justified.
+- A quadrat with a transect and location but no organisms is probably not recorded rather than a true zero, because every point in a quadrat should hit something (a taxon or substrate), as the points_possible column implies. Master can’t represent a surveyed-but-empty quadrat, so that distinction is worth a sentence in your write-up.
+- The Mauliola session. The Transect tab (rows 86 to 101) and the Metadata tab both have a Mauliola entry with recorders, date and location but no organisms. So a Mauliola visit was set up in this file and its data was never entered here. That raises a question you can answer from your own files: you also have RAW Mauliola OPIHI Data 2026.xlsx. Maybe the real counts for that visit are in that file, and the Longitudinal rows are just a placeholder.
+
+Next check: is the Mauliola data in master from the other file?
+```{r}
+glimpse(opihi_surveys)
+
+master_src |>
+  filter(str_detect(src_file, "Mauliola")) |>
+  count(src_file)
+```
+
+```{r}
+# 1. Every Mauliola survey, by file and date
+opihi_surveys |>
+  filter(str_detect(site_name, regex("mauliola", ignore_case = TRUE))) |>
+  arrange(date) |>
+  select(survey_id, source_file, date, resolution, n_samples, n_quadrats, src_key) |>
+  print(n = Inf)
+
+# 2. Any site and date that appears in more than one survey (all sites)
+opihi_surveys |>
+  group_by(site_name, date) |>
+  filter(n() > 1) |>
+  arrange(site_name, date) |>
+  select(survey_id, source_file, site_name, date, resolution, n_samples, src_key) |>
+  print(n = Inf)
+
+# 3. For those, do the totals match? (same visit entered twice would match closely)
+dup_ids <- opihi_surveys |>
+  group_by(site_name, date) |> filter(n() > 1) |> ungroup() |> pull(survey_id)
+
+opihi_master |>
+  filter(survey_id %in% dup_ids) |>
+  group_by(survey_id) |>
+  summarise(total_count = sum(count), n_rows = n(), .groups = "drop") |>
+  left_join(opihi_surveys |> select(survey_id, source_file, site_name, date), by = "survey_id") |>
+  arrange(site_name, date)
+```
+**Mauliola is not double-counted**
+
+The 28 Mauliola surveys each have a different date. The two 2026 files cover different visits: the Longitudinal file is 2026-01-25 (S0247, 26 samples) and the RAW Mauliola file is 2026-04-20 (S0248, 54 samples). So the same visit isn’t entered twice, and my worry about overlapping files doesn’t apply here.
+
+The 107 excluded no_taxon_data rows had Excel date serial 46047, which converts to 2026-01-25. That’s S0247. So that visit is in master with its 26 filled samples, and the excluded rows are the empty template rows from the same session. That matches what you found in the sheet.
+
+**The same-site, same-date pairs are probably separate groups**
+
+Three pairs share a site and date, and each pair comes from the same file: Ewa 2016-04-05, Leahi 2017-04-27 and Waipouli 2019-02-23. The sample counts and point totals differ a lot within each pair (for example, S0054 has 576 points over 29 samples and S0055 has 939 over 51). Two copies of one survey would match, so these are likely different school groups surveying the same beach on the same day. Confirm that with the code below rather than assuming it.
+
+**The real finding: two surveys with no site and no date**
+
+The last two rows in your duplicate table, S0251 (the 2023 group file) and S0252 (the 2025 group file), have NA for both site and date, and their resolution is group_totals. They account for 125 + 158 = 283 master rows (about 1.3%). They have valid counts but no place or time, so they can’t be used for any site or year comparison. This is where the “unmatched records” task has something to work with, because a missing site is the kind of gap a lookup or crosswalk should fix. It also shows the AI’s unmatched_names check was blind to this, since an NA site never registers as an unmatched name.
+
+```{r}
+# A. Are the three same-site/date pairs different groups?
+opihi_surveys |>
+  filter(survey_id %in% c("S0054","S0055","S0115","S0116","S0173","S0174")) |>
+  select(survey_id, site_name, date, teacher_id, src_key, n_samples) |>
+  arrange(site_name, date)
+
+# B. What the survey table says about the two NA surveys
+opihi_surveys |>
+  filter(survey_id %in% c("S0251","S0252")) |>
+  mutate(across(everything(), as.character)) |>
+  pivot_longer(-survey_id) |>
+  print(n = Inf)
+
+# C. Which tabs those rows came from
+master_src |>
+  filter(survey_id %in% c("S0251","S0252")) |>
+  count(survey_id, src_sheet)
+
+# D. Does the raw file say where and when? Look for site/date labels on any tab
+raw_cells |>
+  filter(str_detect(src_file, "ALL Group Data"),
+         data_type == "character",
+         str_detect(character, regex("site|location|date|beach|school|group", ignore_case = TRUE))) |>
+  distinct(src_file, sheet, row, col, character) |>
+  slice_head(n = 60) |>
+  print(n = 60)
+
+# E. Does any raw file contribute nothing to master?
+setdiff(basename(raw_files), unique(master_src$src_file))
+```
+What the guide settles (sent the Handoff Guide at this point)
+
+The 730 n_taxa mismatches are a definition difference, not data loss. The data dictionary says n_taxa counts non-substrate taxa, while my check counted every master row, including Rock, sand and Rubble. Modern sheets record substrate (legacy sheets often didn’t), which is why the mismatches only appear in the newer files. This chunk should show 0 disagreements for at least one of the two columns (code chunk below):
+
+Other things the guide matches. The Mauliola 2026-01-25 visit (26 entered quadrats, 107 blank), the 6 numeric junk names, and the one undated legacy block all agree with what we found.
+
+A correction to my framing of S0251/S0252. I implied the AI missed the missing site and date. The guide lists them under Known caveats (kept with year only), so they weren’t hidden. The more accurate point is that opihi_unmatched_names isn’t a complete list of missing metadata, since an NA site never shows up there.
+
+```{r}
+opihi_master |>
+  group_by(sample_id) |>
+  summarise(ns_clean    = n_distinct(taxon_clean[!category %in% "Substrate"]),
+            ns_analysis = n_distinct(analysis_taxon[!category %in% "Substrate"]),
+            .groups = "drop") |>
+  inner_join(opihi_samples |> select(sample_id, n_taxa), by = "sample_id") |>
+  summarise(clean_disagree = sum(ns_clean != n_taxa),
+            analysis_disagree = sum(ns_analysis != n_taxa))
+```
+
+That settles the n_taxa question. clean_disagree = 0 means n_taxa is the number of distinct non-substrate taxon_clean names in each sample, and my check had been counting the substrate rows (Rock, sand, Rubble) as well. That is why master was 1 to 4 rows ahead in 730 samples, all in the modern files that record substrate. The 163 for analysis_taxon is expected, since that column rolls species up to genus and so has fewer distinct names. It isn’t a problem, it just shows n_taxa isn’t defined at that level.
+
+Together with the earlier result (diff_sum = 0 in every sample), the sample table and master now fully agree: the point totals match in all 7,216 samples and the taxon counts match once substrate is excluded. For your write-up, the sample-level check found no data problems. The one thing it exposed is that the dictionary’s n_taxa description (“non-substrate taxa”) is correct but easy to misread.
+
+Confirmed 2023 field study group data has Diamond Head site location in charts created in the file
+```{r}
+# --- Leahi's details, taken from the existing legacy surveys ---
+site_info <- opihi_surveys |>
+  filter(site_name == "Leahi") |>
+  group_by(site_name, site_alias_english, island) |>
+  summarise(latitude = median(latitude, na.rm = TRUE),
+            longitude = median(longitude, na.rm = TRUE), .groups = "drop")
+
+nrow(site_info)   # should be 1; if not, Leahi has more than one alias/island value, so send me this
+
+# --- apply the recovery to S0251 only ---
+fill_s0251 <- function(df) {
+  df |>
+    mutate(
+      site_recovered     = survey_id == "S0251",
+      site_name          = if_else(site_recovered, site_info$site_name, site_name),
+      site_alias_english = if_else(site_recovered, site_info$site_alias_english, site_alias_english),
+      island             = if_else(site_recovered, site_info$island, island)
+    )
+}
+
+surveys_completed <- opihi_surveys |>
+  fill_s0251() |>
+  mutate(recovery_source = if_else(site_recovered,
+         "chart title 'Diamond Head (Le'ahi)' on all tabs of the 2023 group file; not in any cell",
+         NA_character_))
+
+master_completed <- opihi_master |> fill_s0251()
+
+# --- checks: only S0251's site columns should have changed ---
+anti_join(opihi_master, master_completed,
+          by = setdiff(names(opihi_master), c("site_name", "site_alias_english", "island"))) |>
+  nrow()                                                    # expect 0
+
+master_completed |> count(site_recovered)                   # TRUE should be 125
+master_completed |> filter(is.na(site_name)) |> count(survey_id)   # only S0252 (158)
+sum(master_completed$count) == sum(opihi_master$count)      # TRUE
+
+# --- save as new files, originals untouched ---
+write_csv(surveys_completed, here("AI_data", "Data", "Processed", "opihi_surveys_completed.csv"))
+write_csv(master_completed,  here("AI_data", "Data", "Processed", "opihi_master_completed.csv"))
+```
+Fill transect for 2023 Leahi Quadrat Pt intercepts
+```{r}
+fill_transect <- function(df) {
+  df |>
+    mutate(
+      transect_inferred = survey_id == "S0251",
+      transect = if_else(transect_inferred,
+                         as.numeric(str_extract(group_label, "(?<=G)\\d+")),
+                         transect)
+    )
+}
+
+master_completed  <- master_completed  |> fill_transect()
+samples_completed <- opihi_samples     |> fill_transect()   # keep samples consistent with master
+
+# checks
+master_completed |>
+  filter(survey_id == "S0251") |>
+  count(group_label, transect) |> print(n = Inf)    # 14 groups, transect 1-7 appearing twice (P1 and P2)
+
+master_completed |> count(transect_inferred)         # TRUE should be 125
+
+anti_join(opihi_master, master_completed,
+          by = setdiff(names(opihi_master), c("site_name", "site_alias_english", "island", "transect"))) |>
+  nrow()                                             # expect 0
+```
+
+**Step 1: Family C, the reverse check**
+The forward check showed every master row matches a raw cell. This asks the opposite question: is there any non-zero count in the raw group tabs that isn’t in master? It reuses raw_cells and c_check.
+```{r}
+c_files <- master_src |> filter(source_family == "C") |> distinct(src_file) |> pull(src_file)
+
+# group columns per tab, taken from the sample keys
+c_cols <- opihi_samples |>
+  filter(survey_id %in% master_src$survey_id[master_src$source_family == "C"]) |>
+  transmute(src_file  = str_extract(sample_key, "^[^|]+"),
+            src_sheet = str_match(sample_key, "^[^|]+\\|([^|]+)\\|")[, 2],
+            src_col   = as.integer(str_match(sample_key, "\\|c(\\d+)$")[, 2])) |>
+  distinct()
+anyNA(c_cols)    # should be FALSE, YES 
+
+# data rows: between the "Organism" header row and the "TOTAL" row, in column A
+c_layout <- raw_cells |>
+  semi_join(c_cols, by = c("src_file", "sheet" = "src_sheet")) |>
+  filter(col == 1, data_type == "character") |>
+  group_by(src_file, sheet) |>
+  summarise(first_row = min(row[str_detect(character, regex("^organism", ignore_case = TRUE))]),
+            last_row  = min(row[str_detect(character, regex("^total", ignore_case = TRUE))]),
+            .groups = "drop")
+c_layout    # check these look right: first_row 5 and last_row 34 for the 2023 tabs
+
+raw_c <- raw_cells |>
+  inner_join(c_cols,   by = c("src_file", "sheet" = "src_sheet", "col" = "src_col")) |>
+  inner_join(c_layout, by = c("src_file", "sheet")) |>
+  filter(row > first_row, row < last_row, data_type == "numeric", numeric > 0)
+
+in_master <- c_check |> distinct(src_file, src_sheet, src_row, src_col)
+
+nrow(raw_c)                                              # compare with 347
+raw_c |> anti_join(in_master,
+  by = c("src_file", "sheet" = "src_sheet", "row" = "src_row", "col" = "src_col")) |>
+  select(src_file, sheet, row, col, numeric)             # raw counts missing from master
+
+# numbers stored as text would escape the check above
+raw_cells |>
+  inner_join(c_cols, by = c("src_file", "sheet" = "src_sheet", "col" = "src_col")) |>
+  filter(data_type == "character", str_detect(character, "^\\s*[0-9.]+\\s*$")) |> nrow()
+
+opihi_exclusions_log |> filter(source_file %in% c_files) |> count(source_file, level, reason)
+```
+Step 1 mostly passed, with one gap.
+
+What the output shows
+
+- Raw counts missing from master: none. The check found 202 non-zero counts in the raw group tabs, and the anti-join came back empty, so every one of them is in master.
+- The 202 is exact. It equals S0251’s 125 rows plus S0252’s P2 tab (77 rows). Those three tabs (2023 P1, 2023 P2, 2025 P2) are fully accounted for.
+- No numbers stored as text (0), and no exclusions on any of the C files (0 rows).
+
+The gap: the 2025 P1 tab shows Inf for both first_row and last_row in c_layout. That’s what the warnings were about. The code couldn’t find an “Organism” label or a “TOTAL” label in column A on that tab, so it skipped it. That tab has 81 rows in master (from your earlier count), and 347 − 202 − 81 leaves 64 more C rows, which I believe come from the Waipuilani file. That file isn’t in c_layout at all, so it has been skipped too. The forward check already confirmed all 347 rows match raw, so the open question is only whether anything in those two places was left out of master.
+
+Step 2: find out why the 2025 P1 tab didn’t match. This prints only label cells (no names or other text), for both 2025 tabs so you can compare them:
+```{r}
+f25 <- "Copy of OPIHI Field Study 2025 - ALL Group Data (P1_P2) - use this one!.xlsx"
+
+raw_cells |>
+  filter(src_file == f25,
+         str_detect(sheet, "QUADRAT PT INTERCEPT"),
+         str_detect(character, regex("organism|total|# quadrats", ignore_case = TRUE))) |>
+  select(sheet, row, col, character) |>
+  arrange(sheet, row, col) |>
+  print(n = Inf)
+```
+Nothing is wrong with the data here. P1 is shifted one column to the right and has three more rows.
+
+Step 3: rerun the reverse check with P1 included. This is the same check as before, but the layout search now looks in columns A and B. The “TOTALS” and “Organism/Substrate” labels sit in columns 9–11, so they still can’t be picked up by mistake.
+```{r}
+c_layout <- raw_cells |>
+  semi_join(c_cols, by = c("src_file", "sheet" = "src_sheet")) |>
+  filter(col %in% 1:2, data_type == "character") |>
+  group_by(src_file, sheet) |>
+  summarise(first_row = min(row[str_detect(character, regex("^organism", ignore_case = TRUE))]),
+            last_row  = min(row[str_detect(character, regex("^total", ignore_case = TRUE))]),
+            .groups = "drop")
+c_layout    # 2025 P1 should now show 5 and 43; no Inf anywhere
+
+raw_c <- raw_cells |>
+  inner_join(c_cols,   by = c("src_file", "sheet" = "src_sheet", "col" = "src_col")) |>
+  inner_join(c_layout, by = c("src_file", "sheet")) |>
+  filter(row > first_row, row < last_row, data_type == "numeric", numeric > 0)
+
+nrow(raw_c)    # expect 283 (202 + P1's 81)
+
+raw_c |> anti_join(in_master,
+  by = c("src_file", "sheet" = "src_sheet", "row" = "src_row", "col" = "src_col")) |>
+  select(src_file, sheet, row, col, numeric)    # expect 0 rows
+```
+Family C now checks out completely, in both directions.
+
+What the output shows:
+
+- c_layout has no Inf. 2025 P1 now reads rows 5–43, as expected. The fix also caught the Waipuilani file (rows 7–42), which had been skipped for the same reason: its labels are in column B, not A.
+- nrow(raw_c) = 347, not 283. That’s my mistake: I didn’t expect Waipuilani to be included too. 347 = 202 + 81 (2025 P1) + 64 (Waipuilani), which equals master’s 347 Family C rows exactly.
+- The anti-join returned 0 rows. Every non-zero raw count across all five group tabs is in master.
+
+Combined with the forward check, that’s 347 of 347 in both directions, so Family C is closed.
+
+Step 4: qc_flags. Start with just the overview: what flags exist and how many of each, and whether every flagged sample actually exists.
+```{r}
+opihi_qc_flags |> count(level, flag, sort = TRUE) |> print(n = Inf)
+
+# do flagged samples exist in the sample table?
+opihi_qc_flags |> filter(level == "sample") |>
+  anti_join(opihi_samples, by = c("ref" = "sample_id")) |> nrow()    # expect 0
+```
+Good, that’s a clean pass. The flag counts add up to exactly 296, and every sample-level flag points to a real sample.
+
+What the overview shows:
+
+- Most flags are sample-level. points_over_25 dominates: 226 flags on their own, plus 4 combined with total_points_mismatch, so 230 samples in all.
+- Some rows hold two flags in one cell, as in total_points_mismatch;points_over_25. Any test needs to search inside the text rather than match the flag name exactly, or those 4 get missed.
+- Survey-level flags total 57, mostly placeholder_time_removed (45). We’ll check those after the sample ones.
+
+Step 5: test the points_over_25 rule independently. This rebuilds the “over 25” list from the raw point sums and compares it with the flagged list in both directions.
+```{r}
+over_flagged <- opihi_qc_flags |>
+  filter(level == "sample", str_detect(flag, "points_over_25")) |>
+  distinct(ref)
+nrow(over_flagged)    # expect 230
+
+over_data <- opihi_samples |>
+  filter(point_sum > points_possible) |>
+  select(sample_id, sample_type, point_sum, points_possible)
+nrow(over_data)
+
+# over the limit but NOT flagged (missed flags), expect 0
+over_data |> anti_join(over_flagged, by = c("sample_id" = "ref"))
+
+# flagged but NOT actually over the limit (wrong flags), expect 0
+over_flagged |> anti_join(over_data, by = c("ref" = "sample_id"))
+```
+That’s a clean pass. The points_over_25 flag is exactly right: all 230 over-limit samples are flagged, and nothing is flagged that shouldn’t be.
+
+There’s one thing to keep for the write-up. The handoff guide claims 174 over-25 quadrats in the legacy files, and the data has 230 in total. The 56-sample difference may just be non-legacy files, but it’s worth confirming later so the guide’s number isn’t left unexplained.
+
+Step 6: does the sample table’s own flag column agree with the flag file? The sample table carries a sample_flag column, and it should hold the same flags as opihi_qc_flags. This splits combined flags like a;b apart on both sides and compares the counts for each flag type.
+```{r}
+full_join(
+  opihi_samples |> filter(!is.na(sample_flag)) |>
+    separate_longer_delim(sample_flag, ";") |> count(flag = sample_flag),
+  opihi_qc_flags |> filter(level == "sample") |>
+    separate_longer_delim(flag, ";") |> count(flag),
+  by = "flag", suffix = c("_samples", "_qcflags")) |>
+  print(n = Inf)
+```
+Step 7: survey-level flags
+```{r}
+# do flagged surveys exist in the survey table?
+opihi_qc_flags |> filter(level == "survey") |>
+  anti_join(opihi_surveys, by = c("ref" = "survey_id")) |> nrow()    # expect 0
+
+# the 12 smaller survey flags, in full
+opihi_qc_flags |>
+  filter(level == "survey", flag != "placeholder_time_removed") |>
+  arrange(flag) |>
+  print(n = Inf, width = Inf)
+```
+The 57 doesn’t mean the flags are broken. It means my join used the wrong key, and that’s my mistake. The ref for survey flags isn’t a survey ID like S0251. It’s a text key built from file, date and site, such as OPIHI 2024 datasheet .xlsx|2024-03-26|Mauliola. None of those will match survey_id, so all 57 came back unmatched.
+
+Step 8: find which survey column matches the flag ref.
+```{r}
+names(opihi_surveys)
+
+# which column(s) hold keys like the flag refs?
+survey_refs <- opihi_qc_flags |> filter(level == "survey") |> pull(ref)
+opihi_surveys |>
+  summarise(across(everything(), ~ sum(as.character(.x) %in% survey_refs))) |>
+  pivot_longer(everything(), names_to = "column", values_to = "matches") |>
+  filter(matches > 0)
+```
+All 57 survey flags match the src_key column, so every survey-level flag points to a real survey. That pass is the survey-level counterpart of the sample check.
+
+The flag check on its own isn’t the interesting part here. The 3 site corrections are where your judgment is needed. Next, see what master actually did with them.
+
+Step 9: look at the 3 site-corrected surveys.
+```{r}
+opihi_qc_flags |>
+  filter(level == "survey", flag == "site_corrected_by_coordinates") |>
+  left_join(opihi_surveys, by = c("ref" = "src_key")) |>
+  select(survey_id, source_file, year, date, site_name, island,
+         latitude, longitude, n_samples, detail) |>
+  print(width = Inf)
+```
+The “(0.00 km)” in each detail line is a useful clue. The coordinates sit exactly on the reference point for those sites, so they weren’t GPS readings taken in the field. They were almost certainly copied from a site list. That means each survey has two conflicting site entries, and either could be the slip.
+
+Step 10 (revised): first test whether teachers stick to one island, then look at the three flagged surveys.
+```{r}
+# 1. across the whole dataset: how many islands does each teacher survey?
+opihi_surveys |>
+  filter(!is.na(teacher_id)) |>
+  group_by(teacher_id) |>
+  summarise(n_surveys = n(), n_islands = n_distinct(island)) |>
+  count(n_islands, name = "n_teachers")
+
+# 2. the three flagged surveys and their teachers' other surveys
+flagged_ids <- c("S0143", "S0210", "S0167")
+opihi_surveys |> filter(survey_id %in% flagged_ids) |> select(survey_id, teacher_id)
+
+opihi_surveys |>
+  filter(teacher_id %in% teacher_id[survey_id %in% flagged_ids]) |>
+  count(teacher_id, island, site_name, sort = TRUE) |>
+  print(n = Inf)
+```
+One survey is settled, and the other two need different evidence.
+
+S0143 (Kalaeloa label → Onekahakaha) supports master’s choice. Its teacher, T040, has no surveys on Oahu at all, only Onekahakaha on Hawaii. The Kalaeloa label is the likely slip, so filing it at Onekahakaha looks right.
+
+S0167 and S0210 can’t be decided by teacher. Both belong to T043, who appears on five islands (Oahu, Kauai, Hawaii, Maui and Molokai). That’s almost certainly not one real teacher. More likely it’s a shared or placeholder ID used for a whole file or for surveys with unknown teachers. T043 also has surveys at both original labels (3 at Waipouli and 3 at Maili Beach), so the teacher data points both ways. I’ve added all of this to the tracker.
+
+Step 11: check the neighbors in the same file. Rows from one class trip usually sit next to each other in a legacy file. If the surveys entered just before and after S0167 and S0210 are all at one site or on one island, that’s good evidence for which entry is right.
+```{r}
+# what is T043? which files does it come from?
+opihi_surveys |> filter(teacher_id == "T043") |> count(source_file)
+
+# surveys in the 2019 file, in date order, around the two flagged ones
+opihi_surveys |>
+  filter(source_file == "OPIHI data 2019.xlsx") |>
+  arrange(date) |>
+  select(survey_id, date, site_name, island, teacher_id, src_key) |>
+  print(n = Inf)
+```
+
+```{r}
+master_src |>
+  filter(survey_id %in% c("S0143", "S0167", "S0210")) |>
+  group_by(survey_id, src_file, src_sheet) |>
+  summarise(first_row = min(src_row), last_row = max(src_row), .groups = "drop")
+```
+
+Then all three are settled, and master is correct for every one. Each block’s own location, typed in both the header and the totals row, matches master’s site and its coordinates.
+
+Next: the 45 placeholder_time_removed flags. These are the largest survey flag type, and we haven’t looked at them yet. This shows what they say, and whether the times really are blank in master for those surveys:
+```{r}
+pt <- opihi_qc_flags |>
+  filter(level == "survey", flag == "placeholder_time_removed") |>
+  left_join(opihi_surveys, by = c("ref" = "src_key"))
+
+# what the flag details say
+pt |> count(detail, sort = TRUE) |> print(n = Inf, width = Inf)
+
+# are the times actually blank now?
+pt |> summarise(n = n(),
+                start_blank = sum(is.na(start_time)),
+                stop_blank  = sum(is.na(stop_time)))
+
+# which files they come from
+pt |> count(source_file, sort = TRUE)
+```
+
+That’s a clean result.
+
+What it shows:
+
+- All 45 have exactly the same “time”: a start of 0.0 (midnight) and a stop of 0.0417 (1:00 AM). Excel stores times as fractions of a day, and 1/24 = 0.0417. Forty-five identical midnight-to-1 AM surveys aren’t real. They’re a template default that was never filled in.
+- All 45 are now blank in master, for both start and stop. So the rule was applied every time, and nothing was left behind.
+- They’re almost all in the old files: 2004–2008, with 43 of the 45. The one in 2017 is the exception; the template was probably reused once.
+
+Survey-level flags are now done:
+
+✅ All 57 point to real surveys.
+✅ placeholder_time_removed (45) is correct.
+✅ site_corrected_by_coordinates (3): master is right, but the “labelled” sites come from a parser bug.
+📝 time_assumed_pm (5) and no_site_or_date_in_file (2) are reasonable and noted.
+📝 no_metadata_match (1): the flag name contradicts its own detail text. Noted.
+
+That finishes qc_flags. Next on the list is compiled_crosscheck, then the exclusions and the taxon/site name audit.
+
+## Next: compiled_crosscheck. Start with the overview:
+```{r}
+names(opihi_compiled_crosscheck)
+opihi_compiled_crosscheck |> count(has_species_data, status)
+```
+The count matches the handoff guide exactly: 18 trips are “compiled only” (no species data) and 234 are “in master”.
+
+The next step tests both claims instead of trusting the labels.
+
+### Step 2: check that the 234 “in master” trips really are in master, and list the 18.
+```{r}
+# 1. trips said to be in master: does master have that site + date?
+in_master_missing <- opihi_compiled_crosscheck |>
+  filter(has_species_data) |>
+  anti_join(opihi_surveys |> distinct(site_name, date), by = c("site_name", "date"))
+nrow(in_master_missing)    # expect 0
+
+in_master_missing |> select(source_file, excel_row, date, site_raw, site_name) |> print(n = Inf)
+
+# 2. the 18 compiled-only trips
+opihi_compiled_crosscheck |>
+  filter(!has_species_data) |>
+  arrange(date) |>
+  select(source_file, excel_row, date, site_raw, site_name) |>
+  print(n = Inf)
+```
+*Checked all these rows in excel sheet manually to verify no species counts recorded.* 
+
+Then compiled_crosscheck is fully verified, and you checked all 18 rather than just 3:
+
+✅ All 234 “in master” trips have a matching site and date in master.
+✅ All 18 “compiled only” trips really have no species data, so no surveys are missing from master.
+
+## Next: the exclusions log. 
+These are the 427 rows the AI left out of master. The goal is to confirm nothing real was thrown away. Start with the overview:
+```{r}
+names(opihi_exclusions_log)
+
+opihi_exclusions_log |> count(level, reason, sort = TRUE) |> print(n = Inf)
+
+opihi_exclusions_log |>
+  filter(reason == "blank_template_row") |>
+  count(source_file, sort = TRUE) |>
+  print(n = Inf)
+```
+Next: see what a blank-row reference looks like. To check these rows against the raw cells, I need the format of source_ref first:
+```{r}
+opihi_exclusions_log |>
+  filter(reason == "blank_template_row") |>
+  group_by(source_file) |>
+  slice_head(n = 3) |>
+  select(source_file, source_ref, detail) |>
+  print(width = Inf)
+```
+The output shows what we needed:
+
+- The reference format is file|r0627, so the number after the r is the row in the raw sheet. It matches what you saw earlier in Excel for the Longitudinal rows (r0064, r0173, r0202, r0228), so it counts as the Excel row number.
+- The 2024 datasheet rows (294 of the 309) say date: NA site: NA, and the 2026 Longitudinal rows (15) say date: NA site: Mauliola. So they are template rows with no date, as the rule says.
+
+Next step: check the raw cells for these 309 rows. The question is whether any of them has a count above zero in a taxon column. I’m using the columns that master itself reads taxon counts from, so the transect and quadrat-position numbers on those rows don’t count as hits.
+```{r}
+bl <- opihi_exclusions_log |>
+  filter(reason == "blank_template_row") |>
+  mutate(src_file = source_file,
+         row = as.integer(str_extract(source_ref, "(?<=\\|r)\\d+")))
+
+anyNA(bl$row)          # should be FALSE, yes
+
+# columns that hold taxon counts in these two files, according to master
+taxon_cols <- master_src |>
+  filter(src_file %in% unique(bl$src_file)) |>
+  distinct(src_file, src_col)
+
+# raw cells on the counts tab, in those columns only
+cells <- raw_cells |>
+  filter(str_detect(sheet, regex("pt\\s*counts", ignore_case = TRUE))) |>
+  semi_join(taxon_cols, by = c("src_file", "col" = "src_col"))
+
+nrow(cells)            # should be a big number, not 0
+
+# any value above 0 in a taxon column on an excluded row?
+hits <- bl |>
+  inner_join(cells, by = c("src_file", "row")) |>
+  filter(data_type == "numeric", numeric > 0)
+
+nrow(hits)             # want 0
+```
+anyNA(bl$row) is FALSE, nrow(cells) is 5,154 and nrow(hits) is 0. 
+So the 309 blank template rows pass: no excluded row has a count above zero in a taxon column.
+```{r}
+two <- opihi_exclusions_log |>
+  filter(reason == "no_taxon_data", !str_detect(source_file, "Longitudinal")) |>
+  mutate(src_file = source_file,
+         row = as.integer(str_extract(source_ref, "(?<=\\|r)\\d+")))
+
+two |> select(source_file, source_ref, detail)
+
+taxon_cols2 <- master_src |>
+  filter(src_file %in% two$src_file) |>
+  distinct(src_file, src_col)
+
+raw_cells |>
+  inner_join(two |> select(src_file, row), by = c("src_file", "row")) |>
+  semi_join(taxon_cols2, by = c("src_file", "col" = "src_col")) |>
+  count(src_file, sheet, data_type, has_count = coalesce(numeric, 0) > 0)
+```
+That output isn’t a valid test, and the mistake is in my code. I left out the filter for the counts tab that the previous check had. The one row it found is on the Metadata tab of the BIOL 499 file, not the counts tab. The same row and column numbers on a different tab say nothing about the excluded row. I’d ignore that result: the “1 numeric cell with a count” doesn’t mean a real count was dropped.
+This version adds the tab filter:
+```{r}
+raw_cells |>
+  filter(str_detect(sheet, regex("pt\\s*counts", ignore_case = TRUE))) |>
+  inner_join(two |> select(src_file, row), by = c("src_file", "row")) |>
+  semi_join(taxon_cols2, by = c("src_file", "col" = "src_col")) |>
+  count(src_file, sheet, data_type, has_count = coalesce(numeric, 0) > 0)
+```
+Both rows pass: the empty table means neither excluded row has anything in a taxon column on the counts tab.
+
+That one survey (the 2020 block08 survey) is the last open item on the exclusions log, and it’s the only exclusion that might involve real counts, because the AI dropped the whole block for missing date, site and school.
+
+Step: find where block08 sits in the 2020 file. The legacy files have one block per field trip side by side, so this shows which columns each block uses. Block08 is excluded and won’t appear, but its columns should be the gap between two neighbours:
+```{r}
+opihi_samples |>
+  filter(str_detect(sample_key, "^OPIHI data 2020\\.xlsx")) |>
+  mutate(block = str_match(sample_key, "\\|(block\\d+)\\|")[, 2],
+         col   = as.integer(str_match(sample_key, "\\|c(\\d+)$")[, 2])) |>
+  group_by(block) |>
+  summarise(first_col = min(col), last_col = max(col), n_samples = n()) |>
+  arrange(first_col)
+```
+Manually checked OPIHI 2020 data and block 8 is missing metadate, but has species counts. 
+
+This is the first finding where the AI’s cleaning dropped real counts. Every other exclusion we checked held up, but block08 has data and no metadata, which is why the AI excluded it as no_survey_metadata. The exclusion was applied correctly, but the rule behind it cost data. Nothing about the date or site can be recovered from the block itself. I’ve added this to the limitations list.
+
+Step: measure how much was excluded. This counts the positive numbers from column FO onward in that file, without printing any values:
+```{r}
+col_letter <- function(n) {
+  s <- ""
+  while (n > 0) { r <- (n - 1) %% 26; s <- paste0(LETTERS[r + 1], s); n <- (n - 1) %/% 26 }
+  s
+}
+
+b8 <- raw_cells |>
+  filter(src_file == "OPIHI data 2020.xlsx", col >= 171)
+
+b8 |> count(sheet, data_type)
+
+b8 |>
+  filter(data_type == "numeric", numeric > 0) |>
+  summarise(cells_with_counts = n(),
+            n_columns = n_distinct(col),
+            first_col = min(col), last_col = max(col),
+            first_row = min(row), last_row = max(row)) |>
+  mutate(first_letter = col_letter(first_col), last_letter = col_letter(last_col))
+```
+looked at raw excel sheet for layout
+
+Two details worth noting:
+
+- The transect and quadrat numbers are written in the row 13 labels, so if this block were added, those columns could be filled from the sheet and wouldn’t need to be inferred.
+- The tab is called All_raw_data_OPIHI_16-20, which suggests it compiles 2016 to 2020. That means the year can’t safely be assumed to be 2020 just from the file name.
+
+Next step: see whether the blocks’ order in the file gives any clue about when block08 was recorded. This shows the date and site of the seven blocks that did make it into master:
+
+```{r}
+opihi_surveys |>
+  filter(source_file == "OPIHI data 2020.xlsx") |>
+  mutate(block = str_match(src_key, "\\|(block\\d+)")[, 2]) |>
+  select(block, date, year, site_name, island, n_samples) |>
+  arrange(block) |>
+  print(n = Inf)
+```
+That order changes what I said earlier. I assumed block08 would come after block07, but the blocks run from newest (block01, March) to oldest (block07, January). Block08 sits to the right of block07, so if the file keeps that order, block08 is from January 2020 or earlier. It could easily be from 2019 or before. So I can’t give it a year, even an inferred one. All seven neighbours being in 2020 doesn’t make it 2020.
+
+That settles what we know about this block:
+
+It has real counts: 20 quadrats and 38 detections.
+It has no site. The sheet has only placeholders, and nothing in the file points to a place.
+It has no reliable date or year. The best we can say is “on or before January 2020”.
+
+That’s different from S0251 and S0252. Those were kept with a year, and S0251 had a site we could recover. Block08 has neither. Here are the options:
+A. Leave it excluded and document it. The 38 detections stay unrecoverable in the processed files.
+
+Option A is the right call for this block, and it’s now noted for the write-up. With that, the exclusions log is done. All 427 entries are accounted for, and block08 is the one that cost real data (20 quadrats, 38 detections, no site and no reliable date).
+
+## Next is the taxon and site name audit, 
+which is what your unmatched_names file was supposed to cover. The S0251 names are a good place to start, because you already spotted likely typos in them (like “Turbinania”, “Caiclmus” and “Byropsis”), so we know what the crosswalk should have caught. Run this:
+
+```{r}
+master_completed |>
+  filter(survey_id == "S0251") |>
+  distinct(taxon_raw, taxon_clean, analysis_taxon, category) |>
+  arrange(taxon_clean) |>
+  print(n = Inf, width = Inf)
+```
+Good news first: no typo got through in this survey. By my reading, every misspelling was mapped to the right species. This also explains why unmatched_names is empty. The handoff guide says 300 raw spellings were mapped to 215 clean names, which suggests the crosswalk was built from the same data it was then applied to. If so, nothing in this data could ever fail to match. The file will only fill up when new datasheets arrive, so it tells you nothing about whether the existing mappings are right. That’s worth a line in the write-up.
+
+Two mappings look wrong:
+
+- “unknown Fish” is categorised as Invertebrate. The dictionary’s categories are Algae, Cyanobacteria, Invertebrate, Coral, Substrate and Unknown, with nothing for fish. The AI put the fish in the nearest bin instead of flagging the gap.
+- Dendropoma gregarium became “Dendropoma gregaria”. The raw sheet has the spelling that, as far as I can tell, is the accepted name, while “gregaria” is listed as an incorrect gender ending. The AI changed a correct raw spelling into a variant. There’s a possible reason: the OPIHI program’s own organism pages use “gregaria”. So it may have followed the program’s usage on purpose. Either way, it moved the data away from the accepted spelling, and I’d flag it. 
+
+Neither is a counting error, so the totals are untouched. I’ve added both to the findings list.
+
+Next step: see how many master rows these two affect, and what the crosswalk’s own note says about them:
+```{r}
+master_completed |>
+  filter(str_detect(taxon_clean, regex("fish|gregari", ignore_case = TRUE))) |>
+  count(taxon_raw, taxon_clean, category, name = "n_rows")
+
+cw_path <- list.files(here(), pattern = "taxon_crosswalk\\.csv$", recursive = TRUE, full.names = TRUE)
+cw_path
+taxon_cw <- read_csv(cw_path[1])
+
+taxon_cw |>
+  filter(str_detect(taxon_clean, regex("fish|gregari", ignore_case = TRUE))) |>
+  select(taxon_key, taxon_clean, category, review_note)
+```
+- Dendropoma: this changes the picture from yesterday. Most of the raw sheets already say gregaria (172 rows), so the AI went with the majority spelling and merged the other 43 rows into it. All three spellings ending up as one taxon is the important part, and that’s correct. The only question is which spelling to use as the label. The other chat thought gregarium is the accepted form. If that matters for your write-up, confirm it in WoRMS (marinespecies.org) rather than relying on either of us. Either way, the counts are right.
+- Unknown fish: this is just 1 row, but it’s plainly mislabelled. The dictionary has no vertebrate category, so the AI put it in the nearest bin. That’s easy to fix in master: set its category to Unknown, or add a Vertebrate category if your group prefers.
+
+Use gregarium instead and add vertebrate group
+
+```{r}
+n_before <- nrow(master_completed)
+
+master_completed <- master_completed |>
+  mutate(
+    # 1. Dendropoma: use the accepted spelling
+    across(c(taxon_clean, analysis_taxon),
+           ~ if_else(.x == "Dendropoma gregaria", "Dendropoma gregarium", .x)),
+    # 2. the unknown fish is a vertebrate
+    category = if_else(coalesce(taxon_clean == "Unknown fish", FALSE),
+                       "Vertebrate", category)
+  )
+
+# checks
+nrow(master_completed) == n_before    # expect TRUE: no rows added or lost
+
+master_completed |>
+  filter(str_detect(taxon_clean, regex("fish|gregari", ignore_case = TRUE))) |>
+  count(taxon_raw, taxon_clean, analysis_taxon, category, name = "n_rows")
+
+# record the changes
+change_log <- tribble(
+  ~change,                                        ~rows, ~reason,
+  "taxon 'Dendropoma gregaria' -> 'Dendropoma gregarium'", 215, "accepted spelling; AI used majority raw spelling",
+  "category of 'Unknown fish' Invertebrate -> Vertebrate",   1, "fish are vertebrates; dictionary had no vertebrate category"
+)
+change_log
+```
+Next: duplicate taxa within a sample. When the crosswalk merges several raw spellings into one clean name, two of those spellings could appear in the same quadrat. Master would then have two rows for one taxon in one sample, so the taxon would be counted twice in richness, or its points split across rows. This check finds those cases:
+
+```{r}
+dups <- master_completed |>
+  count(sample_id, taxon_clean, name = "n_rows") |>
+  filter(n_rows > 1)
+
+nrow(dups)                       # expect 0
+dups |> count(taxon_clean, sort = TRUE) |> print(n = 20)
+```
+Two duplicates out of about 22,600 rows is close to clean, but they’re worth understanding. Each is a single sample where one taxon appears on two rows: Sargassum aquifolium once, and Turbinaria ornata once.
+
+Both names were typo targets in S0251 (“Sr aquifolium” became Sargassum aquifolium, and “Turbinania ornata” became Turbinaria ornata). So my guess is that the sheet listed both the misspelled and the correct name as separate rows, and both had counts in the same quadrat. Once the crosswalk fixed the typo, they collapsed onto the same name.
+```{r}
+master_completed |>
+  semi_join(dups, by = c("sample_id", "taxon_clean")) |>
+  select(survey_id, sample_id, taxon_raw, taxon_clean, where(is.numeric)) |>
+  arrange(sample_id, taxon_clean) |>
+  print(width = Inf)
+```
+Both duplicates are in the same sample, S0251-003: transect 3 of the survey you recovered earlier. Each is a typo spelling and the correct spelling on separate lines of the sheet:
+
+My recommendation is to sum each pair into one row. The observers wrote two separate lines in the sheet, so these are two records of the same taxon, not a copy of one record. The quadrat count isn’t a concern either: this sample is a transect total (7 quadrats, 175 possible points), so 3 and 2 are well within range.
+
+The one judgment call is Turbinaria: equal counts of 1 + 1 could be one observation written twice. Without the original field notes, there’s no way to tell. Summing keeps both records, and the change log will record the choice either way.
+
+the excel sheet has two rows with observations for turbinaria just with different spelling
+Merge
+```{r}
+cols_before <- names(master_completed)
+total_before <- sum(master_completed$count, na.rm = TRUE)
+dup_keys <- dups |> select(sample_id, taxon_clean)
+
+merged <- master_completed |>
+  semi_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  group_by(across(-c(taxon_raw, count))) |>
+  summarise(taxon_raw = paste(taxon_raw, collapse = "; "),
+            count = sum(count), .groups = "drop")
+nrow(merged)    # expect 2, got 4
+
+master_completed <- master_completed |>
+  anti_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  bind_rows(merged) |>
+  select(all_of(cols_before))
+
+# checks
+nrow(master_completed)                                    # expect 22586 (2 fewer), got 22588
+sum(master_completed$count, na.rm = TRUE) == total_before # expect TRUE (no count lost)
+master_completed |> count(sample_id, taxon_clean) |> filter(n > 1) |> nrow()  # expect 0, got 2 
+
+change_log <- change_log |> add_row(
+  change = "merged duplicate taxon rows in S0251-003 (Sargassum aquifolium 1+2, Turbinaria ornata 1+1)",
+  rows = 2,
+  reason = "typo and correct spelling on separate sheet lines collapsed to same taxon; counts summed")
+```
+No harm done to the data, but nothing merged either: nrow(merged) came out as 4, which is the case I mentioned. The two rows in each pair differ in some other column as well, so group_by kept them apart.
+master_completed is effectively unchanged. The 4 rows were taken out and put straight back, so it’s still 22,588 rows with the same total, and the 2 duplicates are still there.
+change_log now has a wrong entry, saying the merge happened. Remove it:
+
+```{r}
+change_log <- change_log |> slice(1:2)
+change_log    # should show only the gregarium and fish rows
+```
+Next: find which column differs. This lists only the columns where the two rows in a pair disagree:
+```{r}
+master_completed |>
+  semi_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  group_by(sample_id, taxon_clean) |>
+  summarise(across(everything(), n_distinct), .groups = "drop") |>
+  select(sample_id, taxon_clean, where(~ is.numeric(.x) && any(.x > 1)))
+```
+
+```{r}
+cols_before  <- names(master_completed)
+total_before <- sum(master_completed$count, na.rm = TRUE)
+
+merged <- master_completed |>
+  semi_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  group_by(across(-c(taxon_raw, count, source_cell))) |>
+  summarise(taxon_raw   = paste(taxon_raw, collapse = "; "),
+            source_cell = paste(source_cell, collapse = "; "),
+            count       = sum(count), .groups = "drop")
+nrow(merged)    # expect 2 — if not 2, STOP and send me the output
+
+master_completed <- master_completed |>
+  anti_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  bind_rows(merged) |>
+  select(all_of(cols_before))
+
+# checks
+nrow(master_completed)                                    # expect 22586
+sum(master_completed$count, na.rm = TRUE) == total_before # expect TRUE
+master_completed |> count(sample_id, taxon_clean) |> filter(n > 1) |> nrow()  # expect 0
+master_completed |> semi_join(dup_keys, by = c("sample_id", "taxon_clean")) |>
+  select(sample_id, taxon_raw, taxon_clean, count, source_cell)   # the 2 merged rows
+```
+
+```{r}
+master_src |>
+  filter(taxon_clean == "Turbinaria ornata", str_detect(src_sheet, "P1")) |>
+  group_by(src_file, src_sheet, survey_id, taxon_raw) |>
+  summarise(n_samples = n(), total = sum(count), .groups = "drop") |>
+  print(width = Inf)
+```
+add merge entry
+```{r}
+change_log <- change_log |> add_row(
+  change = "merged duplicate taxon rows in S0251-003 (Sargassum aquifolium 1+2 = 3, Turbinaria ornata 1+1 = 2)",
+  rows = 2,
+  reason = "typo and correct spelling entered on separate sheet lines (confirmed in raw file); counts summed, both source cells kept")
+change_log    # should now show 3 rows
+```
+change_log now has its 3 entries:
+
+Dendropoma gregaria renamed to gregarium (215 rows)
+Unknown fish recategorised from Invertebrate to Vertebrate (1 row)
+The S0251-003 merge (2 rows)
+That completes the taxon audit.
+
+Next: the site name audit.
+```{r}
+surveys_completed |>
+  count(island, site_name, name = "n_surveys") |>
+  arrange(island, site_name) |>
+  print(n = Inf)
+
+# any site name filed on more than one island?
+surveys_completed |>
+  group_by(site_name) |>
+  summarise(islands = paste(sort(unique(island)), collapse = ", "),
+            n_islands = n_distinct(island), .groups = "drop") |>
+  filter(n_islands > 1)
+```
+sandy beach west is also sandy beach
+
+Then those 2 surveys should be filed under Sandy Beach. Since you need one master list, update both surveys_completed and master_completed so they stay consistent, and log the change.
+```{r}
+# how many rows are affected, before changing anything
+surveys_completed |> filter(site_name == "Sandy Beach West") |> select(survey_id, source_file, date)
+n_master_sbw <- master_completed |> filter(site_name == "Sandy Beach West") |> nrow()
+n_master_sbw
+
+# rename
+surveys_completed <- surveys_completed |>
+  mutate(site_name = if_else(site_name == "Sandy Beach West", "Sandy Beach", site_name, missing = NA))
+master_completed <- master_completed |>
+  mutate(site_name = if_else(site_name == "Sandy Beach West", "Sandy Beach", site_name, missing = NA))
+
+# checks
+sum(surveys_completed$site_name == "Sandy Beach West", na.rm = TRUE)   # expect 0
+sum(master_completed$site_name  == "Sandy Beach West", na.rm = TRUE)   # expect 0
+surveys_completed |> filter(site_name == "Sandy Beach") |> nrow()      # expect 10 (8 + 2)
+
+# log it
+change_log <- change_log |> add_row(
+  change = "site 'Sandy Beach West' -> 'Sandy Beach' (2 surveys)",
+  rows   = n_master_sbw,
+  reason = "same site under two names (confirmed by Alan)")
+change_log
+```
+All the checks passed:
+
+0 “Sandy Beach West” left in either table
+Sandy Beach now has 10 surveys
+change_log has 4 entries, the latest being the rename (54 master rows)
+
+Next: the calibration step for the block-location check. This is the 3-part chunk from earlier:
+```{r}
+# 1. confirm the NA-site survey
+surveys_completed |> filter(is.na(site_name)) |> select(survey_id, source_file, year)
+
+# 2. the data-column range of the two known blocks
+master_src |>
+  filter(survey_id %in% c("S0210", "S0211")) |>
+  group_by(survey_id, src_sheet) |>
+  summarise(min_col = min(src_col), max_col = max(src_col),
+            min_row = min(src_row), max_row = max(src_row), .groups = "drop")
+
+# 3. where site names appear in that part of the sheet (prints site matches only, no other text)
+site_keys <- c("kamaole", "maili", "leahi|diamond head", "waipouli")
+raw_cells |>
+  filter(src_file == "OPIHI data 2019.xlsx", col >= 250, col <= 270,
+         data_type == "character") |>
+  mutate(site_match = map_chr(character, \(x) {
+    hit <- site_keys[str_detect(tolower(x), site_keys)]
+    if (length(hit)) hit[1] else NA_character_ })) |>
+  filter(!is.na(site_match)) |>
+  select(sheet, row, col, site_match) |>
+  arrange(col, row)
+```
+So each block’s location is written at the start of its own columns: in the totals row at the block’s first column, and in the header two columns further right. A block “owns” every column from its first data column up to the column before the next block starts. That gives a rule that can be applied to every legacy survey.
+```{r}
+# site names and the text patterns that identify them in the raw sheets
+site_lookup <- tribble(~site_name, ~pattern,
+  "Hilo Yacht Club","hilo yacht", "Holoholokai","holoholokai", "Kahaluu Bay","kahaluu|kahalu'u",
+  "Kaupo","kaupo", "Keei","keei|ke'ei", "Keiki Ponds","keiki pond", "Kiholo Bay","kiholo",
+  "Kona Bay Estates","kona bay", "Old Airport","old airport", "Onekahakaha","onekahakaha",
+  "Oneo Bay","oneo", "Punaluu Beach Park","punaluu|punalu'u", "Richardsons","richardson",
+  "Waiopae","waiopae", "Wawaloli","wawaloli", "Fuji","fuji", "Mahaulepu","mahaulepu|maha'ulepu",
+  "Nukolii","nukolii", "Salt Pond","salt pond", "Waipouli","waipouli", "Hulopoe Bay","hulopoe",
+  "Kamaole Beach Park","kamaole", "Keawakapu","keawakapu", "Napili Bay","napili",
+  "Waipuilani","waipuilani", "Kapukahehu","kapukahehu", "Mapulehu","mapulehu",
+  "Moomomi","moomomi|mo'omomi", "Morris Point","morris", "Baby Makapuu","makapuu|makapu'u",
+  "Ewa","\\bewa\\b|'ewa", "Kahana Bay","kahana", "Kalaeloa","kalaeloa", "Keiki Bay","keiki bay",
+  "Lanikai Point","lanikai", "Leahi","leahi|diamond head", "Maili Beach","maili|ma'ili",
+  "Mauliola","mauliola", "Mokauea Island","mokauea", "Sandy Beach","sandy",
+  "Turtle Bay","turtle bay", "Waianae High School Reef","waianae")
+
+# legacy (block-based) surveys and the columns each block owns
+legacy <- surveys_completed |>
+  filter(str_detect(src_key, "\\|block")) |>
+  select(survey_id, source_file, date, site_name)
+
+spans <- master_src |>
+  semi_join(legacy, by = "survey_id") |>
+  group_by(survey_id, src_file) |>
+  summarise(min_col = min(src_col), max_col = max(src_col), .groups = "drop") |>
+  group_by(src_file) |> arrange(min_col, .by_group = TRUE) |>
+  mutate(end_col = lead(as.numeric(min_col), default = Inf) - 1) |> ungroup()
+
+# 0. any legacy file with more than one tab? (would need extra care)
+raw_cells |> filter(src_file %in% spans$src_file) |>
+  distinct(src_file, sheet) |> count(src_file) |> filter(n > 1)
+
+# find every site label in those files
+cells <- raw_cells |>
+  filter(src_file %in% spans$src_file, data_type == "character") |>
+  mutate(txt = tolower(character))
+site_hits <- map_dfr(seq_len(nrow(site_lookup)), \(i)
+  cells |> filter(str_detect(txt, site_lookup$pattern[i])) |>
+    transmute(src_file, row, col, label_site = site_lookup$site_name[i]))
+
+# which labels sit inside each survey's own block
+own <- site_hits |>
+  inner_join(spans, by = "src_file", relationship = "many-to-many") |>
+  filter(col >= min_col, col <= end_col) |>
+  group_by(survey_id) |>
+  summarise(labels = paste(sort(unique(label_site)), collapse = ", "), .groups = "drop")
+
+block_check <- legacy |>
+  left_join(own, by = "survey_id") |>
+  mutate(status = case_when(
+    is.na(labels) ~ "no label found",
+    map2_lgl(site_name, coalesce(labels, ""), \(s, l) s %in% str_split_1(l, ", ")) ~ "match",
+    TRUE ~ "different"))
+
+# results
+block_check |> count(status)
+block_check |> filter(status != "match") |>
+  select(survey_id, source_file, date, master_site = site_name, labels_in_block = labels, status) |>
+  arrange(status, source_file, date) |>
+  print(n = Inf, width = Inf)
+```
+No legacy survey is filed under a different site from the one written in its own block. So the parser bug we found didn’t put any survey at the wrong site; it only affected the wording of the three flags. That’s a key point for the write-up.
+
+The 38 “no label found” follow a clear pattern. Every one of them is Mauliola, Kalaeloa or Hulopoe Bay. My guess is that their blocks use other names for these places that my patterns didn’t include:
+
+Next: rerun with those alternative names, and ignore ʻokina and apostrophes when matching.
+```{r}
+site_lookup <- site_lookup |>
+  mutate(pattern = case_when(
+    site_name == "Mauliola"    ~ "mauliola|sand island",
+    site_name == "Kalaeloa"    ~ "kalaeloa|barbers? ?point|barber's point",
+    site_name == "Hulopoe Bay" ~ "hulopoe",
+    TRUE ~ str_remove_all(pattern, "'")))   # apostrophe variants no longer needed
+
+cells <- raw_cells |>
+  filter(src_file %in% spans$src_file, data_type == "character") |>
+  mutate(txt = tolower(character) |> str_remove_all("['ʻ‘’`]"))
+
+site_hits <- map_dfr(seq_len(nrow(site_lookup)), \(i)
+  cells |> filter(str_detect(txt, site_lookup$pattern[i])) |>
+    transmute(src_file, row, col, label_site = site_lookup$site_name[i]))
+
+own <- site_hits |>
+  inner_join(spans, by = "src_file", relationship = "many-to-many") |>
+  filter(col >= min_col, col <= end_col) |>
+  group_by(survey_id) |>
+  summarise(labels = paste(sort(unique(label_site)), collapse = ", "), .groups = "drop")
+
+block_check <- legacy |>
+  left_join(own, by = "survey_id") |>
+  mutate(status = case_when(
+    is.na(labels) ~ "no label found",
+    map2_lgl(site_name, coalesce(labels, ""), \(s, l) s %in% str_split_1(l, ", ")) ~ "match",
+    TRUE ~ "different"))
+
+block_check |> count(status)
+block_check |> filter(status != "match") |>
+  select(survey_id, source_file, date, master_site = site_name, labels_in_block = labels, status) |>
+  arrange(status, source_file, date) |>
+  print(n = Inf, width = Inf)
+```
+
+Save 
+```{r}
+out_dir <- here("AI_data", "Data", "Processed")
+
+write_csv(master_completed,  file.path(out_dir, "opihi_master_completed.csv"))
+write_csv(surveys_completed, file.path(out_dir, "opihi_surveys_completed.csv"))
+write_csv(change_log,        file.path(out_dir, "opihi_change_log.csv"))
+
+# check what was written
+read_csv(file.path(out_dir, "opihi_master_completed.csv"), show_col_types = FALSE) |> nrow()   # expect 22586
+read_csv(file.path(out_dir, "opihi_change_log.csv"), show_col_types = FALSE)                   # expect 4 rows
+```
 
