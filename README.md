@@ -43,3 +43,4 @@ This contains our final script.
 Huisman, J. M., Abbott, I. A., & Smith, C. M. (2007). Hawaiian reef plants. University of Hawaiʻi Sea Grant College Program. 
 
 
+Email group members for raw data and teacher ID key. 
