@@ -9,25 +9,32 @@ format:
 execute:
   warning: false
   message: false
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Purpose
 
-This document builds the project's **"beautiful tidy table"** (assignment step 2:
-*"Visualize a subset of the data in a beautiful tidy table"*) for our question:
+This document builds the project's **"beautiful tidy table"**
+(assignment step 2: *"Visualize a subset of the data in a beautiful tidy
+table"*) for our question:
 
-> **How do the occurrence (distribution) and abundance of invasive and native algae
-> compare across OPIHI intertidal surveys, 2004–2026, accounting for sampling effort?**
+> **How do the occurrence (distribution) and abundance of invasive and
+> native algae compare across OPIHI intertidal surveys, 2004–2026,
+> accounting for sampling effort?**
 
-It reads only the cleaned, de-identified outputs in `Data/Processed/` and the team's
-algae origin lookup in `Data/Algae/`. It does not touch the raw data. The table is saved
-to `Outputs/` as a PNG (for slides and the README) and as HTML, along with a CSV of every
-algal taxon.
+It reads only the cleaned, de-identified outputs in `Data/Processed/`
+(the `_completed` versions, which add the team's post-cleaning
+corrections listed in `opihi_change_log.csv`) and the team's algae
+origin lookup in `Data/Algae/`. It does not touch the raw data. The
+table is saved to `Outputs/` as a PNG (for slides and the README) and as
+HTML, along with a CSV of every algal taxon.
 
-## Design choices and how they meet the assignment
+## Design choices
 
 | Choice | Why | Assignment link |
-|---|---|---|
+|------------------------|------------------------|------------------------|
 | **Metric = % of quadrats where a taxon was recorded**, with the number of quadrats and sites shown in each column header | Detection frequency divides by effort (quadrats sampled), so sites and years sampled more heavily don't look "richer" just because of effort | Question C: *"detection-frequency summary, accounting for sampling effort"* |
 | **Distribution = number of sites and islands** where each taxon was recorded | Answers *where*, alongside *when* (the period columns) | Question C: *"where and when was it recorded?"* |
 | **Abundance = mean % cover where present** (points hit ÷ 25) | Separates how common a taxon is from how much space it takes up once it is there | Our question compares abundance as well as distribution |
@@ -62,10 +69,24 @@ dir.create(OUT_DIR, showWarnings = FALSE)
 
 ## Data
 
+The `_completed` files are the cleaned outputs plus the corrections in
+`opihi_change_log.csv`. Of those, only one reaches this table: Sandy
+Beach West was merged into Sandy Beach, so site counts fall by one where
+both were sampled. The other corrections concern the 2023 classroom
+survey (excluded here as a group total) or non-algae taxa.
+
 ```{r read-data}
-master  <- read_csv(file.path(PROC_DIR, "opihi_master.csv"),  show_col_types = FALSE)
-samples <- read_csv(file.path(PROC_DIR, "opihi_samples.csv"), show_col_types = FALSE)
-surveys <- read_csv(file.path(PROC_DIR, "opihi_surveys.csv"), show_col_types = FALSE)
+# "_completed" = cleaned outputs + team corrections (see opihi_change_log.csv).
+# Set VERSION <- "" to rebuild the table from the original pipeline outputs.
+VERSION <- "_completed"
+read_proc <- \(name) read_csv(file.path(PROC_DIR, paste0(name, VERSION, ".csv")), show_col_types = FALSE)
+
+master  <- read_proc("opihi_master")
+samples <- read_proc("opihi_samples")
+surveys <- read_proc("opihi_surveys")
+
+knitr::kable(read_csv(file.path(PROC_DIR, "opihi_change_log.csv"), show_col_types = FALSE),
+             caption = "Team corrections applied in the completed files (opihi_change_log.csv).")
 
 # Team origin classification. The lookup holds every alga, including functional
 # groups; the review file holds team corrections in `your_status` (blank = keep).
@@ -93,8 +114,9 @@ if (length(bad_status) > 0) {
 
 ### Sampling effort
 
-Effort is every quadrat in `opihi_samples.csv`, **including quadrats where no alga was
-recorded**. The master lists only detections, so it cannot supply the denominator.
+Effort is every quadrat in `opihi_samples_completed.csv`, **including
+quadrats where no alga was recorded**. The master lists only detections,
+so it cannot supply the denominator.
 
 ```{r effort}
 period_of <- function(year) {
@@ -135,9 +157,9 @@ if (nrow(unclassified) > 0) {
 
 ## Summary for every algal taxon
 
-`summarise_occurrence()` turns detection records into one row per group with
-detection frequency by period (effort-corrected), distribution and mean cover.
-It is used twice: once per taxon and once per origin status.
+`summarise_occurrence()` turns detection records into one row per group
+with detection frequency by period (effort-corrected), distribution and
+mean cover. It is used twice: once per taxon and once per origin status.
 
 ```{r summarise}
 # Inputs : det    - one row per sample x group: sample_id, group columns, points
@@ -298,7 +320,8 @@ algae_tbl <- display |>
                          "*Gracilaria*) cannot be assigned an origin.")),
     locations = cells_body(columns = label, rows = label == genus_row)) |>
   tab_source_note(md(paste0(
-    "**Data:** OPIHI (Our Project In Hawaiʻi's Intertidal) monitoring data, cleaned master dataset; ",
+    "**Data:** OPIHI (Our Project In Hawaiʻi's Intertidal) monitoring data, cleaned master dataset ",
+    "with team corrections (`opihi_master_completed.csv`); ",
     "quadrat-level point-intercept records only (", format(n_total, big.mark = ","), " quadrats at ",
     n_sites_total, " sites). Classroom group totals and cyanobacteria excluded. A quadrat counts once ",
     "per row even if several taxa in that row were recorded in it. Exploratory summary; no statistical ",
@@ -332,8 +355,9 @@ algae_tbl
 
 ## Save the table
 
-The PNG is made by `gt::gtsave()`, which uses the `webshot2` package and a Chrome or
-Chromium browser installed on the computer. The HTML copy needs neither.
+The PNG is made by `gt::gtsave()`, which uses the `webshot2` package and
+a Chrome or Chromium browser installed on the computer. The HTML copy
+needs neither.
 
 ```{r save-table}
 png_path  <- file.path(OUT_DIR, "algae_invasive_native_table.png")
@@ -358,21 +382,24 @@ top  <- by_taxon |> filter(origin_status == "Non-native (invasive)") |> slice_ma
 INV  <- "Non-native (invasive)"; NAT <- "Native (likely)"; GEN <- "Unresolved (genus-level)"
 ```
 
-- Invasive species were recorded in `r st(INV, "pct_all")`% of quadrats, compared with
-  `r st(NAT, "pct_all")`% for native species. They were found at `r st(INV, "sites")` of
-  `r n_sites_total` sites on `r st(INV, "islands")` islands.
-- *`r top$taxon_clean`* is the most widespread invasive (`r round(top$pct_all, 1)`% of
-  quadrats, `r top$sites` sites).
-- `r st(GEN, "pct_all")`% of quadrats contain algae identified only to genus, so a large
-  part of the algal record cannot be assigned an origin.
+- Invasive species were recorded in `r st(INV, "pct_all")`% of quadrats,
+  compared with `r st(NAT, "pct_all")`% for native species. They were
+  found at `r st(INV, "sites")` of `r n_sites_total` sites on
+  `r st(INV, "islands")` islands.
+- *`r top$taxon_clean`* is the most widespread invasive
+  (`r round(top$pct_all, 1)`% of quadrats, `r top$sites` sites).
+- `r st(GEN, "pct_all")`% of quadrats contain algae identified only to
+  genus, so a large part of the algal record cannot be assigned an
+  origin.
 
-All period-to-period differences are confounded by which sites were sampled (see table
-note a). No statistical tests were run.
+All period-to-period differences are confounded by which sites were
+sampled (see table note a). No statistical tests were run.
 
 ## Sources for invasive status
 
-- NOAA Hawaiʻi Integrated Ecosystem Assessment, *Invasive alien species*:
-  <https://integratedecosystemassessment.noaa.gov/node/194>
-- U.S. Army Corps of Engineers (ERDC) webinar, *Avrainvillea erecta* (notes *A. lacerata*, formerly
-  *A. amadelpha*, as the established invasive in Hawaiʻi):
+- NOAA Hawaiʻi Integrated Ecosystem Assessment, *Invasive alien
+  species*: <https://integratedecosystemassessment.noaa.gov/node/194>
+- U.S. Army Corps of Engineers (ERDC) webinar, *Avrainvillea erecta*
+  (notes *A. lacerata*, formerly *A. amadelpha*, as the established
+  invasive in Hawaiʻi):
   <https://CorpsLakes.erdc.dren.mil/employees/learning/webinars/19Aug28-Avrainvillea_erecta.pdf>
