@@ -10,16 +10,20 @@ format:
 execute:
   warning: false
   message: false
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Project question
 
-**Question C, Species occurrence:** for selected taxa, where and when were they
-recorded across OPIHI surveys, and how often were they detected once sampling
-effort (number of quadrats) is accounted for?
+**Question C, Species occurrence:** for selected taxa, where and when
+were they recorded across OPIHI surveys, and how often were they
+detected once sampling effort (number of quadrats) is accounted for?
 
-*Primary metric (to be finalised):* detection frequency = quadrats where the taxon
-was recorded / quadrats sampled, per site-visit, summarised by site and year.
+*Primary metric (to be finalised):* detection frequency = quadrats where
+the taxon was recorded / quadrats sampled, per site-visit, summarised by
+site and year.
 
 ## Setup
 
@@ -81,11 +85,11 @@ if (length(list_raw_xlsx(RAW_DIR)) == 0) {
 
 ## 1. Raw data inventory
 
-The datasheets come in four structural "families". Each family gets one importer,
-rather than one per file.
+The datasheets come in four structural "families". Each family gets one
+importer, rather than one per file.
 
 | Family | Files | Layout | Resolution | Role |
-|---|---|---|---|---|
+|----|----|----|----|----|
 | **A. Legacy blocks** | `OPIHI data 2004`–`2020` | Field-trip blocks side by side; taxa = rows, quadrats = columns | Quadrat | Primary source |
 | **B. Modern row-per-quadrat** | 2024 datasheet, BIOL 499 2025, 2026 Longitudinal, RAW Mauliola 2026 | One row per quadrat; taxa = columns; Metadata tab | Quadrat | Primary source |
 | **C. Classroom Field Study** | Field Study 2023, 2025, 2026 Waipuilani | Student-group columns; taxa = rows | Group totals | Kept, flagged `group_total`; not used for detection frequency |
@@ -110,10 +114,11 @@ knitr::kable(inventory, caption = "Raw Excel files and the format family each be
 
 ### Convert raw Excel to open CSV
 
-Every tab of every raw workbook is written unchanged to `Data/Processed/raw_csv/`, so the
-raw data are preserved in a non-proprietary format. Tabs that contain no cells
-(Excel chart sheets, which only hold a graph) cannot be exported and are listed
-below rather than skipped silently.
+Every tab of every raw workbook is written unchanged to
+`Data/Processed/raw_csv/`, so the raw data are preserved in a
+non-proprietary format. Tabs that contain no cells (Excel chart sheets,
+which only hold a graph) cannot be exported and are listed below rather
+than skipped silently.
 
 ```{r export-csv}
 csv_log <- export_raw_csv(RAW_DIR, CSV_DIR)
@@ -128,10 +133,11 @@ csv_log |>
 
 ## 2. Cleaning decisions log
 
-Decisions agreed by the team, applied by code (never by hand-editing raw files).
+Decisions agreed by the team, applied by code (never by hand-editing raw
+files).
 
-| # | Issue | Decision |
-|---|---|---|
+| \# | Issue | Decision |
+|----|----|----|
 | 1 | Rows labelled "EXAMPLE" (student templates) | Remove; log in exclusions |
 | 2 | Metadata date differs from data-row date (e.g. Mauliola 2026: 4/26 vs 4/20) | Data-row date wins; metadata date likely the sheet creation date |
 | 3 | Times like 01:14 for a field trip | Times standardised to 24-h HH:MM. Hours 01–05 assumed PM (+12 h) and flagged |
@@ -154,11 +160,12 @@ Decisions agreed by the team, applied by code (never by hand-editing raw files).
 
 ## 3. Import Family A: legacy files (2004–2020)
 
-Family A is exactly these 9 workbooks (one tab each). Note the 2020 file's tab is
-named `All_raw_data_OPIHI_16-20`, but it only contains 2020 field trips.
+Family A is exactly these 9 workbooks (one tab each). Note the 2020
+file's tab is named `All_raw_data_OPIHI_16-20`, but it only contains
+2020 field trips.
 
 | File | Tab | Field-trip blocks |
-|---|---|---|
+|----|----|----|
 | `OPIHI data 2004.xlsx` | OPIHI data 2004 | 3 |
 | `OPIHI data 2005.xlsx` | OPIHI data 2005 | 16 |
 | `OPIHI data 2006 and 2007.xlsx` | OPIHI data 2006 and 2007 | 24 |
@@ -199,9 +206,9 @@ tibble(
 
 ### Verification against the spreadsheets' own totals
 
-Each legacy block has a `TOTALS:` section computed in Excel. If our parser read
-the sideways blocks correctly, re-summing our long-format counts must reproduce
-every one of those totals.
+Each legacy block has a `TOTALS:` section computed in Excel. If our
+parser read the sideways blocks correctly, re-summing our long-format
+counts must reproduce every one of those totals.
 
 ```{r verify-legacy}
 mismatch <- check_legacy_totals(legacy)
@@ -226,13 +233,14 @@ cat("Quadrats with point sum > 25:", sum(quad_sums$points > 25), "of", nrow(quad
 
 ## 4. Import Family B: modern row-per-quadrat files
 
-Family B is these 4 workbooks. Only the `Quadrat PtCounts` tab is imported, plus
-`Metadata`. The other tabs (PercentCover, Grouped sums) are calculated from
-PtCounts, so importing them would duplicate data. `Copy of OPIHI 2024 datasheet`
-is a 6-row subset of the 2024 file (Family D) and is not imported.
+Family B is these 4 workbooks. Only the `Quadrat PtCounts` tab is
+imported, plus `Metadata`. The other tabs (PercentCover, Grouped sums)
+are calculated from PtCounts, so importing them would duplicate data.
+`Copy of OPIHI 2024 datasheet` is a 6-row subset of the 2024 file
+(Family D) and is not imported.
 
 | File | Quadrats kept | Rows excluded |
-|---|---|---|
+|----|----|----|
 | `OPIHI 2024 datasheet .xlsx` | 624 | 294 blank template rows |
 | `OPIHI BIOL 499 2025 LT data.xlsx` | 81 | 1 no taxon data |
 | `OPIHI 2026 Longitudinal Monitoring Data.xlsx` | 75 | 107 no taxon data, 15 blank template, 1 EXAMPLE |
@@ -270,9 +278,10 @@ modern$excluded |>
 
 ### Verification against the sheets' own row totals
 
-Each modern row has a `Total Points` column typed or calculated on the sheet.
-Re-summing our parsed counts should match it, except where the sheet's total
-itself is wrong (flagged, and our sum from the cells is used).
+Each modern row has a `Total Points` column typed or calculated on the
+sheet. Re-summing our parsed counts should match it, except where the
+sheet's total itself is wrong (flagged, and our sum from the cells is
+used).
 
 ```{r verify-modern}
 checked <- sum(!is.na(modern$quadrats$total_points_sheet))
@@ -292,14 +301,15 @@ modern$counts |>
 
 ## 5. Import Family C: classroom group totals
 
-These 3 workbooks record **student-group totals** (each group's points summed
-over its quadrats), so they cannot give per-quadrat detection. They are kept
-with `resolution = "group_total"`, and each group's effort comes from its
-`TOTAL Points` row (points / 25 = quadrats). 2023 and 2025 name no site or
-date anywhere in the file, so only the year (from the file name) is known.
+These 3 workbooks record **student-group totals** (each group's points
+summed over its quadrats), so they cannot give per-quadrat detection.
+They are kept with `resolution = "group_total"`, and each group's effort
+comes from its `TOTAL Points` row (points / 25 = quadrats). 2023 and
+2025 name no site or date anywhere in the file, so only the year (from
+the file name) is known.
 
 | File | Groups | Quadrats per group | Site / date |
-|---|---|---|---|
+|----|----|----|----|
 | `Copy of OPIHI Field Study 2023 - ALL Group Data P1_P2.xlsx` | 14 | 7 | none in file |
 | `Copy of OPIHI Field Study 2025 - ALL Group Data P1_P2 - use this one.xlsx` | 14 | 6 | none in file |
 | `OPIHI Field Study 2026 - Waipuilani Data.xlsx` | 6 | 11 | Waipuilani, 2026-04-20 and 2026-05-04 |
@@ -328,20 +338,22 @@ classroom$issues |>
 
 ## 6. Site and taxon harmonisation
 
-Names are standardised with two **editable lookup tables** in `Data/Lookups/`.
-Each raw spelling is reduced to a *key* (lower case, extra spaces removed; for
-sites also ʻokina, apostrophes and kahakō removed), and the key is looked up in
-the table. To fix or add a name, edit the CSV, not the code.
+Names are standardised with two **editable lookup tables** in
+`Data/Lookups/`. Each raw spelling is reduced to a *key* (lower case,
+extra spaces removed; for sites also ʻokina, apostrophes and kahakō
+removed), and the key is looked up in the table. To fix or add a name,
+edit the CSV, not the code.
 
-* `site_crosswalk.csv`: raw site key → `site_name` (Hawaiian name first, no
-  ʻokina/kahakō), `site_alias_english`, `island`.
-* `taxon_crosswalk.csv`: raw taxon key → `taxon_clean` (spelling fixed, current
-  name), `analysis_taxon` (usually genus, matching OPIHI's ID resolution),
-  `category` (Algae, Cyanobacteria, Invertebrate, Coral, Substrate, Unknown,
-  Invalid). Lines marked `REVIEW` are judgement calls worth checking.
+- `site_crosswalk.csv`: raw site key → `site_name` (Hawaiian name first,
+  no ʻokina/kahakō), `site_alias_english`, `island`.
+- `taxon_crosswalk.csv`: raw taxon key → `taxon_clean` (spelling fixed,
+  current name), `analysis_taxon` (usually genus, matching OPIHI's ID
+  resolution), `category` (Algae, Cyanobacteria, Invertebrate, Coral,
+  Substrate, Unknown, Invalid). Lines marked `REVIEW` are judgement
+  calls worth checking.
 
-Any name **not** in a lookup is listed with the closest existing key as a
-suggestion (edit distance); it is never matched automatically.
+Any name **not** in a lookup is listed with the closest existing key as
+a suggestion (edit distance); it is never matched automatically.
 
 ```{r lookups}
 cat("Site lookup:", nrow(site_xw), "spellings ->", n_distinct(site_xw$site_name), "sites\n")
@@ -349,23 +361,66 @@ cat("Taxon lookup:", nrow(taxon_xw), "spellings ->", n_distinct(taxon_xw$taxon_c
     n_distinct(taxon_xw$analysis_taxon[taxon_xw$analysis_taxon != ""]), "analysis taxa\n")
 ```
 
+### Reusable function: checking taxon names in new data
+
+`standardize_taxa()` (in `Scripts/clean_build.R`) checks taxon names
+against the team's lookup table, `Data/Lookups/taxon_crosswalk.csv`.
+**Input:** a vector of taxon names as written on a datasheet, plus the
+lookup table. **Output:** one row per distinct name, giving its
+standardised name (`taxon_clean`), its coarser `analysis_taxon`, and its
+`category`. A name that is not in the lookup gets `NA` and a
+`taxon_suggestion`: the closest known name by spelling. A name that is
+just a number is marked `Invalid`. OPIHI can run it on any new datasheet
+before adding it to the master: known misspellings are fixed
+automatically, and new typos or new species are listed for a person to
+check, never matched silently. Fixing one means adding a line to the
+lookup CSV, not changing code. `standardize_sites()` works the same way
+for site names. The test below uses four names: a correct one, a known
+misspelling, a new typo, and a number typed into the name column.
+
+```{r test-standardize-taxa}
+test_names <- c("Acanthophora spicifera",  # correct name
+                "Turbinania ornata",       # known misspelling, already in the lookup
+                "Acanthophora spicifra",   # new typo, not in the lookup
+                "3.0")                     # number typed where a name belongs
+test_out <- standardize_taxa(test_names, taxon_xw)
+knitr::kable(select(test_out, taxon_raw, taxon_clean, category, taxon_suggestion),
+             caption = "Test of standardize_taxa() on four example names.")
+
+stopifnot(
+  test_out$taxon_clean[1] == "Acanthophora spicifera",      # correct name kept
+  test_out$taxon_clean[2] == "Turbinaria ornata",           # misspelling fixed
+  is.na(test_out$taxon_clean[3]),                           # new typo flagged...
+  test_out$taxon_suggestion[3] == "acanthophora spicifera", # ...with the right suggestion
+  test_out$category[4] == "Invalid"                         # number rejected
+)
+cat("All standardize_taxa() tests passed.\n")
+```
+
 ## 7. Build: harmonise, deduplicate, cross-check
 
-`build_opihi()` (in `Scripts/clean_build.R`) combines the three imports and applies:
+`build_opihi()` (in `Scripts/clean_build.R`) combines the three imports
+and applies:
 
-* **Sites** via the crosswalk, then a **coordinate check** (legacy trips have
-  coordinates): if a trip's coordinates are > 5 km from its labelled site but
-  match another site's coordinates (< 0.2 km), it is relabelled and flagged
-  `site_corrected_by_coordinates`; > 5 km with no match is flagged only.
-* **Taxa** via the crosswalk; `Invalid` entries (e.g. a number typed as a taxon) excluded and logged.
-* **Times**: 24-h HH:MM; legacy placeholder times (00:00–01:00) removed; hours 01–05 assumed PM; all flagged.
-* **Teacher IDs**: legacy School / modern Team Leader → anonymous `T###` per
-  person or school, in order of first appearance; several per survey → `T001;T004`.
-  The name → ID key is written **only** to `Data/Processed/private/`.
-* **Duplicates**: (a) identical survey content in two places (kept once),
-  (b) identical quadrats within a survey, (c) same site + date in two different
-  files with different content (flagged, not removed).
-* **Cross-check** of every trip in the compiled files (Family D) against the master.
+- **Sites** via the crosswalk, then a **coordinate check** (legacy trips
+  have coordinates): if a trip's coordinates are \> 5 km from its
+  labelled site but match another site's coordinates (\< 0.2 km), it is
+  relabelled and flagged `site_corrected_by_coordinates`; \> 5 km with
+  no match is flagged only.
+- **Taxa** via the crosswalk; `Invalid` entries (e.g. a number typed as
+  a taxon) excluded and logged.
+- **Times**: 24-h HH:MM; legacy placeholder times (00:00–01:00) removed;
+  hours 01–05 assumed PM; all flagged.
+- **Teacher IDs**: legacy School / modern Team Leader → anonymous `T###`
+  per person or school, in order of first appearance; several per survey
+  → `T001;T004`. The name → ID key is written **only** to
+  `Data/Processed/private/`.
+- **Duplicates**: (a) identical survey content in two places (kept
+  once),
+  (b) identical quadrats within a survey, (c) same site + date in two
+      different files with different content (flagged, not removed).
+- **Cross-check** of every trip in the compiled files (Family D) against
+  the master.
 
 ```{r build}
 compiled <- bind_rows(
