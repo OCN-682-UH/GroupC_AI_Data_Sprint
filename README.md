@@ -4,13 +4,13 @@
 ## Authors
 Cam Nemeth, Linnea Nordlli, Jasmine Chang, and Carolina Melendez Declet
 
-* University of Hawai'i at Mānoa *
+*University of Hawai'i at Mānoa*
 
 ## About the Project 
 This group project uses intertidal monitoring data collected through OPIHI (Our Project in Hawai'i's Intertidal) to better understand ecological trends and improve data organization 
 
 ## Research Question
-* How does the occurrence of native and non-native intertidal species vary across sites and over time in Hawaiʻi? *
+*How does the occurrence of native and non-native intertidal species vary across sites and over time in Hawaiʻi?*
 
 ## Project Objectives 
 - Clean and organize OPIHI monitoring data
