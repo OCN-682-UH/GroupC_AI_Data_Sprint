@@ -31,7 +31,7 @@ Generative AI was used to assist with coding and troubleshooting. All AI- genera
 [Link](https://01a1c73e-0b52-61fa-15ed-dcbe38cb1fa3.share.connect.posit.cloud)
 
 ## Individual Reflection 
-[PDF Link](https://01a1c73e-0b52-61fa-15ed-dcbe38cb1fa3.share.connect.posit.cloud)
+[PDF Link](https://github.com/OCN-682-UH/GroupC_AI_Data_Sprint/blob/main/AI_data/IndividualReflections_GroupC.pdf)
 
 ## Directory
 
