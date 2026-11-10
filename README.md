@@ -24,26 +24,28 @@ For a selected taxon or group, where and when was it recorded? Make an occurrenc
 ## AI Use & Transparency 
 Generative AI was used to assist with coding and troubleshooting. All AI- generated code was reviewed and tested by group members. Please see our Group AI Developer Log. 
 
-## Group AI Developer Log 
-[Link](https://github.com/OCN-682-UH/GroupC_AI_Data_Sprint/blob/main/AI_data/AI_Log_GroupC.pdf)
+## Directory
 
 ## Final Quarto Report 
 [Link](https://01a1c73e-0b52-61fa-15ed-dcbe38cb1fa3.share.connect.posit.cloud)
 
-## Individual Reflection 
-[PDF Link](https://github.com/OCN-682-UH/GroupC_AI_Data_Sprint/blob/main/AI_data/IndividualReflections_GroupC.pdf)
-
-## Directory
-
-### [AI Data Cleaning: Verification and Cross-checking](https://01a1b9de-66ea-2d11-92d7-54ebd44e5b60.share.connect.posit.cloud)
+## AI Data Cleaning: Verification and Cross-checking
+[Link](https://01a1b9de-66ea-2d11-92d7-54ebd44e5b60.share.connect.posit.cloud)
 - Every count in the AI-built `opihi_master` was traced back to its raw spreadsheet cell, and every flag, exclusion and name
 mapping was tested independently. No counts were lost or misread. Five corrections were applied, all to names,
 categories or record structure; the total of all counts is unchanged. The corrected tables are `opihi_master_completed`,
 `opihi_surveys_completed` and `opihi_samples_completed`, with every edit listed in `opihi_change_log`.
+
+## Group AI Developer Log 
+[Link](https://github.com/OCN-682-UH/GroupC_AI_Data_Sprint/blob/main/AI_data/AI_Log_GroupC.pdf)
+
+
+## Individual Reflection 
+[PDF Link](https://github.com/OCN-682-UH/GroupC_AI_Data_Sprint/blob/main/AI_data/IndividualReflections_GroupC.pdf)
 
 ## References 
 
 Huisman, J. M., Abbott, I. A., & Smith, C. M. (2007). Hawaiian reef plants. University of Hawaiʻi Sea Grant College Program. 
 
 
-Email group members for raw data and teacher ID key. 
+**Email group members for raw data and teacher ID key.**
