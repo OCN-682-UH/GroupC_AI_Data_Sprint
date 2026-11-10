@@ -1164,7 +1164,7 @@ opihi_compiled_crosscheck |>
 
 ------------------------------------------------------------------------
 
-# Part 6 · Exclusions log
+## Part 6 · Exclusions log
 
 Checks that the 427 records left out of master contain no real data,
 except where documented.
