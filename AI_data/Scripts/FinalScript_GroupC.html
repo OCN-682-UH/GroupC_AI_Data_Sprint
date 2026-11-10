@@ -173,7 +173,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#writing-function-3---specific-taxon-at-a-certain-site-and-year" id="toc-writing-function-3---specific-taxon-at-a-certain-site-and-year" class="nav-link" data-scroll-target="#writing-function-3---specific-taxon-at-a-certain-site-and-year"><span class="header-section-number">3.6</span> Writing Function 3 - Specific Taxon at A Certain Site and Year</a></li>
   <li><a href="#test-function-3" id="toc-test-function-3" class="nav-link" data-scroll-target="#test-function-3"><span class="header-section-number">3.7</span> Test Function 3</a></li>
   <li><a href="#writing-function-4---how-many-sites-recorded-a-particular-taxon-each-year" id="toc-writing-function-4---how-many-sites-recorded-a-particular-taxon-each-year" class="nav-link" data-scroll-target="#writing-function-4---how-many-sites-recorded-a-particular-taxon-each-year"><span class="header-section-number">3.8</span> Writing Function 4 - How Many Sites Recorded a Particular Taxon Each Year</a></li>
-  <li><a href="#test" id="toc-test" class="nav-link" data-scroll-target="#test"><span class="header-section-number">3.9</span> Test</a></li>
+  <li><a href="#testing-function-4" id="toc-testing-function-4" class="nav-link" data-scroll-target="#testing-function-4"><span class="header-section-number">3.9</span> Testing Function 4</a></li>
   </ul></li>
   <li><a href="#th-script-plotting" id="toc-th-script-plotting" class="nav-link" data-scroll-target="#th-script-plotting"><span class="header-section-number">4</span> 4th Script: Plotting</a>
   <ul class="collapse">
@@ -184,6 +184,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#plotting-cover-of-native-vs-non-native" id="toc-plotting-cover-of-native-vs-non-native" class="nav-link" data-scroll-target="#plotting-cover-of-native-vs-non-native"><span class="header-section-number">4.5</span> Plotting % Cover of Native vs Non-Native</a></li>
   <li><a href="#plotting-total-algae-cover" id="toc-plotting-total-algae-cover" class="nav-link" data-scroll-target="#plotting-total-algae-cover"><span class="header-section-number">4.6</span> Plotting Total % Algae cover</a></li>
   <li><a href="#plot-function" id="toc-plot-function" class="nav-link" data-scroll-target="#plot-function"><span class="header-section-number">4.7</span> Plot Function</a></li>
+  </ul></li>
+  <li><a href="#th-script-summary-table" id="toc-th-script-summary-table" class="nav-link" data-scroll-target="#th-script-summary-table"><span class="header-section-number">5</span> 5th Script: Summary Table</a>
+  <ul class="collapse">
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose"><span class="header-section-number">5.1</span> Purpose</a></li>
+  <li><a href="#design-choices" id="toc-design-choices" class="nav-link" data-scroll-target="#design-choices"><span class="header-section-number">5.2</span> Design choices</a></li>
+  <li><a href="#first-steps" id="toc-first-steps" class="nav-link" data-scroll-target="#first-steps"><span class="header-section-number">5.3</span> First Steps</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">5.4</span> Data</a>
+  <ul class="collapse">
+  <li><a href="#sampling-effort" id="toc-sampling-effort" class="nav-link" data-scroll-target="#sampling-effort"><span class="header-section-number">5.4.1</span> Sampling effort</a></li>
+  <li><a href="#algae-records-with-origin-status" id="toc-algae-records-with-origin-status" class="nav-link" data-scroll-target="#algae-records-with-origin-status"><span class="header-section-number">5.4.2</span> Algae records with origin status</a></li>
+  </ul></li>
+  <li><a href="#summary-for-every-algal-taxon" id="toc-summary-for-every-algal-taxon" class="nav-link" data-scroll-target="#summary-for-every-algal-taxon"><span class="header-section-number">5.5</span> Summary for every algal taxon</a></li>
+  <li><a href="#the-table" id="toc-the-table" class="nav-link" data-scroll-target="#the-table"><span class="header-section-number">5.6</span> The table</a></li>
+  <li><a href="#save-the-table" id="toc-save-the-table" class="nav-link" data-scroll-target="#save-the-table"><span class="header-section-number">5.7</span> Save the table</a></li>
+  <li><a href="#reading-the-table-exploratory" id="toc-reading-the-table-exploratory" class="nav-link" data-scroll-target="#reading-the-table-exploratory"><span class="header-section-number">5.8</span> Reading the table (exploratory)</a></li>
+  <li><a href="#sources-for-invasive-status" id="toc-sources-for-invasive-status" class="nav-link" data-scroll-target="#sources-for-invasive-status"><span class="header-section-number">5.9</span> Sources for invasive status</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -4071,6 +4087,7 @@ loaded via a namespace (and not attached):
 </section>
 <section id="rd-script-functions" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> 3rd Script: Functions</h1>
+<p>This script creates four functions that can be reused to explore the OPIHI monitoring dataset. These functions help understand how many different taxa were recorded at each site, how/if taxon richness varies across sampling years, and where and when were specifc taxa observed in the dataset.</p>
 <section id="writing-function-1---how-many-different-taxa-are-recorded-at-each-site" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="writing-function-1---how-many-different-taxa-are-recorded-at-each-site"><span class="header-section-number">3.1</span> Writing Function 1 - How Many Different Taxa are Recorded at Each Site</h2>
 <div class="cell">
@@ -4090,6 +4107,9 @@ loaded via a namespace (and not attached):
 <span id="cb189-12"><a href="#cb189-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+<p>This function calculates the number of different taxa recorded at each sampling site. AI was utilized to get this function.</p>
+<p>Input: data = the cleaned OPIHI master sheet that contains the site names(site_name) and the taxon IDs (analysis_taxon).</p>
+<p>Output: Dataframe with two columns: site_name and richness, which provided the number of unique taxa recorded at each site.</p>
 </section>
 <section id="testing-function-1" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="testing-function-1"><span class="header-section-number">3.2</span> Testing Function 1</h2>
@@ -4105,7 +4125,7 @@ loaded via a namespace (and not attached):
 <div class="cell">
 <details class="code-fold">
 <summary>Show R Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb191"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a>TaxonRichness <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb191"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a>TaxonRichnessYear <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
 <span id="cb191-2"><a href="#cb191-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb191-3"><a href="#cb191-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
 <span id="cb191-4"><a href="#cb191-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(site_name), <span class="sc">!</span><span class="fu">is.na</span>(year)) <span class="sc">|&gt;</span></span>
@@ -4120,13 +4140,16 @@ loaded via a namespace (and not attached):
 <span id="cb191-13"><a href="#cb191-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+<p>This function is similar to Function 1, calculates richness for each site during each sampling year.</p>
+<p>Input: data = the cleaned OPIHI master sheet that contains the site names(site_name), year, and the taxon IDs (analysis_taxon).</p>
+<p>Output: The dataframe containing site_name, year, and richness, which shows the number of unique taxa recorded at each site during each year.</p>
 </section>
 <section id="test-function-2" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="test-function-2"><span class="header-section-number">3.4</span> Test Function 2</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Show R Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a>SiteRichnessYear <span class="ot">&lt;-</span> <span class="fu">TaxonRichness</span>(opihi_master)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a>TaxonRichnessYearResults <span class="ot">&lt;-</span> <span class="fu">TaxonRichnessYear</span>(opihi_master)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -4248,6 +4271,7 @@ loaded via a namespace (and not attached):
 [215] "Spyridia spp."                 </code></pre>
 </div>
 </div>
+<p>Before creating Function 3, I wanted to included all the different taxon names available in our cleaned dataset for the viewer to see.</p>
 </section>
 <section id="writing-function-3---specific-taxon-at-a-certain-site-and-year" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="writing-function-3---specific-taxon-at-a-certain-site-and-year"><span class="header-section-number">3.6</span> Writing Function 3 - Specific Taxon at A Certain Site and Year</h2>
@@ -4271,6 +4295,9 @@ loaded via a namespace (and not attached):
 <span id="cb195-15"><a href="#cb195-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+<p>Function 3 allows you to search the cleaned data for a particular taxon at a sampling site.</p>
+<p>Input: data = the cleaned OPIHI dataset, taxon = the name of the taxon we want to find, site = the sample site, sampling year = if no year is provided, the function includes all years available</p>
+<p>Output: A dataframe showing all the records of the selected taxon at a specific site, and year if one is chosen.</p>
 </section>
 <section id="test-function-3" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="test-function-3"><span class="header-section-number">3.7</span> Test Function 3</h2>
@@ -4319,6 +4346,7 @@ loaded via a namespace (and not attached):
 #   source_cell &lt;chr&gt;</code></pre>
 </div>
 </div>
+<p>Two examples of how function 3 can be used, for example with <em>Sargassum</em> spp.</p>
 </section>
 <section id="writing-function-4---how-many-sites-recorded-a-particular-taxon-each-year" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="writing-function-4---how-many-sites-recorded-a-particular-taxon-each-year"><span class="header-section-number">3.8</span> Writing Function 4 - How Many Sites Recorded a Particular Taxon Each Year</h2>
@@ -4340,9 +4368,12 @@ loaded via a namespace (and not attached):
 <span id="cb200-13"><a href="#cb200-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+<p>Our fourth function calculates the number of different sampling sites where a particular taxon was recorded during each year. This can be useful for exploring the distribution of taxa over time and comparing where different species have been observed in the dataset.</p>
+<p>Input: data = the cleaned OPIHI dataset, and taxon = the name of the taxon you want to investigate.</p>
+<p>Output: A tibble with two columns: year and number_sites, showing how many unique sampling sites recorded the selected taxon during each year.</p>
 </section>
-<section id="test" class="level2" data-number="3.9">
-<h2 data-number="3.9" class="anchored" data-anchor-id="test"><span class="header-section-number">3.9</span> Test</h2>
+<section id="testing-function-4" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="testing-function-4"><span class="header-section-number">3.9</span> Testing Function 4</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Show R Code</summary>
@@ -4374,6 +4405,7 @@ loaded via a namespace (and not attached):
 2  2019            2</code></pre>
 </div>
 </div>
+<p>Here are two examples of how you can use function 4 for research.</p>
 </section>
 </section>
 <section id="th-script-plotting" class="level1" data-number="4">
@@ -4617,8 +4649,8 @@ loaded via a namespace (and not attached):
 <div id="fig-sample_sites" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sample_sites-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-3767ffe65b4f4ce35202" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-3767ffe65b4f4ce35202">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[21.2597515,21.315603,21.5638061,21.3064577,21.2963395,21.7033106,21.2852142,21.401503,null],[-157.8116771,-158.008804,-157.8691672,-157.879207,-158.1060148,-158.0027716,-157.6740781,-158.1765711,null],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["Diamond Head","Ewa Beach","Kahana Bay","Sand Island, Hawaii","Barbers Point, Hawaii","Turtle Bay, Hawaii","Sandy Beach, Hawaii","Maili Point, Hawaii","Baby Makapuu, Hawaii"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[21.2597515,21.7033106],"lng":[-158.1765711,-157.6740781]}},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-f651ec8d0ddbea4facd2" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-f651ec8d0ddbea4facd2">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[21.2597515,21.315603,21.5638061,21.3064577,21.2963395,21.7033106,21.2852142,21.401503,null],[-157.8116771,-158.008804,-157.8691672,-157.879207,-158.1060148,-158.0027716,-157.6740781,-158.1765711,null],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["Diamond Head","Ewa Beach","Kahana Bay","Sand Island, Hawaii","Barbers Point, Hawaii","Turtle Bay, Hawaii","Sandy Beach, Hawaii","Maili Point, Hawaii","Baby Makapuu, Hawaii"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[21.2597515,21.7033106],"lng":[-158.1765711,-157.6740781]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sample_sites-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Oʻahu algae sampling locations.
@@ -4694,8 +4726,8 @@ Figure&nbsp;1: Oʻahu algae sampling locations.
 <div id="fig-invasive-native" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-invasive-native-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-a79573465fc27b980713" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-a79573465fc27b980713">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[21.316488,21.310612,null,21.559278,21.295799,null,21.7057,21.3962,21.25544,21.25544,null,21.4104,21.3002,null,21.311893,21.2843,21.2882,21.706499,21.452875],[-157.667761,-158.00791,null,-157.875402,-158.107199,null,-157.999197,-157.723806,-157.813803,-157.8138,null,-158.181204,-157.886099,null,-157.898642,-157.678793,-157.671499,-158.002005,-158.203466],[7.163939405776413,10.02477172979485,13.24890189542551,5.162026057309385,10.78535649777757,16.76330101780228,7.317983258921311,6.598369255769851,10.77531173736395,7.232936223588345,16.02459424807074,15.30601994322148,6.301489803241988,7.274219635253185,5.762299771063875,5.177486063591282,10.89554313655645,15.68423797554822,5.608752229496457],null,"Native",{"interactive":true,"className":"","stroke":true,"color":"white","weight":1,"opacity":0.5,"fill":true,"fillColor":"#2ca25f","fillOpacity":0.85},null,null,["<b>Baby Makapuu<\/b><br>Native: 1% cover<br>Non-native: 0.5% cover<br>Quadrats: 159<br>Survey years: 3 (2018-2020)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Kahana Bay<\/b><br>Native: 0.1% cover<br>Non-native: 6.8% cover<br>Quadrats: 115<br>Survey years: 2 (2004-2005)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Keiki Bay<\/b><br>Native: 1.1% cover<br>Non-native: 0% cover<br>Quadrats: 67<br>Survey years: 2 (2016-2017)","<b>Lanikai Point<\/b><br>Native: 0.7% cover<br>Non-native: 0% cover<br>Quadrats: 69<br>Survey years: 1 (2019-2019)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Maili Beach<\/b><br>Native: 13.2% cover<br>Non-native: 20.2% cover<br>Quadrats: 164<br>Survey years: 4 (2007-2019)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mokauea Island<\/b><br>Native: 0.3% cover<br>Non-native: 0% cover<br>Quadrats: 25<br>Survey years: 1 (2019-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Turtle Bay<\/b><br>Native: 14.1% cover<br>Non-native: 0.5% cover<br>Quadrats: 60<br>Survey years: 2 (2005-2017)","<b>Waianae High School Reef<\/b><br>Native: 0.3% cover<br>Non-native: 0.9% cover<br>Quadrats: 30<br>Survey years: 1 (2019-2019)"],null,["Baby Makapuu - native: 1% cover","Ewa - native: 3.7% cover","Ewa - native: 8.8% cover","Kahana Bay - native: 0.1% cover","Kalaeloa - native: 4.7% cover","Kalaeloa - native: 16.8% cover","Keiki Bay - native: 1.1% cover","Lanikai Point - native: 0.7% cover","Leahi - native: 4.7% cover","Leahi - native: 1.1% cover","Leahi - native: 14.9% cover","Maili Beach - native: 13.2% cover","Mauliola - native: 0.5% cover","Mauliola - native: 1.1% cover","Mokauea Island - native: 0.3% cover","Sandy Beach - native: 0.1% cover","Sandy Beach - native: 4.9% cover","Turtle Bay - native: 14.1% cover","Waianae High School Reef - native: 0.3% cover"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[[21.316488,21.310612,null,21.559278,21.295799,null,21.7057,21.3962,21.25544,21.25544,null,21.4104,21.3002,null,21.311893,21.2843,21.2882,21.706499,21.452875],[-157.660761,-158.00091,null,-157.868402,-158.100199,null,-157.992197,-157.716806,-157.806803,-157.8068,null,-158.174204,-157.879099,null,-157.891642,-157.671793,-157.664499,-157.995005,-158.196466],[6.209791134973442,11.94664980706963,13.96544980752536,12.11340540069133,11.45048064461271,7.574439244336593,4,4,8.071995591105029,5.49655866854043,4.662937340492032,18,6.510495436393674,7.042799026746088,4,4,6.05259824858294,6.275119221451844,7.009699831492233],null,"Non-native",{"interactive":true,"className":"","stroke":true,"color":"white","weight":1,"opacity":0.5,"fill":true,"fillColor":"#e34a33","fillOpacity":0.85},null,null,["<b>Baby Makapuu<\/b><br>Native: 1% cover<br>Non-native: 0.5% cover<br>Quadrats: 159<br>Survey years: 3 (2018-2020)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Kahana Bay<\/b><br>Native: 0.1% cover<br>Non-native: 6.8% cover<br>Quadrats: 115<br>Survey years: 2 (2004-2005)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Keiki Bay<\/b><br>Native: 1.1% cover<br>Non-native: 0% cover<br>Quadrats: 67<br>Survey years: 2 (2016-2017)","<b>Lanikai Point<\/b><br>Native: 0.7% cover<br>Non-native: 0% cover<br>Quadrats: 69<br>Survey years: 1 (2019-2019)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Maili Beach<\/b><br>Native: 13.2% cover<br>Non-native: 20.2% cover<br>Quadrats: 164<br>Survey years: 4 (2007-2019)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mokauea Island<\/b><br>Native: 0.3% cover<br>Non-native: 0% cover<br>Quadrats: 25<br>Survey years: 1 (2019-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Turtle Bay<\/b><br>Native: 14.1% cover<br>Non-native: 0.5% cover<br>Quadrats: 60<br>Survey years: 2 (2005-2017)","<b>Waianae High School Reef<\/b><br>Native: 0.3% cover<br>Non-native: 0.9% cover<br>Quadrats: 30<br>Survey years: 1 (2019-2019)"],null,["Baby Makapuu - non-native: 0.5% cover","Ewa - non-native: 6.5% cover","Ewa - non-native: 10.2% cover","Kahana Bay - non-native: 6.8% cover","Kalaeloa - non-native: 5.7% cover","Kalaeloa - non-native: 1.3% cover","Keiki Bay - non-native: 0% cover","Lanikai Point - non-native: 0% cover","Leahi - non-native: 1.7% cover","Leahi - non-native: 0.2% cover","Leahi - non-native: 0% cover","Maili Beach - non-native: 20.2% cover","Mauliola - non-native: 0.6% cover","Mauliola - non-native: 1% cover","Mokauea Island - non-native: 0% cover","Sandy Beach - non-native: 0% cover","Sandy Beach - non-native: 0.4% cover","Turtle Bay - non-native: 0.5% cover","Waianae High School Reef - non-native: 0.9% cover"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[[],["Native","Non-native"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addLegend","args":[{"colors":["#2ca25f","#e34a33"],"labels":["Native (likely)","Non-native (invasive)"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"unknown","title":"Mean % cover<br>(all years)","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[21.25544,21.706499],"lng":[-158.203466,-157.660761]},"fitBounds":[21.25,-158.3,21.72,-157.62,[]]},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-29d92b0a4322ee68ab5d" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-29d92b0a4322ee68ab5d">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[21.316488,21.310612,null,21.559278,21.295799,null,21.7057,21.3962,21.25544,21.25544,null,21.4104,21.3002,null,21.311893,21.2843,21.2882,21.706499,21.452875],[-157.667761,-158.00791,null,-157.875402,-158.107199,null,-157.999197,-157.723806,-157.813803,-157.8138,null,-158.181204,-157.886099,null,-157.898642,-157.678793,-157.671499,-158.002005,-158.203466],[7.163939405776413,10.02477172979485,13.24890189542551,5.162026057309385,10.78535649777757,16.76330101780228,7.317983258921311,6.598369255769851,10.77531173736395,7.232936223588345,16.02459424807074,15.30601994322148,6.301489803241988,7.274219635253185,5.762299771063875,5.177486063591282,10.89554313655645,15.68423797554822,5.608752229496457],null,"Native",{"interactive":true,"className":"","stroke":true,"color":"white","weight":1,"opacity":0.5,"fill":true,"fillColor":"#2ca25f","fillOpacity":0.85},null,null,["<b>Baby Makapuu<\/b><br>Native: 1% cover<br>Non-native: 0.5% cover<br>Quadrats: 159<br>Survey years: 3 (2018-2020)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Kahana Bay<\/b><br>Native: 0.1% cover<br>Non-native: 6.8% cover<br>Quadrats: 115<br>Survey years: 2 (2004-2005)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Keiki Bay<\/b><br>Native: 1.1% cover<br>Non-native: 0% cover<br>Quadrats: 67<br>Survey years: 2 (2016-2017)","<b>Lanikai Point<\/b><br>Native: 0.7% cover<br>Non-native: 0% cover<br>Quadrats: 69<br>Survey years: 1 (2019-2019)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Maili Beach<\/b><br>Native: 13.2% cover<br>Non-native: 20.2% cover<br>Quadrats: 164<br>Survey years: 4 (2007-2019)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mokauea Island<\/b><br>Native: 0.3% cover<br>Non-native: 0% cover<br>Quadrats: 25<br>Survey years: 1 (2019-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Turtle Bay<\/b><br>Native: 14.1% cover<br>Non-native: 0.5% cover<br>Quadrats: 60<br>Survey years: 2 (2005-2017)","<b>Waianae High School Reef<\/b><br>Native: 0.3% cover<br>Non-native: 0.9% cover<br>Quadrats: 30<br>Survey years: 1 (2019-2019)"],null,["Baby Makapuu - native: 1% cover","Ewa - native: 3.7% cover","Ewa - native: 8.8% cover","Kahana Bay - native: 0.1% cover","Kalaeloa - native: 4.7% cover","Kalaeloa - native: 16.8% cover","Keiki Bay - native: 1.1% cover","Lanikai Point - native: 0.7% cover","Leahi - native: 4.7% cover","Leahi - native: 1.1% cover","Leahi - native: 14.9% cover","Maili Beach - native: 13.2% cover","Mauliola - native: 0.5% cover","Mauliola - native: 1.1% cover","Mokauea Island - native: 0.3% cover","Sandy Beach - native: 0.1% cover","Sandy Beach - native: 4.9% cover","Turtle Bay - native: 14.1% cover","Waianae High School Reef - native: 0.3% cover"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[[21.316488,21.310612,null,21.559278,21.295799,null,21.7057,21.3962,21.25544,21.25544,null,21.4104,21.3002,null,21.311893,21.2843,21.2882,21.706499,21.452875],[-157.660761,-158.00091,null,-157.868402,-158.100199,null,-157.992197,-157.716806,-157.806803,-157.8068,null,-158.174204,-157.879099,null,-157.891642,-157.671793,-157.664499,-157.995005,-158.196466],[6.209791134973442,11.94664980706963,13.96544980752536,12.11340540069133,11.45048064461271,7.574439244336593,4,4,8.071995591105029,5.49655866854043,4.662937340492032,18,6.510495436393674,7.042799026746088,4,4,6.05259824858294,6.275119221451844,7.009699831492233],null,"Non-native",{"interactive":true,"className":"","stroke":true,"color":"white","weight":1,"opacity":0.5,"fill":true,"fillColor":"#e34a33","fillOpacity":0.85},null,null,["<b>Baby Makapuu<\/b><br>Native: 1% cover<br>Non-native: 0.5% cover<br>Quadrats: 159<br>Survey years: 3 (2018-2020)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Kahana Bay<\/b><br>Native: 0.1% cover<br>Non-native: 6.8% cover<br>Quadrats: 115<br>Survey years: 2 (2004-2005)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Keiki Bay<\/b><br>Native: 1.1% cover<br>Non-native: 0% cover<br>Quadrats: 67<br>Survey years: 2 (2016-2017)","<b>Lanikai Point<\/b><br>Native: 0.7% cover<br>Non-native: 0% cover<br>Quadrats: 69<br>Survey years: 1 (2019-2019)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Maili Beach<\/b><br>Native: 13.2% cover<br>Non-native: 20.2% cover<br>Quadrats: 164<br>Survey years: 4 (2007-2019)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mokauea Island<\/b><br>Native: 0.3% cover<br>Non-native: 0% cover<br>Quadrats: 25<br>Survey years: 1 (2019-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Turtle Bay<\/b><br>Native: 14.1% cover<br>Non-native: 0.5% cover<br>Quadrats: 60<br>Survey years: 2 (2005-2017)","<b>Waianae High School Reef<\/b><br>Native: 0.3% cover<br>Non-native: 0.9% cover<br>Quadrats: 30<br>Survey years: 1 (2019-2019)"],null,["Baby Makapuu - non-native: 0.5% cover","Ewa - non-native: 6.5% cover","Ewa - non-native: 10.2% cover","Kahana Bay - non-native: 6.8% cover","Kalaeloa - non-native: 5.7% cover","Kalaeloa - non-native: 1.3% cover","Keiki Bay - non-native: 0% cover","Lanikai Point - non-native: 0% cover","Leahi - non-native: 1.7% cover","Leahi - non-native: 0.2% cover","Leahi - non-native: 0% cover","Maili Beach - non-native: 20.2% cover","Mauliola - non-native: 0.6% cover","Mauliola - non-native: 1% cover","Mokauea Island - non-native: 0% cover","Sandy Beach - non-native: 0% cover","Sandy Beach - non-native: 0.4% cover","Turtle Bay - non-native: 0.5% cover","Waianae High School Reef - non-native: 0.9% cover"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[[],["Native","Non-native"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addLegend","args":[{"colors":["#2ca25f","#e34a33"],"labels":["Native (likely)","Non-native (invasive)"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"unknown","title":"Mean % cover<br>(all years)","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[21.25544,21.706499],"lng":[-158.203466,-157.660761]},"fitBounds":[21.25,-158.3,21.72,-157.62,[]]},"evals":[],"jsHooks":[]}</script>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-invasive-native-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Mean percent cover of Native and Non-native algae across Oʻahu sampling locations.
@@ -4728,8 +4760,8 @@ Figure&nbsp;2: Mean percent cover of Native and Non-native algae across Oʻahu s
 <div id="fig-percent-cover" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-percent-cover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-a3fedbbd35e08cfac34c" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-a3fedbbd35e08cfac34c">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[21.316488,21.310612,null,21.559278,21.295799,null,21.7057,21.3962,21.25544,21.25544,null,21.4104,21.3002,null,21.311893,21.2843,21.2882,21.706499,21.452875],[-157.664261,-158.00441,null,-157.871902,-158.103699,null,-157.995697,-157.720306,-157.810303,-157.8103,null,-158.177704,-157.882599,null,-157.895142,-157.675293,-157.667999,-157.998505,-158.199966],[14.70491186831894,16.67196446434332,17.52328635701058,10.74688909580091,15.86361153658663,16.5310455309652,12.74537261256473,12.68716363656868,16.1927580852859,16.5453601866845,16.42364507227106,17.2922245189828,14.84946019959996,15.75938246827631,14.17797733199151,13.49674090276736,14.91317874371798,17.32544176074933,18],null,null,{"interactive":true,"className":"","stroke":true,"color":"white","weight":1,"opacity":0.5,"fill":true,"fillColor":["#8ACE80","#208142","#005D33","#FFFFE5","#3FA95B","#258745","#E4F4AB","#E5F5AC","#339850","#258644","#2A8C48","#016937","#81CA7C","#45AD5F","#A9DB8C","#C9E99B","#7DC87B","#006737","#004529"],"fillOpacity":0.9},null,null,["<b>Baby Makapuu<\/b><br>Mean cover: 49.7%<br>Quadrats: 159","<b>Ewa<\/b><br>Mean cover: 69.7%<br>Quadrats: 600","<b>Ewa<\/b><br>Mean cover: 79.4%<br>Quadrats: 172","<b>Kahana Bay<\/b><br>Mean cover: 19.8%<br>Quadrats: 115","<b>Kalaeloa<\/b><br>Mean cover: 61.1%<br>Quadrats: 328","<b>Kalaeloa<\/b><br>Mean cover: 68.2%<br>Quadrats: 158","<b>Keiki Bay<\/b><br>Mean cover: 33.2%<br>Quadrats: 67","<b>Lanikai Point<\/b><br>Mean cover: 32.8%<br>Quadrats: 69","<b>Leahi<\/b><br>Mean cover: 64.5%<br>Quadrats: 981","<b>Leahi<\/b><br>Mean cover: 68.3%<br>Quadrats: 52","<b>Leahi<\/b><br>Mean cover: 67%<br>Quadrats: 265","<b>Maili Beach<\/b><br>Mean cover: 76.7%<br>Quadrats: 164","<b>Mauliola<\/b><br>Mean cover: 51.1%<br>Quadrats: 579","<b>Mauliola<\/b><br>Mean cover: 60%<br>Quadrats: 239","<b>Mokauea Island<\/b><br>Mean cover: 45%<br>Quadrats: 25","<b>Sandy Beach<\/b><br>Mean cover: 39.1%<br>Quadrats: 28","<b>Sandy Beach<\/b><br>Mean cover: 51.7%<br>Quadrats: 129","<b>Turtle Bay<\/b><br>Mean cover: 77.1%<br>Quadrats: 60","<b>Waianae High School Reef<\/b><br>Mean cover: 85.1%<br>Quadrats: 30"],null,["Baby Makapuu: 49.7% algae cover","Ewa: 69.7% algae cover","Ewa: 79.4% algae cover","Kahana Bay: 19.8% algae cover","Kalaeloa: 61.1% algae cover","Kalaeloa: 68.2% algae cover","Keiki Bay: 33.2% algae cover","Lanikai Point: 32.8% algae cover","Leahi: 64.5% algae cover","Leahi: 68.3% algae cover","Leahi: 67% algae cover","Maili Beach: 76.7% algae cover","Mauliola: 51.1% algae cover","Mauliola: 60% algae cover","Mokauea Island: 45% algae cover","Sandy Beach: 39.1% algae cover","Sandy Beach: 51.7% algae cover","Turtle Bay: 77.1% algae cover","Waianae High School Reef: 85.1% algae cover"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFE5 , #FFFFE4 0.372803124445245%, #EFF9B3 15.684360021303%, #C4E799 30.9959169181608%, #88CD7F 46.3074738150186%, #45AD5F 61.6190307118764%, #1F8041 76.9305876087342%, #005A32 92.242144505592%, #004529 "],"labels":["20","30","40","50","60","70","80"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"bottomright","type":"numeric","title":"Mean % algae cover","extra":{"p_1":0.003728031244452448,"p_n":0.9224214450559204},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[21.25544,21.706499],"lng":[-158.199966,-157.664261]},"fitBounds":[21.25,-158.3,21.72,-157.62,[]]},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-d6245b687cb99a63e81e" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-d6245b687cb99a63e81e">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[21.316488,21.310612,null,21.559278,21.295799,null,21.7057,21.3962,21.25544,21.25544,null,21.4104,21.3002,null,21.311893,21.2843,21.2882,21.706499,21.452875],[-157.664261,-158.00441,null,-157.871902,-158.103699,null,-157.995697,-157.720306,-157.810303,-157.8103,null,-158.177704,-157.882599,null,-157.895142,-157.675293,-157.667999,-157.998505,-158.199966],[14.70491186831894,16.67196446434332,17.52328635701058,10.74688909580091,15.86361153658663,16.5310455309652,12.74537261256473,12.68716363656868,16.1927580852859,16.5453601866845,16.42364507227106,17.2922245189828,14.84946019959996,15.75938246827631,14.17797733199151,13.49674090276736,14.91317874371798,17.32544176074933,18],null,null,{"interactive":true,"className":"","stroke":true,"color":"white","weight":1,"opacity":0.5,"fill":true,"fillColor":["#8ACE80","#208142","#005D33","#FFFFE5","#3FA95B","#258745","#E4F4AB","#E5F5AC","#339850","#258644","#2A8C48","#016937","#81CA7C","#45AD5F","#A9DB8C","#C9E99B","#7DC87B","#006737","#004529"],"fillOpacity":0.9},null,null,["<b>Baby Makapuu<\/b><br>Mean cover: 49.7%<br>Quadrats: 159","<b>Ewa<\/b><br>Mean cover: 69.7%<br>Quadrats: 600","<b>Ewa<\/b><br>Mean cover: 79.4%<br>Quadrats: 172","<b>Kahana Bay<\/b><br>Mean cover: 19.8%<br>Quadrats: 115","<b>Kalaeloa<\/b><br>Mean cover: 61.1%<br>Quadrats: 328","<b>Kalaeloa<\/b><br>Mean cover: 68.2%<br>Quadrats: 158","<b>Keiki Bay<\/b><br>Mean cover: 33.2%<br>Quadrats: 67","<b>Lanikai Point<\/b><br>Mean cover: 32.8%<br>Quadrats: 69","<b>Leahi<\/b><br>Mean cover: 64.5%<br>Quadrats: 981","<b>Leahi<\/b><br>Mean cover: 68.3%<br>Quadrats: 52","<b>Leahi<\/b><br>Mean cover: 67%<br>Quadrats: 265","<b>Maili Beach<\/b><br>Mean cover: 76.7%<br>Quadrats: 164","<b>Mauliola<\/b><br>Mean cover: 51.1%<br>Quadrats: 579","<b>Mauliola<\/b><br>Mean cover: 60%<br>Quadrats: 239","<b>Mokauea Island<\/b><br>Mean cover: 45%<br>Quadrats: 25","<b>Sandy Beach<\/b><br>Mean cover: 39.1%<br>Quadrats: 28","<b>Sandy Beach<\/b><br>Mean cover: 51.7%<br>Quadrats: 129","<b>Turtle Bay<\/b><br>Mean cover: 77.1%<br>Quadrats: 60","<b>Waianae High School Reef<\/b><br>Mean cover: 85.1%<br>Quadrats: 30"],null,["Baby Makapuu: 49.7% algae cover","Ewa: 69.7% algae cover","Ewa: 79.4% algae cover","Kahana Bay: 19.8% algae cover","Kalaeloa: 61.1% algae cover","Kalaeloa: 68.2% algae cover","Keiki Bay: 33.2% algae cover","Lanikai Point: 32.8% algae cover","Leahi: 64.5% algae cover","Leahi: 68.3% algae cover","Leahi: 67% algae cover","Maili Beach: 76.7% algae cover","Mauliola: 51.1% algae cover","Mauliola: 60% algae cover","Mokauea Island: 45% algae cover","Sandy Beach: 39.1% algae cover","Sandy Beach: 51.7% algae cover","Turtle Bay: 77.1% algae cover","Waianae High School Reef: 85.1% algae cover"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFE5 , #FFFFE4 0.372803124445245%, #EFF9B3 15.684360021303%, #C4E799 30.9959169181608%, #88CD7F 46.3074738150186%, #45AD5F 61.6190307118764%, #1F8041 76.9305876087342%, #005A32 92.242144505592%, #004529 "],"labels":["20","30","40","50","60","70","80"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"bottomright","type":"numeric","title":"Mean % algae cover","extra":{"p_1":0.003728031244452448,"p_n":0.9224214450559204},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[21.25544,21.706499],"lng":[-158.199966,-157.664261]},"fitBounds":[21.25,-158.3,21.72,-157.62,[]]},"evals":[],"jsHooks":[]}</script>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-percent-cover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: Mean percent cover of total algae across Oʻahu sampling locations.
@@ -4848,6 +4880,1212 @@ Figure&nbsp;5: Percent algal cover of native and non-native species accross all 
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="th-script-summary-table" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 5th Script: Summary Table</h1>
+<section id="purpose" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="purpose"><span class="header-section-number">5.1</span> Purpose</h2>
+<p>This document builds the project’s <strong>“beautiful tidy table”</strong> (assignment step 2: <em>“Visualize a subset of the data in a beautiful tidy table”</em>) for our question:</p>
+<blockquote class="blockquote">
+<p><strong>How do the occurrence (distribution) and abundance of invasive and native algae compare across OPIHI intertidal surveys, 2004–2026, accounting for sampling effort?</strong></p>
+</blockquote>
+<p>It reads only the cleaned, de-identified outputs in <code>Data/Processed/</code> (the <code>_completed</code> versions, which add the team’s post-cleaning corrections listed in <code>opihi_change_log.csv</code>) and the team’s algae origin lookup in <code>Data/Algae/</code>. It does not touch the raw data. The table is saved to <code>Outputs/</code> as a PNG (for slides and the README) and as HTML, along with a CSV of every algal taxon.</p>
+</section>
+<section id="design-choices" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="design-choices"><span class="header-section-number">5.2</span> Design choices</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Choice</th>
+<th>Why</th>
+<th>Assignment link</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Metric = % of quadrats where a taxon was recorded</strong>, with the number of quadrats and sites shown in each column header</td>
+<td>Detection frequency divides by effort (quadrats sampled), so sites and years sampled more heavily don’t look “richer” just because of effort</td>
+<td>Question C: <em>“detection-frequency summary, accounting for sampling effort”</em></td>
+</tr>
+<tr class="even">
+<td><strong>Distribution = number of sites and islands</strong> where each taxon was recorded</td>
+<td>Answers <em>where</em>, alongside <em>when</em> (the period columns)</td>
+<td>Question C: <em>“where and when was it recorded?”</em></td>
+</tr>
+<tr class="odd">
+<td><strong>Abundance = mean % cover where present</strong> (points hit ÷ 25)</td>
+<td>Separates how common a taxon is from how much space it takes up once it is there</td>
+<td>Our question compares abundance as well as distribution</td>
+</tr>
+<tr class="even">
+<td><strong>Three sampling periods</strong> (2004–2008, 2016–2020, 2024–2026)</td>
+<td>OPIHI data fall in these three blocks; there are no surveys 2009–2015 or 2021–2023 at quadrat level</td>
+<td>Shows change over time without implying a continuous trend</td>
+</tr>
+<tr class="odd">
+<td><strong>Origin status from the team’s <code>algae_origin_review.csv</code> / <code>algae_origin_lookup.csv</code></strong></td>
+<td>One shared classification for the table and both figures; anything a teammate fills into <code>your_status</code> overrides the default</td>
+<td>Documented decisions; consistency across the report</td>
+</tr>
+<tr class="even">
+<td><strong>Only species-level IDs are classed native or invasive</strong>; genus-only records, uncertain-origin species and functional groups are summarised separately</td>
+<td>Genera such as <em>Hypnea</em> and <em>Gracilaria</em> contain both native and invasive species, so genus-level records can’t honestly be assigned</td>
+<td>Taxonomic care; <em>“don’t draw broad conclusions”</em></td>
+</tr>
+<tr class="odd">
+<td><strong>Quadrat-level records only</strong> (classroom group totals and cyanobacteria excluded, stated in the table note)</td>
+<td>Group totals cannot give per-quadrat detection; cyanobacteria are not algae</td>
+<td>Explained exclusions</td>
+</tr>
+<tr class="even">
+<td><strong>8 most widespread native taxa shown; all taxa written to CSV</strong></td>
+<td>Keeps the table readable while losing nothing</td>
+<td>Tidy subset of the data</td>
+</tr>
+<tr class="odd">
+<td><strong>No teacher IDs or names; no statistics</strong></td>
+<td>Table uses only site, island, year and taxon; the summary is exploratory</td>
+<td>Data stewardship; <em>“statistics are not expected”</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="first-steps" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="first-steps"><span class="header-section-number">5.3</span> First Steps</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb239"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb239-1"><a href="#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="co">#needed  &lt;- c("here", "dplyr", "tidyr", "stringr", "readr", "gt", "webshot2")</span></span>
+<span id="cb239-2"><a href="#cb239-2" aria-hidden="true" tabindex="-1"></a><span class="co">#missing &lt;- needed[!vapply(needed, requireNamespace, logical(1), quietly = TRUE)]</span></span>
+<span id="cb239-3"><a href="#cb239-3" aria-hidden="true" tabindex="-1"></a><span class="co">#if (length(missing) &gt; 0) {</span></span>
+<span id="cb239-4"><a href="#cb239-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#stop("Missing packages. Run this once, then re-run:\n  install.packages(c(",</span></span>
+<span id="cb239-5"><a href="#cb239-5" aria-hidden="true" tabindex="-1"></a>      <span class="co"># paste0('"', missing, '"', collapse = ", "), "))")</span></span>
+<span id="cb239-6"><a href="#cb239-6" aria-hidden="true" tabindex="-1"></a><span class="co">#}</span></span>
+<span id="cb239-7"><a href="#cb239-7" aria-hidden="true" tabindex="-1"></a><span class="co">#library(dplyr)</span></span>
+<span id="cb239-8"><a href="#cb239-8" aria-hidden="true" tabindex="-1"></a><span class="co">#library(tidyr)</span></span>
+<span id="cb239-9"><a href="#cb239-9" aria-hidden="true" tabindex="-1"></a><span class="co">#library(stringr)</span></span>
+<span id="cb239-10"><a href="#cb239-10" aria-hidden="true" tabindex="-1"></a><span class="co">#library(readr)</span></span>
+<span id="cb239-11"><a href="#cb239-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb239-12"><a href="#cb239-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb239-13"><a href="#cb239-13" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"Scripts/opihi_algae_table.qmd"</span>)</span>
+<span id="cb239-14"><a href="#cb239-14" aria-hidden="true" tabindex="-1"></a>PROC_DIR  <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Processed"</span>)</span>
+<span id="cb239-15"><a href="#cb239-15" aria-hidden="true" tabindex="-1"></a>ALGAE_DIR <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Algae"</span>)</span>
+<span id="cb239-16"><a href="#cb239-16" aria-hidden="true" tabindex="-1"></a>OUT_DIR   <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Outputs"</span>)</span>
+<span id="cb239-17"><a href="#cb239-17" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(OUT_DIR, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="data" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="data"><span class="header-section-number">5.4</span> Data</h2>
+<p>The <code>_completed</code> files are the cleaned outputs plus the corrections in <code>opihi_change_log.csv</code>. Of those, only one reaches this table: Sandy Beach West was merged into Sandy Beach, so site counts fall by one where both were sampled. The other corrections concern the 2023 classroom survey (excluded here as a group total) or non-algae taxa.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb240"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb240-1"><a href="#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="co"># "_completed" = cleaned outputs + team corrections (see opihi_change_log.csv).</span></span>
+<span id="cb240-2"><a href="#cb240-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Set VERSION &lt;- "" to rebuild the table from the original pipeline outputs.</span></span>
+<span id="cb240-3"><a href="#cb240-3" aria-hidden="true" tabindex="-1"></a>VERSION <span class="ot">&lt;-</span> <span class="st">"_completed"</span></span>
+<span id="cb240-4"><a href="#cb240-4" aria-hidden="true" tabindex="-1"></a>read_proc <span class="ot">&lt;-</span> \(name) <span class="fu">read_csv</span>(<span class="fu">file.path</span>(PROC_DIR, <span class="fu">paste0</span>(name, VERSION, <span class="st">".csv"</span>)), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb240-5"><a href="#cb240-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb240-6"><a href="#cb240-6" aria-hidden="true" tabindex="-1"></a>master  <span class="ot">&lt;-</span> <span class="fu">read_proc</span>(<span class="st">"opihi_master"</span>)</span>
+<span id="cb240-7"><a href="#cb240-7" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">read_proc</span>(<span class="st">"opihi_samples"</span>)</span>
+<span id="cb240-8"><a href="#cb240-8" aria-hidden="true" tabindex="-1"></a>surveys <span class="ot">&lt;-</span> <span class="fu">read_proc</span>(<span class="st">"opihi_surveys"</span>)</span>
+<span id="cb240-9"><a href="#cb240-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb240-10"><a href="#cb240-10" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">read_csv</span>(<span class="fu">file.path</span>(PROC_DIR, <span class="st">"opihi_change_log.csv"</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb240-11"><a href="#cb240-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">"Team corrections applied in the completed files (opihi_change_log.csv)."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Team corrections applied in the completed files (opihi_change_log.csv).</caption>
+<colgroup>
+<col style="width: 44%">
+<col style="width: 2%">
+<col style="width: 53%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">change</th>
+<th style="text-align: right;">rows</th>
+<th style="text-align: left;">reason</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">S0251: site recovered as Leahi (site_name, site_alias_english, island)</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: left;">chart titles in the 2023 group file name Diamond Head (Le’ahi); no cell holds the site</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S0251: transect filled from the group label (P#G# -&gt; transect #)</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: left;">group labels encode the transect; column left blank by the cleaning</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">taxon ‘Dendropoma gregaria’ -&gt; ‘Dendropoma gregarium’</td>
+<td style="text-align: right;">215</td>
+<td style="text-align: left;">accepted spelling; the AI used the majority raw spelling</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">category of ‘Unknown fish’: Invertebrate -&gt; Vertebrate</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">fish are vertebrates; the category list had no vertebrate option</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">merged duplicate taxon rows in S0251-003 (Sargassum aquifolium 1+2 = 3, Turbinaria ornata 1+1 = 2)</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">typo and correct spelling entered on separate sheet lines (confirmed in raw file); counts summed, both source cells kept</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">site ‘Sandy Beach West’ -&gt; ‘Sandy Beach’ (surveys S0101, S0214)</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: left;">same site under two names</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb241"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb241-1"><a href="#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Team origin classification. The lookup holds every alga, including functional</span></span>
+<span id="cb241-2"><a href="#cb241-2" aria-hidden="true" tabindex="-1"></a><span class="co"># groups; the review file holds team corrections in `your_status` (blank = keep).</span></span>
+<span id="cb241-3"><a href="#cb241-3" aria-hidden="true" tabindex="-1"></a>origin <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(ALGAE_DIR, <span class="st">"algae_origin_lookup.csv"</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb241-4"><a href="#cb241-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(taxon_clean, origin_status)</span>
+<span id="cb241-5"><a href="#cb241-5" aria-hidden="true" tabindex="-1"></a>review_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(ALGAE_DIR, <span class="st">"algae_origin_review.csv"</span>)</span>
+<span id="cb241-6"><a href="#cb241-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(review_path)) {</span>
+<span id="cb241-7"><a href="#cb241-7" aria-hidden="true" tabindex="-1"></a>  review <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(review_path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">.default =</span> <span class="st">"c"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb241-8"><a href="#cb241-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(your_status), <span class="fu">str_trim</span>(your_status) <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb241-9"><a href="#cb241-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(taxon_clean, your_status)</span>
+<span id="cb241-10"><a href="#cb241-10" aria-hidden="true" tabindex="-1"></a>  origin <span class="ot">&lt;-</span> origin <span class="sc">|&gt;</span></span>
+<span id="cb241-11"><a href="#cb241-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(review, <span class="at">by =</span> <span class="st">"taxon_clean"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb241-12"><a href="#cb241-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">origin_status =</span> <span class="fu">coalesce</span>(<span class="fu">str_trim</span>(your_status), origin_status)) <span class="sc">|&gt;</span></span>
+<span id="cb241-13"><a href="#cb241-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>your_status)</span>
+<span id="cb241-14"><a href="#cb241-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb241-15"><a href="#cb241-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb241-16"><a href="#cb241-16" aria-hidden="true" tabindex="-1"></a>STATUS_LEVELS <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Non-native (invasive)"</span>, <span class="st">"Native (likely)"</span>, <span class="st">"Unresolved (check)"</span>,</span>
+<span id="cb241-17"><a href="#cb241-17" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"Unresolved (genus-level)"</span>, <span class="st">"Not assignable (functional group)"</span>)</span>
+<span id="cb241-18"><a href="#cb241-18" aria-hidden="true" tabindex="-1"></a>bad_status <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">unique</span>(origin<span class="sc">$</span>origin_status), STATUS_LEVELS)</span>
+<span id="cb241-19"><a href="#cb241-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(bad_status) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb241-20"><a href="#cb241-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Unknown origin_status value(s) in the lookup/review: "</span>, <span class="fu">paste</span>(bad_status, <span class="at">collapse =</span> <span class="st">"; "</span>),</span>
+<span id="cb241-21"><a href="#cb241-21" aria-hidden="true" tabindex="-1"></a>       <span class="st">"</span><span class="sc">\n</span><span class="st">Allowed: "</span>, <span class="fu">paste</span>(STATUS_LEVELS, <span class="at">collapse =</span> <span class="st">"; "</span>))</span>
+<span id="cb241-22"><a href="#cb241-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="sampling-effort" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="sampling-effort"><span class="header-section-number">5.4.1</span> Sampling effort</h3>
+<p>Effort is every quadrat in <code>opihi_samples_completed.csv</code>, <strong>including quadrats where no alga was recorded</strong>. The master lists only detections, so it cannot supply the denominator.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb242"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb242-1"><a href="#cb242-1" aria-hidden="true" tabindex="-1"></a>period_of <span class="ot">&lt;-</span> <span class="cf">function</span>(year) {</span>
+<span id="cb242-2"><a href="#cb242-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">factor</span>(<span class="fu">case_when</span>(year <span class="sc">&lt;=</span> <span class="dv">2008</span> <span class="sc">~</span> <span class="st">"p1"</span>, year <span class="sc">&lt;=</span> <span class="dv">2020</span> <span class="sc">~</span> <span class="st">"p2"</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"p3"</span>),</span>
+<span id="cb242-3"><a href="#cb242-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"p1"</span>, <span class="st">"p2"</span>, <span class="st">"p3"</span>))</span>
+<span id="cb242-4"><a href="#cb242-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb242-5"><a href="#cb242-5" aria-hidden="true" tabindex="-1"></a>PERIOD_LABELS <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">p1 =</span> <span class="st">"2004–2008"</span>, <span class="at">p2 =</span> <span class="st">"2016–2020"</span>, <span class="at">p3 =</span> <span class="st">"2024–2026"</span>)</span>
+<span id="cb242-6"><a href="#cb242-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb242-7"><a href="#cb242-7" aria-hidden="true" tabindex="-1"></a>effort <span class="ot">&lt;-</span> samples <span class="sc">|&gt;</span></span>
+<span id="cb242-8"><a href="#cb242-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sample_type <span class="sc">==</span> <span class="st">"quadrat"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb242-9"><a href="#cb242-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sample_id, survey_id) <span class="sc">|&gt;</span></span>
+<span id="cb242-10"><a href="#cb242-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">select</span>(surveys, survey_id, year, site_name, island), <span class="at">by =</span> <span class="st">"survey_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb242-11"><a href="#cb242-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">period =</span> <span class="fu">period_of</span>(year))</span>
+<span id="cb242-12"><a href="#cb242-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb242-13"><a href="#cb242-13" aria-hidden="true" tabindex="-1"></a>period_info <span class="ot">&lt;-</span> effort <span class="sc">|&gt;</span></span>
+<span id="cb242-14"><a href="#cb242-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(period) <span class="sc">|&gt;</span></span>
+<span id="cb242-15"><a href="#cb242-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_quadrats =</span> <span class="fu">n</span>(), <span class="at">n_sites =</span> <span class="fu">n_distinct</span>(site_name),</span>
+<span id="cb242-16"><a href="#cb242-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">islands =</span> <span class="fu">paste</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(island)), <span class="at">collapse =</span> <span class="st">", "</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb242-17"><a href="#cb242-17" aria-hidden="true" tabindex="-1"></a>n_total <span class="ot">&lt;-</span> <span class="fu">nrow</span>(effort)</span>
+<span id="cb242-18"><a href="#cb242-18" aria-hidden="true" tabindex="-1"></a>n_sites_total <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(effort<span class="sc">$</span>site_name)</span>
+<span id="cb242-19"><a href="#cb242-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb242-20"><a href="#cb242-20" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="sc">!</span><span class="fu">anyNA</span>(effort<span class="sc">$</span>year), <span class="sc">!</span><span class="fu">anyNA</span>(effort<span class="sc">$</span>site_name))</span>
+<span id="cb242-21"><a href="#cb242-21" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(period_info, <span class="at">caption =</span> <span class="st">"Quadrats, sites and islands sampled in each period."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Quadrats, sites and islands sampled in each period.</caption>
+<colgroup>
+<col style="width: 10%">
+<col style="width: 16%">
+<col style="width: 11%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">period</th>
+<th style="text-align: right;">n_quadrats</th>
+<th style="text-align: right;">n_sites</th>
+<th style="text-align: left;">islands</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">p1</td>
+<td style="text-align: right;">1356</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: left;">Hawaii, Maui, Molokai, Oahu</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">p2</td>
+<td style="text-align: right;">4992</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: left;">Hawaii, Kauai, Lanai, Maui, Molokai, Oahu</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">p3</td>
+<td style="text-align: right;">834</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Oahu</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="algae-records-with-origin-status" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="algae-records-with-origin-status"><span class="header-section-number">5.4.2</span> Algae records with origin status</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb243"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb243-1"><a href="#cb243-1" aria-hidden="true" tabindex="-1"></a>algae <span class="ot">&lt;-</span> master <span class="sc">|&gt;</span></span>
+<span id="cb243-2"><a href="#cb243-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(resolution <span class="sc">==</span> <span class="st">"quadrat"</span>, category <span class="sc">==</span> <span class="st">"Algae"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb243-3"><a href="#cb243-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(origin, <span class="at">by =</span> <span class="st">"taxon_clean"</span>)</span>
+<span id="cb243-4"><a href="#cb243-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb243-5"><a href="#cb243-5" aria-hidden="true" tabindex="-1"></a>unclassified <span class="ot">&lt;-</span> algae <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(origin_status)) <span class="sc">|&gt;</span> <span class="fu">distinct</span>(taxon_clean)</span>
+<span id="cb243-6"><a href="#cb243-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(unclassified) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb243-7"><a href="#cb243-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Algae missing from algae_origin_lookup.csv: "</span>, <span class="fu">paste</span>(unclassified<span class="sc">$</span>taxon_clean, <span class="at">collapse =</span> <span class="st">"; "</span>))</span>
+<span id="cb243-8"><a href="#cb243-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+</section>
+<section id="summary-for-every-algal-taxon" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="summary-for-every-algal-taxon"><span class="header-section-number">5.5</span> Summary for every algal taxon</h2>
+<p><code>summarise_occurrence()</code> turns detection records into one row per group with detection frequency by period (effort-corrected), distribution and mean cover. It is used twice: once per taxon and once per origin status.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb244"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb244-1"><a href="#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inputs : det    - one row per sample x group: sample_id, group columns, points</span></span>
+<span id="cb244-2"><a href="#cb244-2" aria-hidden="true" tabindex="-1"></a><span class="co">#          effort - every quadrat sampled: sample_id, period, site_name, island</span></span>
+<span id="cb244-3"><a href="#cb244-3" aria-hidden="true" tabindex="-1"></a><span class="co">#          ...    - the grouping columns</span></span>
+<span id="cb244-4"><a href="#cb244-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Output : one row per group: % of quadrats recorded in each period and overall,</span></span>
+<span id="cb244-5"><a href="#cb244-5" aria-hidden="true" tabindex="-1"></a><span class="co">#          sites, islands, mean % cover where present, quadrats recorded</span></span>
+<span id="cb244-6"><a href="#cb244-6" aria-hidden="true" tabindex="-1"></a>summarise_occurrence <span class="ot">&lt;-</span> <span class="cf">function</span>(det, effort, ...) {</span>
+<span id="cb244-7"><a href="#cb244-7" aria-hidden="true" tabindex="-1"></a>  grp <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">select</span>(det, ...))          <span class="co"># grouping column names, for the final join</span></span>
+<span id="cb244-8"><a href="#cb244-8" aria-hidden="true" tabindex="-1"></a>  det <span class="ot">&lt;-</span> det <span class="sc">|&gt;</span></span>
+<span id="cb244-9"><a href="#cb244-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">cover =</span> <span class="fu">pmin</span>(points, <span class="dv">25</span>) <span class="sc">/</span> <span class="dv">25</span>) <span class="sc">|&gt;</span></span>
+<span id="cb244-10"><a href="#cb244-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(<span class="fu">select</span>(effort, sample_id, period, site_name, island), <span class="at">by =</span> <span class="st">"sample_id"</span>)</span>
+<span id="cb244-11"><a href="#cb244-11" aria-hidden="true" tabindex="-1"></a>  per_period <span class="ot">&lt;-</span> det <span class="sc">|&gt;</span></span>
+<span id="cb244-12"><a href="#cb244-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(..., period, <span class="at">name =</span> <span class="st">"n_det"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb244-13"><a href="#cb244-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(<span class="fu">count</span>(effort, period, <span class="at">name =</span> <span class="st">"n_quadrats"</span>), <span class="at">by =</span> <span class="st">"period"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb244-14"><a href="#cb244-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">pct =</span> <span class="dv">100</span> <span class="sc">*</span> n_det <span class="sc">/</span> n_quadrats) <span class="sc">|&gt;</span></span>
+<span id="cb244-15"><a href="#cb244-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(..., period, pct) <span class="sc">|&gt;</span></span>
+<span id="cb244-16"><a href="#cb244-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> period, <span class="at">values_from =</span> pct, <span class="at">values_fill =</span> <span class="dv">0</span>, <span class="at">names_expand =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb244-17"><a href="#cb244-17" aria-hidden="true" tabindex="-1"></a>  det <span class="sc">|&gt;</span></span>
+<span id="cb244-18"><a href="#cb244-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(...) <span class="sc">|&gt;</span></span>
+<span id="cb244-19"><a href="#cb244-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">quadrats_recorded =</span> <span class="fu">n_distinct</span>(sample_id),</span>
+<span id="cb244-20"><a href="#cb244-20" aria-hidden="true" tabindex="-1"></a>              <span class="at">pct_all =</span> <span class="dv">100</span> <span class="sc">*</span> quadrats_recorded <span class="sc">/</span> <span class="fu">nrow</span>(effort),</span>
+<span id="cb244-21"><a href="#cb244-21" aria-hidden="true" tabindex="-1"></a>              <span class="at">sites   =</span> <span class="fu">n_distinct</span>(site_name),</span>
+<span id="cb244-22"><a href="#cb244-22" aria-hidden="true" tabindex="-1"></a>              <span class="at">islands =</span> <span class="fu">n_distinct</span>(island),</span>
+<span id="cb244-23"><a href="#cb244-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">cover   =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(cover),</span>
+<span id="cb244-24"><a href="#cb244-24" aria-hidden="true" tabindex="-1"></a>              <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb244-25"><a href="#cb244-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(per_period, <span class="at">by =</span> grp)</span>
+<span id="cb244-26"><a href="#cb244-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb244-27"><a href="#cb244-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb244-28"><a href="#cb244-28" aria-hidden="true" tabindex="-1"></a>by_taxon <span class="ot">&lt;-</span> algae <span class="sc">|&gt;</span></span>
+<span id="cb244-29"><a href="#cb244-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(origin_status, taxon_clean, sample_id) <span class="sc">|&gt;</span></span>
+<span id="cb244-30"><a href="#cb244-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">points =</span> <span class="fu">sum</span>(count), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb244-31"><a href="#cb244-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_occurrence</span>(effort, origin_status, taxon_clean)</span>
+<span id="cb244-32"><a href="#cb244-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb244-33"><a href="#cb244-33" aria-hidden="true" tabindex="-1"></a>by_status <span class="ot">&lt;-</span> algae <span class="sc">|&gt;</span></span>
+<span id="cb244-34"><a href="#cb244-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(origin_status, sample_id) <span class="sc">|&gt;</span></span>
+<span id="cb244-35"><a href="#cb244-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">points =</span> <span class="fu">sum</span>(count), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb244-36"><a href="#cb244-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_occurrence</span>(effort, origin_status) <span class="sc">|&gt;</span></span>
+<span id="cb244-37"><a href="#cb244-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">count</span>(by_taxon, origin_status, <span class="at">name =</span> <span class="st">"n_taxa"</span>), <span class="at">by =</span> <span class="st">"origin_status"</span>)</span>
+<span id="cb244-38"><a href="#cb244-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb244-39"><a href="#cb244-39" aria-hidden="true" tabindex="-1"></a><span class="co"># sanity checks: percentages are possible and per-taxon counts never exceed effort</span></span>
+<span id="cb244-40"><a href="#cb244-40" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(by_taxon<span class="sc">$</span>pct_all <span class="sc">&lt;=</span> <span class="dv">100</span>), <span class="fu">all</span>(by_status<span class="sc">$</span>pct_all <span class="sc">&lt;=</span> <span class="dv">100</span>),</span>
+<span id="cb244-41"><a href="#cb244-41" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(by_taxon<span class="sc">$</span>quadrats_recorded <span class="sc">&lt;=</span> n_total))</span>
+<span id="cb244-42"><a href="#cb244-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb244-43"><a href="#cb244-43" aria-hidden="true" tabindex="-1"></a><span class="co"># every algal taxon, for anyone who wants more than the table shows</span></span>
+<span id="cb244-44"><a href="#cb244-44" aria-hidden="true" tabindex="-1"></a>by_taxon <span class="sc">|&gt;</span></span>
+<span id="cb244-45"><a href="#cb244-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">factor</span>(origin_status, STATUS_LEVELS), <span class="fu">desc</span>(pct_all)) <span class="sc">|&gt;</span></span>
+<span id="cb244-46"><a href="#cb244-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">pct_2004_2008 =</span> p1, <span class="at">pct_2016_2020 =</span> p2, <span class="at">pct_2024_2026 =</span> p3,</span>
+<span id="cb244-47"><a href="#cb244-47" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct_all_years =</span> pct_all, <span class="at">mean_cover_when_present =</span> cover) <span class="sc">|&gt;</span></span>
+<span id="cb244-48"><a href="#cb244-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.double), \(x) <span class="fu">round</span>(x, <span class="dv">2</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb244-49"><a href="#cb244-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="fu">file.path</span>(OUT_DIR, <span class="st">"algae_origin_summary.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="the-table" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="the-table"><span class="header-section-number">5.6</span> The table</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb245"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb245-1"><a href="#cb245-1" aria-hidden="true" tabindex="-1"></a>N_NATIVE_SHOWN <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb245-2"><a href="#cb245-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb245-3"><a href="#cb245-3" aria-hidden="true" tabindex="-1"></a>italicize <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {        <span class="co"># "Acanthophora spicifera" -&gt; "*Acanthophora spicifera*"</span></span>
+<span id="cb245-4"><a href="#cb245-4" aria-hidden="true" tabindex="-1"></a>  spp  <span class="ot">&lt;-</span> <span class="fu">str_detect</span>(x, <span class="st">" spp</span><span class="sc">\\</span><span class="st">.$"</span>)</span>
+<span id="cb245-5"><a href="#cb245-5" aria-hidden="true" tabindex="-1"></a>  base <span class="ot">&lt;-</span> <span class="fu">str_remove</span>(x, <span class="st">" spp</span><span class="sc">\\</span><span class="st">.$"</span>)</span>
+<span id="cb245-6"><a href="#cb245-6" aria-hidden="true" tabindex="-1"></a>  out  <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"*"</span>, <span class="fu">str_replace_all</span>(base, <span class="st">"/"</span>, <span class="st">"*/*"</span>), <span class="st">"*"</span>)</span>
+<span id="cb245-7"><a href="#cb245-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(spp, <span class="fu">paste0</span>(out, <span class="st">" spp."</span>), out)</span>
+<span id="cb245-8"><a href="#cb245-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb245-9"><a href="#cb245-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb245-10"><a href="#cb245-10" aria-hidden="true" tabindex="-1"></a>n_native <span class="ot">&lt;-</span> <span class="fu">sum</span>(by_taxon<span class="sc">$</span>origin_status <span class="sc">==</span> <span class="st">"Native (likely)"</span>)</span>
+<span id="cb245-11"><a href="#cb245-11" aria-hidden="true" tabindex="-1"></a>SEC_ALL  <span class="ot">&lt;-</span> <span class="st">"All algae, by origin status"</span></span>
+<span id="cb245-12"><a href="#cb245-12" aria-hidden="true" tabindex="-1"></a>SEC_INV  <span class="ot">&lt;-</span> <span class="st">"Invasive taxa"</span></span>
+<span id="cb245-13"><a href="#cb245-13" aria-hidden="true" tabindex="-1"></a>SEC_NAT  <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Native taxa ("</span>, N_NATIVE_SHOWN, <span class="st">" most widespread of "</span>, n_native, <span class="st">")"</span>)</span>
+<span id="cb245-14"><a href="#cb245-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb245-15"><a href="#cb245-15" aria-hidden="true" tabindex="-1"></a>status_label <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb245-16"><a href="#cb245-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Non-native (invasive)"</span>             <span class="ot">=</span> <span class="st">"Invasive species"</span>,</span>
+<span id="cb245-17"><a href="#cb245-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Native (likely)"</span>                   <span class="ot">=</span> <span class="st">"Native species"</span>,</span>
+<span id="cb245-18"><a href="#cb245-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Unresolved (check)"</span>                <span class="ot">=</span> <span class="st">"Species of uncertain origin"</span>,</span>
+<span id="cb245-19"><a href="#cb245-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Unresolved (genus-level)"</span>          <span class="ot">=</span> <span class="st">"Identified to genus only"</span>,</span>
+<span id="cb245-20"><a href="#cb245-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Not assignable (functional group)"</span> <span class="ot">=</span> <span class="st">"Functional groups (turf, corallines, crusts)"</span>)</span>
+<span id="cb245-21"><a href="#cb245-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb245-22"><a href="#cb245-22" aria-hidden="true" tabindex="-1"></a>display <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb245-23"><a href="#cb245-23" aria-hidden="true" tabindex="-1"></a>  by_status <span class="sc">|&gt;</span></span>
+<span id="cb245-24"><a href="#cb245-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">factor</span>(origin_status, STATUS_LEVELS)) <span class="sc">|&gt;</span></span>
+<span id="cb245-25"><a href="#cb245-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">section =</span> SEC_ALL,</span>
+<span id="cb245-26"><a href="#cb245-26" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">paste0</span>(status_label[origin_status], <span class="st">" ("</span>, n_taxa, <span class="st">" taxa)"</span>)),</span>
+<span id="cb245-27"><a href="#cb245-27" aria-hidden="true" tabindex="-1"></a>  by_taxon <span class="sc">|&gt;</span></span>
+<span id="cb245-28"><a href="#cb245-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(origin_status <span class="sc">==</span> <span class="st">"Non-native (invasive)"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb245-29"><a href="#cb245-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(pct_all), taxon_clean) <span class="sc">|&gt;</span></span>
+<span id="cb245-30"><a href="#cb245-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">section =</span> SEC_INV, <span class="at">label =</span> <span class="fu">italicize</span>(taxon_clean)),</span>
+<span id="cb245-31"><a href="#cb245-31" aria-hidden="true" tabindex="-1"></a>  by_taxon <span class="sc">|&gt;</span></span>
+<span id="cb245-32"><a href="#cb245-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(origin_status <span class="sc">==</span> <span class="st">"Native (likely)"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb245-33"><a href="#cb245-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(pct_all), taxon_clean) <span class="sc">|&gt;</span></span>
+<span id="cb245-34"><a href="#cb245-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_head</span>(<span class="at">n =</span> N_NATIVE_SHOWN) <span class="sc">|&gt;</span></span>
+<span id="cb245-35"><a href="#cb245-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">section =</span> SEC_NAT, <span class="at">label =</span> <span class="fu">italicize</span>(taxon_clean))</span>
+<span id="cb245-36"><a href="#cb245-36" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb245-37"><a href="#cb245-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(section, label, p1, p2, p3, pct_all, sites, islands, cover)</span>
+<span id="cb245-38"><a href="#cb245-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb245-39"><a href="#cb245-39" aria-hidden="true" tabindex="-1"></a>hdr <span class="ot">&lt;-</span> <span class="cf">function</span>(p) {</span>
+<span id="cb245-40"><a href="#cb245-40" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> period_info[period_info<span class="sc">$</span>period <span class="sc">==</span> p, ]</span>
+<span id="cb245-41"><a href="#cb245-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">md</span>(<span class="fu">paste0</span>(<span class="st">"**"</span>, PERIOD_LABELS[[p]], <span class="st">"**&lt;br&gt;"</span>, i<span class="sc">$</span>n_sites, <span class="st">" sites&lt;br&gt;"</span>,</span>
+<span id="cb245-42"><a href="#cb245-42" aria-hidden="true" tabindex="-1"></a>            <span class="fu">format</span>(i<span class="sc">$</span>n_quadrats, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">" quadrats"</span>))</span>
+<span id="cb245-43"><a href="#cb245-43" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb245-44"><a href="#cb245-44" aria-hidden="true" tabindex="-1"></a>p3_info   <span class="ot">&lt;-</span> period_info[period_info<span class="sc">$</span>period <span class="sc">==</span> <span class="st">"p3"</span>, ]</span>
+<span id="cb245-45"><a href="#cb245-45" aria-hidden="true" tabindex="-1"></a>func_pct  <span class="ot">&lt;-</span> by_status<span class="sc">$</span>pct_all[by_status<span class="sc">$</span>origin_status <span class="sc">==</span> <span class="st">"Not assignable (functional group)"</span>]</span>
+<span id="cb245-46"><a href="#cb245-46" aria-hidden="true" tabindex="-1"></a>genus_row <span class="ot">&lt;-</span> display<span class="sc">$</span>label[<span class="fu">str_starts</span>(display<span class="sc">$</span>label, <span class="st">"Identified to genus"</span>)]</span>
+<span id="cb245-47"><a href="#cb245-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb245-48"><a href="#cb245-48" aria-hidden="true" tabindex="-1"></a>algae_tbl <span class="ot">&lt;-</span> display <span class="sc">|&gt;</span></span>
+<span id="cb245-49"><a href="#cb245-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">groupname_col =</span> <span class="st">"section"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb245-50"><a href="#cb245-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_group_order</span>(<span class="at">groups =</span> <span class="fu">c</span>(SEC_ALL, SEC_INV, SEC_NAT)) <span class="sc">|&gt;</span></span>
+<span id="cb245-51"><a href="#cb245-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_markdown</span>(<span class="at">columns =</span> label) <span class="sc">|&gt;</span></span>
+<span id="cb245-52"><a href="#cb245-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(p1, p2, p3, pct_all, cover), <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb245-53"><a href="#cb245-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb245-54"><a href="#cb245-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">label   =</span> <span class="st">""</span>,</span>
+<span id="cb245-55"><a href="#cb245-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">p1      =</span> <span class="fu">hdr</span>(<span class="st">"p1"</span>),</span>
+<span id="cb245-56"><a href="#cb245-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">p2      =</span> <span class="fu">hdr</span>(<span class="st">"p2"</span>),</span>
+<span id="cb245-57"><a href="#cb245-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">p3      =</span> <span class="fu">hdr</span>(<span class="st">"p3"</span>),</span>
+<span id="cb245-58"><a href="#cb245-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_all =</span> <span class="fu">md</span>(<span class="fu">paste0</span>(<span class="st">"**All years**&lt;br&gt;"</span>, n_sites_total, <span class="st">" sites&lt;br&gt;"</span>,</span>
+<span id="cb245-59"><a href="#cb245-59" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">format</span>(n_total, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">" quadrats"</span>)),</span>
+<span id="cb245-60"><a href="#cb245-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">sites   =</span> <span class="fu">md</span>(<span class="st">"**Sites**"</span>),</span>
+<span id="cb245-61"><a href="#cb245-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">islands =</span> <span class="fu">md</span>(<span class="st">"**Islands**"</span>),</span>
+<span id="cb245-62"><a href="#cb245-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">cover   =</span> <span class="fu">md</span>(<span class="st">"**Mean cover&lt;br&gt;where present (%)**"</span>)</span>
+<span id="cb245-63"><a href="#cb245-63" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb245-64"><a href="#cb245-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(<span class="at">label =</span> <span class="fu">md</span>(<span class="st">"**Quadrats where recorded (%)**"</span>),</span>
+<span id="cb245-65"><a href="#cb245-65" aria-hidden="true" tabindex="-1"></a>              <span class="at">columns =</span> <span class="fu">c</span>(p1, p2, p3, pct_all), <span class="at">id =</span> <span class="st">"freq"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb245-66"><a href="#cb245-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(<span class="at">label =</span> <span class="fu">md</span>(<span class="st">"**Distribution**"</span>), <span class="at">columns =</span> <span class="fu">c</span>(sites, islands), <span class="at">id =</span> <span class="st">"dist"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb245-67"><a href="#cb245-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(<span class="at">label =</span> <span class="fu">md</span>(<span class="st">"**Abundance**"</span>), <span class="at">columns =</span> cover, <span class="at">id =</span> <span class="st">"abund"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb245-68"><a href="#cb245-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data_color</span>(<span class="at">columns =</span> <span class="fu">c</span>(p1, p2, p3, pct_all),</span>
+<span id="cb245-69"><a href="#cb245-69" aria-hidden="true" tabindex="-1"></a>             <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#FFFFFF"</span>, <span class="st">"#DEEBF7"</span>, <span class="st">"#9ECAE1"</span>, <span class="st">"#3182BD"</span>, <span class="st">"#08519C"</span>),</span>
+<span id="cb245-70"><a href="#cb245-70" aria-hidden="true" tabindex="-1"></a>             <span class="at">domain =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb245-71"><a href="#cb245-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"center"</span>, <span class="at">columns =</span> <span class="sc">-</span>label) <span class="sc">|&gt;</span></span>
+<span id="cb245-72"><a href="#cb245-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_width</span>(label <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">300</span>), <span class="fu">c</span>(p1, p2, p3, pct_all) <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">92</span>),</span>
+<span id="cb245-73"><a href="#cb245-73" aria-hidden="true" tabindex="-1"></a>             <span class="fu">c</span>(sites, islands) <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">64</span>), cover <span class="sc">~</span> <span class="fu">px</span>(<span class="dv">104</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb245-74"><a href="#cb245-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb245-75"><a href="#cb245-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="fu">md</span>(<span class="st">"**Invasive and native algae in OPIHI intertidal surveys, 2004–2026**"</span>),</span>
+<span id="cb245-76"><a href="#cb245-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"How often each alga was recorded, where, and how much space it covered when present"</span></span>
+<span id="cb245-77"><a href="#cb245-77" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb245-78"><a href="#cb245-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb245-79"><a href="#cb245-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="fu">paste0</span>(<span class="st">"Percentage of 25-point quadrats in which the taxon was recorded (sampling effort "</span>,</span>
+<span id="cb245-80"><a href="#cb245-80" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"in each header). Sites sampled differ between periods: 2024–2026 data come from "</span>,</span>
+<span id="cb245-81"><a href="#cb245-81" aria-hidden="true" tabindex="-1"></a>                      p3_info<span class="sc">$</span>n_sites, <span class="st">" sites on "</span>, p3_info<span class="sc">$</span>islands, <span class="st">" only, so differences between "</span>,</span>
+<span id="cb245-82"><a href="#cb245-82" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"periods partly reflect where sampling took place."</span>),</span>
+<span id="cb245-83"><a href="#cb245-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_spanners</span>(<span class="at">spanners =</span> <span class="st">"freq"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb245-84"><a href="#cb245-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb245-85"><a href="#cb245-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="fu">paste0</span>(<span class="st">"Mean percentage of the 25 points covered by the taxon in quadrats where it was "</span>,</span>
+<span id="cb245-86"><a href="#cb245-86" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"present. Older datasheets did not always record bare substrate, so cover is less "</span>,</span>
+<span id="cb245-87"><a href="#cb245-87" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"comparable between periods than detection."</span>),</span>
+<span id="cb245-88"><a href="#cb245-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>(<span class="at">columns =</span> cover)) <span class="sc">|&gt;</span></span>
+<span id="cb245-89"><a href="#cb245-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb245-90"><a href="#cb245-90" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="fu">md</span>(<span class="fu">paste0</span>(<span class="st">"Listed as introduced, invasive algae in Hawaiʻi (NOAA Hawaiʻi Integrated "</span>,</span>
+<span id="cb245-91"><a href="#cb245-91" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"Ecosystem Assessment; U.S. Army Corps of Engineers). *Avrainvillea lacerata* "</span>,</span>
+<span id="cb245-92"><a href="#cb245-92" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"includes records under its former name, *A. amadelpha*."</span>)),</span>
+<span id="cb245-93"><a href="#cb245-93" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_row_groups</span>(<span class="at">groups =</span> SEC_INV)) <span class="sc">|&gt;</span></span>
+<span id="cb245-94"><a href="#cb245-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb245-95"><a href="#cb245-95" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="fu">paste0</span>(<span class="st">"Origin status from the team's algae origin lookup (Data/Algae). 'Native' "</span>,</span>
+<span id="cb245-96"><a href="#cb245-96" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"statuses are provisional pending verification against a Hawaiian marine algae "</span>,</span>
+<span id="cb245-97"><a href="#cb245-97" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"checklist. Only taxa identified to species are classed as native or invasive."</span>),</span>
+<span id="cb245-98"><a href="#cb245-98" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_row_groups</span>(<span class="at">groups =</span> SEC_NAT)) <span class="sc">|&gt;</span></span>
+<span id="cb245-99"><a href="#cb245-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb245-100"><a href="#cb245-100" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="fu">md</span>(<span class="fu">paste0</span>(<span class="st">"Includes common genera such as *Padina*, *Sargassum* and *Laurencia*; genera "</span>,</span>
+<span id="cb245-101"><a href="#cb245-101" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"with both native and introduced species in Hawaiʻi (e.g. *Hypnea*, "</span>,</span>
+<span id="cb245-102"><a href="#cb245-102" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"*Gracilaria*) cannot be assigned an origin."</span>)),</span>
+<span id="cb245-103"><a href="#cb245-103" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> label, <span class="at">rows =</span> label <span class="sc">==</span> genus_row)) <span class="sc">|&gt;</span></span>
+<span id="cb245-104"><a href="#cb245-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="fu">md</span>(<span class="fu">paste0</span>(</span>
+<span id="cb245-105"><a href="#cb245-105" aria-hidden="true" tabindex="-1"></a>    <span class="st">"**Data:** OPIHI (Our Project In Hawaiʻi's Intertidal) monitoring data, cleaned master dataset "</span>,</span>
+<span id="cb245-106"><a href="#cb245-106" aria-hidden="true" tabindex="-1"></a>    <span class="st">"with team corrections (`opihi_master_completed.csv`); "</span>,</span>
+<span id="cb245-107"><a href="#cb245-107" aria-hidden="true" tabindex="-1"></a>    <span class="st">"quadrat-level point-intercept records only ("</span>, <span class="fu">format</span>(n_total, <span class="at">big.mark =</span> <span class="st">","</span>), <span class="st">" quadrats at "</span>,</span>
+<span id="cb245-108"><a href="#cb245-108" aria-hidden="true" tabindex="-1"></a>    n_sites_total, <span class="st">" sites). Classroom group totals and cyanobacteria excluded. A quadrat counts once "</span>,</span>
+<span id="cb245-109"><a href="#cb245-109" aria-hidden="true" tabindex="-1"></a>    <span class="st">"per row even if several taxa in that row were recorded in it. Exploratory summary; no statistical "</span>,</span>
+<span id="cb245-110"><a href="#cb245-110" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tests. Full per-taxon results: `Outputs/algae_origin_summary.csv`."</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb245-111"><a href="#cb245-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_footnote_marks</span>(<span class="at">marks =</span> <span class="st">"letters"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb245-112"><a href="#cb245-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_table_font</span>(<span class="at">font =</span> <span class="fu">c</span>(<span class="st">"Helvetica Neue"</span>, <span class="st">"Arial"</span>, <span class="st">"sans-serif"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb245-113"><a href="#cb245-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb245-114"><a href="#cb245-114" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.align =</span> <span class="st">"left"</span>,</span>
+<span id="cb245-115"><a href="#cb245-115" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.title.font.size =</span> <span class="fu">px</span>(<span class="dv">18</span>),</span>
+<span id="cb245-116"><a href="#cb245-116" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.subtitle.font.size =</span> <span class="fu">px</span>(<span class="dv">13</span>),</span>
+<span id="cb245-117"><a href="#cb245-117" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.border.bottom.color =</span> <span class="st">"black"</span>,</span>
+<span id="cb245-118"><a href="#cb245-118" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.font.size =</span> <span class="fu">px</span>(<span class="dv">13</span>),</span>
+<span id="cb245-119"><a href="#cb245-119" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.border.top.color =</span> <span class="st">"white"</span>,</span>
+<span id="cb245-120"><a href="#cb245-120" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.border.bottom.color =</span> <span class="st">"black"</span>,</span>
+<span id="cb245-121"><a href="#cb245-121" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.border.top.color =</span> <span class="st">"black"</span>,</span>
+<span id="cb245-122"><a href="#cb245-122" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.border.bottom.color =</span> <span class="st">"black"</span>,</span>
+<span id="cb245-123"><a href="#cb245-123" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.font.size =</span> <span class="fu">px</span>(<span class="dv">12</span>),</span>
+<span id="cb245-124"><a href="#cb245-124" aria-hidden="true" tabindex="-1"></a>    <span class="at">row_group.font.weight =</span> <span class="st">"bold"</span>,</span>
+<span id="cb245-125"><a href="#cb245-125" aria-hidden="true" tabindex="-1"></a>    <span class="at">row_group.background.color =</span> <span class="st">"#F3F4F6"</span>,</span>
+<span id="cb245-126"><a href="#cb245-126" aria-hidden="true" tabindex="-1"></a>    <span class="at">row_group.border.top.color =</span> <span class="st">"#BDBDBD"</span>,</span>
+<span id="cb245-127"><a href="#cb245-127" aria-hidden="true" tabindex="-1"></a>    <span class="at">row_group.border.bottom.color =</span> <span class="st">"#BDBDBD"</span>,</span>
+<span id="cb245-128"><a href="#cb245-128" aria-hidden="true" tabindex="-1"></a>    <span class="at">table_body.hlines.color =</span> <span class="st">"#ECECEC"</span>,</span>
+<span id="cb245-129"><a href="#cb245-129" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_row.padding =</span> <span class="fu">px</span>(<span class="dv">5</span>),</span>
+<span id="cb245-130"><a href="#cb245-130" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnotes.font.size =</span> <span class="fu">px</span>(<span class="dv">11</span>),</span>
+<span id="cb245-131"><a href="#cb245-131" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_notes.font.size =</span> <span class="fu">px</span>(<span class="dv">11</span>),</span>
+<span id="cb245-132"><a href="#cb245-132" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnotes.multiline =</span> <span class="cn">TRUE</span></span>
+<span id="cb245-133"><a href="#cb245-133" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb245-134"><a href="#cb245-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb245-135"><a href="#cb245-135" aria-hidden="true" tabindex="-1"></a>algae_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="wrmnnkpmsj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wrmnnkpmsj table {
+  font-family: 'Helvetica Neue', Arial, sans-serif, system-ui, 'Segoe UI', Roboto, Helvetica, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#wrmnnkpmsj thead, #wrmnnkpmsj tbody, #wrmnnkpmsj tfoot, #wrmnnkpmsj tr, #wrmnnkpmsj td, #wrmnnkpmsj th {
+  border-style: none;
+}
+
+#wrmnnkpmsj p {
+  margin: 0;
+  padding: 0;
+}
+
+#wrmnnkpmsj .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #FFFFFF;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #000000;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wrmnnkpmsj .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#wrmnnkpmsj .gt_title {
+  color: #333333;
+  font-size: 18px;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wrmnnkpmsj .gt_subtitle {
+  color: #333333;
+  font-size: 13px;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wrmnnkpmsj .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wrmnnkpmsj .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #000000;
+}
+
+#wrmnnkpmsj .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #000000;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #000000;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wrmnnkpmsj .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 12px;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wrmnnkpmsj .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 12px;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wrmnnkpmsj .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wrmnnkpmsj .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wrmnnkpmsj .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #000000;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wrmnnkpmsj .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#wrmnnkpmsj .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #F3F4F6;
+  font-size: 100%;
+  font-weight: bold;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #BDBDBD;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #BDBDBD;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#wrmnnkpmsj .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #F3F4F6;
+  font-size: 100%;
+  font-weight: bold;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #BDBDBD;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #BDBDBD;
+  vertical-align: middle;
+}
+
+#wrmnnkpmsj .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wrmnnkpmsj .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wrmnnkpmsj .gt_row {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #ECECEC;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wrmnnkpmsj .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wrmnnkpmsj .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#wrmnnkpmsj .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#wrmnnkpmsj .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#wrmnnkpmsj .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wrmnnkpmsj .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#wrmnnkpmsj .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#wrmnnkpmsj .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wrmnnkpmsj .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wrmnnkpmsj .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wrmnnkpmsj .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wrmnnkpmsj .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wrmnnkpmsj .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wrmnnkpmsj .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wrmnnkpmsj .gt_footnote {
+  margin: 0px;
+  font-size: 11px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wrmnnkpmsj .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wrmnnkpmsj .gt_sourcenote {
+  font-size: 11px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wrmnnkpmsj .gt_left {
+  text-align: left;
+}
+
+#wrmnnkpmsj .gt_center {
+  text-align: center;
+}
+
+#wrmnnkpmsj .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wrmnnkpmsj .gt_font_normal {
+  font-weight: normal;
+}
+
+#wrmnnkpmsj .gt_font_bold {
+  font-weight: bold;
+}
+
+#wrmnnkpmsj .gt_font_italic {
+  font-style: italic;
+}
+
+#wrmnnkpmsj .gt_super {
+  font-size: 65%;
+}
+
+#wrmnnkpmsj .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#wrmnnkpmsj .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#wrmnnkpmsj .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#wrmnnkpmsj .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#wrmnnkpmsj .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#wrmnnkpmsj .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#wrmnnkpmsj .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#wrmnnkpmsj .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#wrmnnkpmsj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="8" class="gt_heading gt_title gt_font_normal"><strong>Invasive and native algae in OPIHI intertidal surveys, 2004–2026</strong></td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="8" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">How often each alga was recorded, where, and how much space it covered when present</td>
+</tr>
+<tr class="gt_col_headings gt_spanner_row header">
+<th rowspan="2" id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th colspan="4" id="freq" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+<strong>Quadrats where recorded (%)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span>
+</div></th>
+<th colspan="2" id="dist" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+<strong>Distribution</strong>
+</div></th>
+<th id="abund" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="col"><div class="gt_column_spanner">
+<strong>Abundance</strong>
+</div></th>
+</tr>
+<tr class="gt_col_headings even">
+<th id="p1" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>2004–2008</strong><br>13 sites<br>1,356 quadrats</th>
+<th id="p2" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>2016–2020</strong><br>41 sites<br>4,992 quadrats</th>
+<th id="p3" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>2024–2026</strong><br>4 sites<br>834 quadrats</th>
+<th id="pct_all" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>All years</strong><br>42 sites<br>7,182 quadrats</th>
+<th id="sites" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>Sites</strong></th>
+<th id="islands" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>Islands</strong></th>
+<th id="cover" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>Mean cover<br>where present (%)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>b</sup></span></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="gt_group_heading_row odd">
+<th colspan="8" id="All-algae,-by-origin-status" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">All algae, by origin status</th>
+</tr>
+<tr class="gt_row_group_first even">
+<td class="gt_row gt_left" headers="All-algae,-by-origin-status  label">Invasive species (4 taxa)</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p1" style="background-color: #DFECF7; color: #000000">24.1</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p2" style="background-color: #EFF5FB; color: #000000">12.3</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p3" style="background-color: #E7F0F9; color: #000000">18.6</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  pct_all" style="background-color: #EBF3FA; color: #000000">15.2</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  sites">24</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  islands">6</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  cover">19.0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="All-algae,-by-origin-status  label">Native species (28 taxa)</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p1" style="background-color: #DEEBF7; color: #000000">24.9</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p2" style="background-color: #E7F0F9; color: #000000">18.5</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p3" style="background-color: #B5D5E9; color: #000000">41.4</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  pct_all" style="background-color: #E2EDF8; color: #000000">22.3</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  sites">40</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  islands">6</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  cover">18.1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="All-algae,-by-origin-status  label">Species of uncertain origin (28 taxa)</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p1" style="background-color: #F5F9FD; color: #000000">7.4</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p2" style="background-color: #ECF3FA; color: #000000">14.7</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p3" style="background-color: #E6F0F9; color: #000000">19.3</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  pct_all" style="background-color: #EDF4FB; color: #000000">13.9</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  sites">37</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  islands">6</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  cover">19.0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="All-algae,-by-origin-status  label">Identified to genus only (45 taxa)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>c</sup></span></td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p1" style="background-color: #70A7D0; color: #FFFFFF">62.0</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p2" style="background-color: #9FCAE1; color: #000000">49.8</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p3" style="background-color: #256EB0; color: #FFFFFF">85.1</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  pct_all" style="background-color: #87B7D8; color: #000000">56.2</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  sites">40</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  islands">6</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  cover">37.2</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="All-algae,-by-origin-status  label">Functional groups (turf, corallines, crusts) (8 taxa)</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p1" style="background-color: #7EB0D5; color: #000000">58.6</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p2" style="background-color: #458BC2; color: #FFFFFF">71.6</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  p3" style="background-color: #82B4D6; color: #000000">57.6</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  pct_all" style="background-color: #5997C8; color: #FFFFFF">67.5</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  sites">42</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  islands">6</td>
+<td class="gt_row gt_center" headers="All-algae,-by-origin-status  cover">42.2</td>
+</tr>
+<tr class="gt_group_heading_row odd">
+<th colspan="8" id="Invasive-taxa<span-class=&quot;gt_footnote_marks&quot;-style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;&quot;><sup>d</sup></span>" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Invasive taxa<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>d</sup></span></th>
+</tr>
+<tr class="gt_row_group_first even">
+<td class="gt_row gt_left" headers="Invasive-taxa  label"><em>Acanthophora spicifera</em></td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p1" style="background-color: #E5EFF9; color: #000000">20.0</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p2" style="background-color: #F5F9FD; color: #000000">7.8</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p3" style="background-color: #F9FCFE; color: #000000">4.3</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  pct_all" style="background-color: #F2F7FC; color: #000000">9.7</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  sites">22</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  islands">6</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  cover">20.1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Invasive-taxa  label"><em>Gracilaria salicornia</em></td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p1" style="background-color: #FDFEFF; color: #000000">1.5</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p2" style="background-color: #FAFCFE; color: #000000">4.0</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p3" style="background-color: #F7FAFD; color: #000000">6.1</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  pct_all" style="background-color: #FAFCFE; color: #000000">3.8</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  sites">14</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  islands">4</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  cover">14.5</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Invasive-taxa  label"><em>Avrainvillea lacerata</em></td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p1" style="background-color: #FEFFFF; color: #000000">0.5</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p2" style="background-color: #FDFEFE; color: #000000">1.6</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p3" style="background-color: #F0F6FB; color: #000000">11.8</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  pct_all" style="background-color: #FCFDFE; color: #000000">2.6</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  sites">5</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  islands">2</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  cover">12.3</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Invasive-taxa  label"><em>Hypnea musciformis</em></td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p1" style="background-color: #FBFDFE; color: #000000">3.1</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p2" style="background-color: #FFFFFF; color: #000000">0.1</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  p3" style="background-color: #FFFFFF; color: #000000">0.0</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  pct_all" style="background-color: #FEFEFF; color: #000000">0.6</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  sites">3</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  islands">2</td>
+<td class="gt_row gt_center" headers="Invasive-taxa  cover">14.3</td>
+</tr>
+<tr class="gt_group_heading_row even">
+<th colspan="8" id="Native-taxa-(8-most-widespread-of-28)<span-class=&quot;gt_footnote_marks&quot;-style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;&quot;><sup>e</sup></span>" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Native taxa (8 most widespread of 28)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>e</sup></span></th>
+</tr>
+<tr class="gt_row_group_first odd">
+<td class="gt_row gt_left" headers="Native-taxa-(8-most-widespread-of-28)  label"><em>Microdictyon setchellianum</em></td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p1" style="background-color: #FAFCFE; color: #000000">3.5</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p2" style="background-color: #FAFCFE; color: #000000">4.0</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p3" style="background-color: #FFFFFF; color: #000000">0.0</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  pct_all" style="background-color: #FAFCFE; color: #000000">3.5</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  sites">16</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  islands">5</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  cover">14.7</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Native-taxa-(8-most-widespread-of-28)  label"><em>Dictyosphaeria versluysii</em></td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p1" style="background-color: #F7FAFD; color: #000000">6.2</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p2" style="background-color: #FDFDFE; color: #000000">1.9</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p3" style="background-color: #F9FCFE; color: #000000">4.2</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  pct_all" style="background-color: #FBFDFE; color: #000000">3.0</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  sites">13</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  islands">5</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  cover">9.6</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Native-taxa-(8-most-widespread-of-28)  label"><em>Bornetella sphaerica</em></td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p1" style="background-color: #FEFFFF; color: #000000">0.4</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p2" style="background-color: #FCFDFE; color: #000000">2.6</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p3" style="background-color: #F5F9FD; color: #000000">7.8</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  pct_all" style="background-color: #FBFDFE; color: #000000">2.8</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  sites">12</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  islands">3</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  cover">6.6</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Native-taxa-(8-most-widespread-of-28)  label"><em>Sargassum aquifolium</em></td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p1" style="background-color: #FFFFFF; color: #000000">0.0</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p2" style="background-color: #FEFEFF; color: #000000">0.7</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p3" style="background-color: #E7F1F9; color: #000000">18.0</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  pct_all" style="background-color: #FCFDFE; color: #000000">2.6</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  sites">8</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  islands">4</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  cover">26.1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Native-taxa-(8-most-widespread-of-28)  label"><em>Halimeda discoidea</em></td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p1" style="background-color: #FCFDFE; color: #000000">2.6</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p2" style="background-color: #FCFDFE; color: #000000">2.3</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p3" style="background-color: #FFFFFF; color: #000000">0.0</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  pct_all" style="background-color: #FCFDFE; color: #000000">2.1</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  sites">13</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  islands">4</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  cover">11.0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Native-taxa-(8-most-widespread-of-28)  label"><em>Laurencia mcdermidiae</em></td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p1" style="background-color: #FDFEFF; color: #000000">1.3</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p2" style="background-color: #FDFEFE; color: #000000">1.8</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p3" style="background-color: #FBFDFE; color: #000000">2.9</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  pct_all" style="background-color: #FDFEFE; color: #000000">1.8</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  sites">9</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  islands">3</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  cover">22.5</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Native-taxa-(8-most-widespread-of-28)  label"><em>Dictyota sandvicensis</em></td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p1" style="background-color: #FCFDFE; color: #000000">1.9</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p2" style="background-color: #FEFEFF; color: #000000">0.8</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p3" style="background-color: #F7FAFD; color: #000000">6.2</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  pct_all" style="background-color: #FDFEFE; color: #000000">1.6</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  sites">13</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  islands">5</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  cover">12.4</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Native-taxa-(8-most-widespread-of-28)  label"><em>Ulva fasciata</em></td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p1" style="background-color: #F9FBFD; color: #000000">4.9</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p2" style="background-color: #FEFEFF; color: #000000">0.7</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  p3" style="background-color: #FFFFFF; color: #000000">0.0</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  pct_all" style="background-color: #FDFEFF; color: #000000">1.4</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  sites">12</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  islands">3</td>
+<td class="gt_row gt_center" headers="Native-taxa-(8-most-widespread-of-28)  cover">12.6</td>
+</tr>
+</tbody><tfoot>
+<tr class="gt_footnotes odd">
+<td colspan="8" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span> Percentage of 25-point quadrats in which the taxon was recorded (sampling effort in each header). Sites sampled differ between periods: 2024–2026 data come from 4 sites on Oahu only, so differences between periods partly reflect where sampling took place.</td>
+</tr>
+<tr class="gt_footnotes even">
+<td colspan="8" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>b</sup></span> Mean percentage of the 25 points covered by the taxon in quadrats where it was present. Older datasheets did not always record bare substrate, so cover is less comparable between periods than detection.</td>
+</tr>
+<tr class="gt_footnotes odd">
+<td colspan="8" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>c</sup></span> Includes common genera such as <em>Padina</em>, <em>Sargassum</em> and <em>Laurencia</em>; genera with both native and introduced species in Hawaiʻi (e.g.&nbsp;<em>Hypnea</em>, <em>Gracilaria</em>) cannot be assigned an origin.</td>
+</tr>
+<tr class="gt_footnotes even">
+<td colspan="8" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>d</sup></span> Listed as introduced, invasive algae in Hawaiʻi (NOAA Hawaiʻi Integrated Ecosystem Assessment; U.S. Army Corps of Engineers). <em>Avrainvillea lacerata</em> includes records under its former name, <em>A. amadelpha</em>.</td>
+</tr>
+<tr class="gt_footnotes odd">
+<td colspan="8" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>e</sup></span> Origin status from the team's algae origin lookup (Data/Algae). 'Native' statuses are provisional pending verification against a Hawaiian marine algae checklist. Only taxa identified to species are classed as native or invasive.</td>
+</tr>
+<tr class="gt_sourcenotes even">
+<td colspan="8" class="gt_sourcenote"><strong>Data:</strong> OPIHI (Our Project In Hawaiʻi’s Intertidal) monitoring data, cleaned master dataset with team corrections (<code>opihi_master_completed.csv</code>); quadrat-level point-intercept records only (7,182 quadrats at 42 sites). Classroom group totals and cyanobacteria excluded. A quadrat counts once per row even if several taxa in that row were recorded in it. Exploratory summary; no statistical tests. Full per-taxon results: <code>Outputs/algae_origin_summary.csv</code>.</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="save-the-table" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="save-the-table"><span class="header-section-number">5.7</span> Save the table</h2>
+<p>The PNG is made by <code>gt::gtsave()</code>, which uses the <code>webshot2</code> package and a Chrome or Chromium browser installed on the computer. The HTML copy needs neither.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb246"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb246-1"><a href="#cb246-1" aria-hidden="true" tabindex="-1"></a>png_path  <span class="ot">&lt;-</span> <span class="fu">file.path</span>(OUT_DIR, <span class="st">"algae_invasive_native_table.png"</span>)</span>
+<span id="cb246-2"><a href="#cb246-2" aria-hidden="true" tabindex="-1"></a>html_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(OUT_DIR, <span class="st">"algae_invasive_native_table.html"</span>)</span>
+<span id="cb246-3"><a href="#cb246-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb246-4"><a href="#cb246-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gtsave</span>(algae_tbl, html_path)</span>
+<span id="cb246-5"><a href="#cb246-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tryCatch</span>(</span>
+<span id="cb246-6"><a href="#cb246-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gtsave</span>(algae_tbl, png_path, <span class="at">expand =</span> <span class="dv">20</span>, <span class="at">zoom =</span> <span class="dv">2</span>),</span>
+<span id="cb246-7"><a href="#cb246-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">error =</span> <span class="cf">function</span>(e) <span class="fu">message</span>(</span>
+<span id="cb246-8"><a href="#cb246-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PNG not saved: "</span>, <span class="fu">conditionMessage</span>(e),</span>
+<span id="cb246-9"><a href="#cb246-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="sc">\n</span><span class="st">The PNG needs Google Chrome (or Chromium) installed. The HTML copy was saved to "</span>, html_path)</span>
+<span id="cb246-10"><a href="#cb246-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb246-11"><a href="#cb246-11" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(OUT_DIR, <span class="at">pattern =</span> <span class="st">"^algae_"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "algae_invasive_native_table.html" "algae_invasive_native_table.png" 
+[3] "algae_origin_summary.csv"        </code></pre>
+</div>
+</div>
+</section>
+<section id="reading-the-table-exploratory" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="reading-the-table-exploratory"><span class="header-section-number">5.8</span> Reading the table (exploratory)</h2>
+<ul>
+<li>Invasive species were recorded in 15.2% of quadrats, compared with 22.3% for native species. They were found at 24 of 42 sites on 6 islands.</li>
+<li><em>Acanthophora spicifera</em> is the most widespread invasive (9.7% of quadrats, 22 sites).</li>
+<li>56.2% of quadrats contain algae identified only to genus, so a large part of the algal record cannot be assigned an origin.</li>
+</ul>
+<p>All period-to-period differences are confounded by which sites were sampled (see table note a). No statistical tests were run.</p>
+</section>
+<section id="sources-for-invasive-status" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="sources-for-invasive-status"><span class="header-section-number">5.9</span> Sources for invasive status</h2>
+<ul>
+<li>NOAA Hawaiʻi Integrated Ecosystem Assessment, <em>Invasive alien species</em>: <a href="https://integratedecosystemassessment.noaa.gov/node/194" class="uri">https://integratedecosystemassessment.noaa.gov/node/194</a></li>
+<li>U.S. Army Corps of Engineers (ERDC) webinar, <em>Avrainvillea erecta</em> (notes <em>A. lacerata</em>, formerly <em>A. amadelpha</em>, as the established invasive in Hawaiʻi): <a href="https://CorpsLakes.erdc.dren.mil/employees/learning/webinars/19Aug28-Avrainvillea_erecta.pdf" class="uri">https://CorpsLakes.erdc.dren.mil/employees/learning/webinars/19Aug28-Avrainvillea_erecta.pdf</a></li>
+</ul>
 </section>
 </section>
 
