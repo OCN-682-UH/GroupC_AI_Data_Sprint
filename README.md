@@ -30,7 +30,7 @@ Generative AI was used to assist with coding and troubleshooting. All AI- genera
 [Link](https://01a1c73e-0b52-61fa-15ed-dcbe38cb1fa3.share.connect.posit.cloud)
 
 ## AI Data Cleaning: Verification and Cross-checking
-[Link](https://01a1b9de-66ea-2d11-92d7-54ebd44e5b60.share.connect.posit.cloud)
+[Link](https://github.com/OCN-682-UH/GroupC_AI_Data_Sprint/blob/main/AI_data/OPIHI_Data_Cleaning_Verification_Crosschecking_Summary.pdf.pdf)
 - Every count in the AI-built `opihi_master` was traced back to its raw spreadsheet cell, and every flag, exclusion and name
 mapping was tested independently. No counts were lost or misread. Five corrections were applied, all to names,
 categories or record structure; the total of all counts is unchanged. The corrected tables are `opihi_master_completed`,
