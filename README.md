@@ -31,7 +31,7 @@ Generative AI was used to assist with coding and troubleshooting. All AI- genera
 [Link](https://01a1c73e-0b52-61fa-15ed-dcbe38cb1fa3.share.connect.posit.cloud)
 
 ## Individual Reflection 
-[Insert PDF here]
+[PDF Link](https://01a1c73e-0b52-61fa-15ed-dcbe38cb1fa3.share.connect.posit.cloud)
 
 ## Directory
 
