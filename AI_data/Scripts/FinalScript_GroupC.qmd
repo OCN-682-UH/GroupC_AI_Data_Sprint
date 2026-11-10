@@ -1,10 +1,23 @@
 ---
-title: "FinalScript_GroupC"
-author: "Cam Nemeth, Linnea Nordlli, Jasmine-Kuʻupua Chang, and Carolina Melendez Declet"
-format: html
+title: "OPIHI Data Cleaning and Verification"
+subtitle: "OCN 682 - Group C"
+authors: "Cam Nemeth, Linnea Nordlli, Jasmine-Kuʻupua Chang, and Carolina Melendez Declet"
+format:
+  html:
+    theme: zephyr
+    toc: true
+    toc-location: right
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    code-summary: "Show R Code"
+execute:
+  echo: true
+  message: false
+  warning: false
 ---
 
-PUT CAPTION HERE 
+# 1st Script: Cleaning Up Raw Data 
 
 ## Project question
 
@@ -19,6 +32,7 @@ site and year.
 ## Setup
 
 ```{r setup}
+
 # ---- Packages ---------------------------------------------------------------
 # Stops with the exact install command if anything is missing, so a new user
 # knows what to do instead of hitting a cryptic error halfway through.
@@ -77,7 +91,7 @@ if (length(list_raw_xlsx(RAW_DIR)) == 0) {
 }
 ```
 
-## 1. Raw data inventory
+## Raw data inventory
 
 The datasheets come in four structural "families". Each family gets one
 importer, rather than one per file.
@@ -542,9 +556,9 @@ sessionInfo()
 ```
 
 
-SECOND SCRIPT 
+# 2nd Script: Cleaning up Data 
 
-# About this document
+## About this document
 
 This file does two jobs:
 
@@ -565,10 +579,10 @@ Notes in *italics* without a label are my own observations, usually from checkin
 
 **Requirements to render:** the raw Excel files in `AI_data/Data/Raw/` (kept locally only, not on GitHub) and the processed files in `AI_data/Data/Processed/`.
 
-# Setup
+## Start Up
 
 ```{r}
-#| label: setup
+#| label: setup-verification
 
 proc_dir <- here("Data", "Processed")
 raw_dir <- here("Data", "Raw")
@@ -589,7 +603,7 @@ opihi_compiled_crosscheck <- read_csv(file.path(proc_dir, "opihi_compiled_crossc
 
 ------------------------------------------------------------------------
 
-# Part 1 · Does every master value come from a raw cell? (5 Nov)
+## Part 1 · Does every master value come from a raw cell? (5 Nov)
 
 The question: did the AI copy every count correctly from the raw Excel files, or did it change or invent any values? The master's `source_cell` column records the raw file, tab, row and column each value came from, so each row can be looked up in the raw file.
 
@@ -762,7 +776,7 @@ raw_cells |>
 
 ------------------------------------------------------------------------
 
-# Part 2 · Does the master agree with the sample table? (5 Nov)
+## Part 2 · Does the master agree with the sample table? (5 Nov)
 
 ```{r}
 #| label: master-vs-samples
@@ -801,7 +815,7 @@ opihi_master |>
 
 ------------------------------------------------------------------------
 
-# Part 3 · Duplicate visits and surveys without a site (5 Nov)
+## Part 3 · Duplicate visits and surveys without a site (5 Nov)
 
 ```{r}
 #| label: same-site-same-date
@@ -885,7 +899,7 @@ S0252 (2025 group file) stays without a site: nothing in that file identifies on
 
 ------------------------------------------------------------------------
 
-# Part 4 · QC flags (5–6 Nov)
+## Part 4 · QC flags (5–6 Nov)
 
 ```{r}
 #| label: qc-overview
@@ -1021,7 +1035,7 @@ pt |> count(source_file, sort = TRUE)
 
 ------------------------------------------------------------------------
 
-# Part 5 · Repository housekeeping and an updated raw file (6 Nov)
+## Part 5 · Repository housekeeping and an updated raw file (6 Nov)
 
 > **Me:** I had to exit and I just pulled the repo again and got these errors, help me so that I don't overwrite any files that someone else has created since I was working last night.
 >
@@ -1082,7 +1096,7 @@ git push
 
 ------------------------------------------------------------------------
 
-# Part 6 · Compiled-file cross-check (6 Nov)
+## Part 6 · Compiled-file cross-check (6 Nov)
 
 ```{r}
 #| label: compiled-crosscheck
@@ -1108,7 +1122,7 @@ opihi_compiled_crosscheck |>
 
 ------------------------------------------------------------------------
 
-# Part 7 · Exclusions log (5–6 Nov)
+## Part 7 · Exclusions log (5–6 Nov)
 
 ```{r}
 #| label: exclusions-overview
@@ -1176,7 +1190,7 @@ opihi_surveys |>
 
 ------------------------------------------------------------------------
 
-# Part 8 · Taxon names (6–7 Nov)
+## Part 8 · Taxon names (6–7 Nov)
 
 ```{r}
 #| label: s0251-names
@@ -1290,7 +1304,7 @@ master_src |>
 
 ------------------------------------------------------------------------
 
-# Part 9 · Site names (7 Nov)
+## Part 9 · Site names (7 Nov)
 
 ```{r}
 #| label: site-list
@@ -1394,7 +1408,7 @@ block_check |> filter(status != "match")
 
 ------------------------------------------------------------------------
 
-# Part 10 · Save the final files
+## Part 10 · Save the final files
 
 > **Me:** keep track of what needs to go in the write-up for me please. … \[on combining files\] yes A.
 
@@ -1417,7 +1431,7 @@ write_csv(change_log,        file.path(proc_dir, "opihi_change_log.csv"))
 
 ------------------------------------------------------------------------
 
-# Part 11 · Decision for each flag type (7 Nov)
+## Part 11 · Decision for each flag type (7 Nov)
 
 > **Me:** let's finish the keep/fix/exclude table for the flags.
 >
@@ -1479,7 +1493,7 @@ opihi_samples |>
 
 ------------------------------------------------------------------------
 
-# Summary
+## Summary
 
 | Area | Result |
 |------------------------------------|------------------------------------|
@@ -1511,3 +1525,7 @@ opihi_samples |>
 | 9 | Merge grouped by `source_cell` and merged nothing | `nrow(merged)` = 4 | Combine `source_cell` too |
 | 10 | Site patterns missed English names and the ʻokina | 38 "no label found" | Added aliases, removed ʻokina |
 | 11 | Two coding errors (`lead()` type, `case_when()` with `NA`) | R errors | Fixed in the code |
+
+
+# Third Script: Functions 
+
