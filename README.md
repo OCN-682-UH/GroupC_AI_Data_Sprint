@@ -24,7 +24,7 @@ For a selected taxon or group, where and when was it recorded? Make an occurrenc
 ## AI Use & Transparency 
 Generative AI was used to assist with coding and troubleshooting. All AI- generated code was reviewed and tested by group members. Please see our Group AI Developer Log. 
 
-## Directory
+# Directory
 
 ## Final Quarto Report 
 [Link](https://01a1c73e-0b52-61fa-15ed-dcbe38cb1fa3.share.connect.posit.cloud)
@@ -38,7 +38,6 @@ categories or record structure; the total of all counts is unchanged. The correc
 
 ## Group AI Developer Log 
 [Link](https://github.com/OCN-682-UH/GroupC_AI_Data_Sprint/blob/main/AI_data/AI_Log_GroupC.pdf)
-
 
 ## Individual Reflection 
 [PDF Link](https://github.com/OCN-682-UH/GroupC_AI_Data_Sprint/blob/main/AI_data/IndividualReflections_GroupC.pdf)
