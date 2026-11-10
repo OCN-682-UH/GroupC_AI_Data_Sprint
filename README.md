@@ -25,7 +25,7 @@ For a selected taxon or group, where and when was it recorded? Make an occurrenc
 Generative AI was used to assist with coding and troubleshooting. All AI- generated code was reviewed and tested by group members. Please see our Group AI Developer Log. 
 
 ## Group AI Developer Log 
-[Insert here]
+[Link](https://github.com/OCN-682-UH/GroupC_AI_Data_Sprint/blob/main/AI_data/AI_Log_GroupC.pdf)
 
 ## Final Quarto Report 
 [Link](https://01a1c73e-0b52-61fa-15ed-dcbe38cb1fa3.share.connect.posit.cloud)
