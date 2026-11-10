@@ -32,7 +32,6 @@ site and year.
 ## Setup
 
 ```{r setup}
-
 # ---- Packages ---------------------------------------------------------------
 # Stops with the exact install command if anything is missing, so a new user
 # knows what to do instead of hitting a cryptic error halfway through.
@@ -43,14 +42,24 @@ if (length(missing) > 0) {
   stop("Missing packages. Run this once, then re-run:\n  install.packages(c(",
        paste0('"', missing, '"', collapse = ", "), "))")
 }
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(purrr)
-library(readr)
-library(here)
+library(tidyverse)
 library(janitor)
-library(tidyxl)
+library(dplyr)
+library(ggplot2)
+library(here)
+library(stringr)
+library(maps)
+library(mapdata)
+library(mapproj)
+library(leaflet)
+library(sf)
+library(maptiles)
+library(tidyterra)
+library(tidygeocoder)
+library(ggspatial)
+library(leafpop)
+library(patchwork)
+library(grid)
 
 # ---- Project paths ----------------------------------------------------------
 # Project layout (the top folder can have any name or location):
@@ -191,7 +200,7 @@ LEGACY_KEYS <- c("2004", "2005", "2006 and 2007", "2008", "2016",
                  "2017", "2018", "2019", "2020")
 raw_files <- list_raw_xlsx(RAW_DIR, full.names = FALSE)
 legacy_match <- tibble(key = LEGACY_KEYS) |>
-  mutate(files   = map(key, \(k) raw_files[str_starts(raw_files, fixed(paste("OPIHI data", k)))]),
+  mutate(files   = purrr::map(key, \(k) raw_files[str_starts(raw_files, fixed(paste("OPIHI data", k)))]),
          n_found = lengths(files))
 if (any(legacy_match$n_found != 1)) {
   print(legacy_match)
@@ -258,7 +267,7 @@ are calculated from PtCounts, so importing them would duplicate data.
 MODERN_KEYS <- c("OPIHI 2024 datasheet", "OPIHI BIOL 499 2025",
                  "OPIHI 2026 Longitudinal", "RAW Mauliola")
 modern_match <- tibble(key = MODERN_KEYS) |>
-  mutate(files   = map(key, \(k) raw_files[str_starts(raw_files, fixed(k))]),
+  mutate(files = purrr::map(key, \(k) raw_files[str_starts(raw_files, fixed(k))]),
          n_found = lengths(files))
 if (any(modern_match$n_found != 1)) {
   print(modern_match)
@@ -326,7 +335,7 @@ the file name) is known.
 CLASS_KEYS <- c("Copy of OPIHI Field Study 2023", "Copy of OPIHI Field Study 2025",
                 "OPIHI Field Study 2026")
 class_match <- tibble(key = CLASS_KEYS) |>
-  mutate(files   = map(key, \(k) raw_files[str_starts(raw_files, fixed(k))]),
+  mutate(files = purrr::map(key, \(k) raw_files[str_starts(raw_files, fixed(k))]),
          n_found = lengths(files))
 if (any(class_match$n_found != 1)) {
   print(class_match)
@@ -633,8 +642,8 @@ master_src |> filter(is.na(src_file) | is.na(src_row)) |> count(source_family)
 raw_files <- list.files(raw_dir, pattern = "\\.xlsx$", full.names = TRUE, recursive = TRUE)
 raw_files <- raw_files[!str_detect(basename(raw_files), "^~\\$")]   # skip Excel lock files
 
-raw_cells <- map(raw_files, \(p) {
-  xlsx_cells(p) |>
+raw_cells <- purrr::map(raw_files, \(p) {
+  tidyxl::xlsx_cells(p) |>
     filter(!is_blank) |>
     transmute(src_file = basename(p), sheet, row, col, data_type, numeric, character)
 }) |> list_rbind()
@@ -1066,8 +1075,8 @@ The team had renamed the folder `AI data` to `AI_data`, which left an old copy h
 #| label: waipuilani-versions
 #| eval: false
 wp <- "OPIHI Field Study 2026 - Waipuilani Data.xlsx"
-old_wp <- xlsx_cells(file.path("~/Desktop/opihi_backup/old_AI_data_folder/Data/Raw", wp))
-new_wp <- xlsx_cells(file.path(raw_dir, wp))
+old_wp <- tidyxl::xlsx_cells((file.path("~/Desktop/opihi_backup/old_AI_data_folder/Data/Raw", wp))
+new_wp <- tidyxl::xlsx_cells((file.path(raw_dir, wp))
 keep <- c("sheet", "row", "col", "data_type", "numeric", "character")
 bind_rows(
   only_new = anti_join(new_wp |> select(all_of(keep)), old_wp |> select(all_of(keep)), by = keep),
@@ -1449,7 +1458,7 @@ opihi_qc_flags |>
 ```{r}
 #| label: flag-details-check
 # 1. total_points_mismatch: typed "Total Points" in the 2024 sheet vs the sum of the cells
-pts <- xlsx_cells(file.path(raw_dir, "OPIHI 2024 datasheet .xlsx")) |>
+pts <- tidyxl::xlsx_cells(file.path(raw_dir, "OPIHI 2024 datasheet .xlsx")) |>
   filter(str_detect(sheet, regex("pt\\s*counts", ignore_case = TRUE)))
 
 tp_col <- pts |>
@@ -1527,5 +1536,414 @@ opihi_samples |>
 | 11 | Two coding errors (`lead()` type, `case_when()` with `NA`) | R errors | Fixed in the code |
 
 
-# Third Script: Functions 
+# 3rd Script: Functions 
+
+## Writing Function 1 - How Many Different Taxa are Recorded at Each Site 
+```{r}
+TaxonRichness <- function(data) {
+
+  result <- data |>
+    filter(!is.na(site_name)) |>
+    group_by(site_name) |>
+    summarise(
+      richness = n_distinct(analysis_taxon, na.rm = TRUE),
+      .groups = "drop"
+    )
+
+  return(result)
+}
+```
+
+## Testing Function 1
+```{r}
+SiteRichness <- TaxonRichness(opihi_master)
+
+```
+
+## Writing Function 2 - Taxon Richness for Each Site During Each Year 
+```{r}
+TaxonRichness <- function(data) {
+
+  result <- data |>
+    filter(!is.na(site_name), !is.na(year)) |>
+    group_by(site_name, year) |>
+    summarise(
+      richness = n_distinct(analysis_taxon, na.rm = TRUE),
+      .groups = "drop"
+    ) |>
+    arrange(site_name, year)
+
+  return(result)
+}
+```
+
+## Test Function 2
+```{r}
+SiteRichnessYear <- TaxonRichness(opihi_master)
+
+```
+
+## List of all the "Clean" Taxon in the Datasheet 
+```{r}
+unique(opihi_master$taxon_clean)
+```
+
+## Writing Function 3 - Specific Taxon at A Certain Site and Year 
+```{r}
+FindTaxon <- function(data, taxon, site, sampling_year = NULL) {
+
+  result <- data |>
+    filter(
+      taxon_clean == taxon,
+      site_name == site
+    )
+
+  if (!is.null(sampling_year)) {
+    result <- result |>
+      filter(year == sampling_year)
+  }
+
+  return(result)
+}
+```
+
+## Test Function 3 
+```{r}
+FindTaxon(opihi_master, "Sargassum spp.", "Kahana Bay")
+
+FindTaxon(opihi_master, "Sargassum spp.", "Leahi")
+```
+
+## Writing Function 4 - How Many Sites Recorded a Particular Taxon Each Year 
+```{r}
+TaxonByYear <- function(data, taxon) {
+
+  result <- data |>
+    filter(taxon_clean == taxon) |>
+    group_by(year) |>
+    summarise(
+      number_sites = n_distinct(site_name, na.rm = TRUE),
+      .groups = "drop"
+    ) |>
+    arrange(year)
+
+  return(result)
+}
+```
+
+## Test 
+```{r}
+TaxonByYear(opihi_master, "Dictyosphaeria versluysii")
+
+TaxonByYear(opihi_master, "Diadema paucispinum")
+```
+
+# 4th Script: Plotting 
+
+## Load Data
+
+Read in all of the data
+
+```{r}
+master <- read_csv("../Data/Processed/opihi_master_completed.csv")
+algae_review <- read_csv("../Data/Algae/algae_origin_review.csv")
+raw <- read_csv("../Data/Processed/opihi_master_completed.csv",show_col_types = FALSE)
+lookup <- read_csv("../Data/Algae/algae_origin_lookup.csv", show_col_types = FALSE) |>
+  select(taxon_clean, origin_status)
+
+```
+
+## Organizing data
+
+```{r}
+# only the algae data
+algae <- raw |>
+  filter(category == "Algae", island=="Oahu") |>
+  left_join(lookup, by = "taxon_clean") |>
+  mutate(origin_group = case_when(
+    origin_status %in% c("Native", "Native (likely)")             ~ "Native",
+    origin_status %in% c("Non-native", "Non-native (invasive)")   ~ "Non-native",
+    TRUE ~ "Unresolved"   # cryptogenic, genus-level, turf, unknown groups
+  ))
+
+# Every quadrat surveyed on Oahu (so quadrats with no algae count as 0)
+samples <- raw |>
+  filter(sample_type == "quadrat", island == "Oahu") |>
+  distinct(sample_id, site_name, year, lat = latitude, lon = longitude, points_possible)
+
+# Algae points per quadrat
+algae_pts <- raw |>
+  filter(category == "Algae", sample_type == "quadrat") |>
+  group_by(sample_id) |>
+  summarise(points = sum(count, na.rm = TRUE), .groups = "drop")
+
+# Mean % cover per site
+site_algae <- samples |>
+  left_join(algae_pts, by = "sample_id") |>
+  mutate(cover = pmin(100 * replace_na(points, 0) / points_possible, 100)) |>
+  group_by(site_name, lat, lon) |>
+  summarise(mean_cover = mean(cover), n_quadrats = n(), .groups = "drop")
+
+# Algae points per quadrat, split into native vs non-native
+group_pts <- raw |>
+  filter(category == "Algae", sample_type == "quadrat") |>
+  left_join(lookup, by = "taxon_clean") |>
+  mutate(origin_group = case_when(
+    origin_status %in% c("Native", "Native (likely)")           ~ "Native",
+    origin_status %in% c("Non-native", "Non-native (invasive)") ~ "Non-native",
+    TRUE ~ "Unresolved")) |>
+  filter(origin_group %in% c("Native", "Non-native")) |>
+  group_by(sample_id, origin_group) |>
+  summarise(points = sum(count, na.rm = TRUE), .groups = "drop")
+
+quad <- samples |>
+  crossing(origin_group = c("Native", "Non-native")) |>
+  left_join(group_pts, by = c("sample_id", "origin_group")) |>
+  mutate(cover = pmin(100 * replace_na(points, 0) / points_possible, 100))
+
+# Site level (map circles) and site x year level (popup graphs)
+site_group <- quad |>
+  group_by(site_name, lat, lon, origin_group) |>
+  summarise(mean_cover = mean(cover), n_quadrats = n_distinct(sample_id),
+            .groups = "drop")
+
+site_year <- quad |>
+  group_by(site_name, year, origin_group) |>
+  summarise(mean_cover = mean(cover), n_quadrats = n_distinct(sample_id),
+            .groups = "drop")
+
+```
+
+```{r}
+head(lookup)
+```
+
+## Plotting
+
+## AI generated plots:
+
+Mapping Oʻahu
+
+Put points on all of the Locations
+
+```{r}
+geo("Diamond Head", method = "osm")
+geo("Ewa Beach", method = "osm")
+geo("Kahana Bay", method = "osm")
+geo("Sand Island, Hawaii", method = "osm")
+geo("Barbers Point, Hawaii", method = "osm")
+geo("Turtle Bay, Hawaii", method = "osm")
+geo("Sandy Beach, Hawaii", method = "osm")
+geo("Maili Point, Hawaii", method = "osm")
+geo("Baby Makapuu, Hawaii", method = "osm")
+
+oahu_sites <- tribble(
+  ~place,
+  "Diamond Head",
+  "Ewa Beach",
+  "Kahana Bay",
+  "Sand Island, Hawaii",
+  "Barbers Point, Hawaii", 
+  "Turtle Bay, Hawaii",
+  "Sandy Beach, Hawaii",
+  "Maili Point, Hawaii",
+  "Baby Makapuu, Hawaii"
+)
+
+oahu_geocoded <- oahu_sites |>
+  geocode(place, method = "osm") # geocode the 'place' column
+
+oahu_geocoded
+
+```
+
+```{r}
+#| label: fig-sample_sites
+#| echo: true
+#| fig-cap: Oʻahu algae sampling locations.
+
+leaflet(oahu_geocoded) |>
+  addProviderTiles(providers$Esri.WorldImagery) |>
+  addMarkers(
+    lng = ~long, lat = ~lat,   # tidygeocoder always returns 'lat' and 'long'
+    label = ~place)            # hover to see place name
+```
+
+All sampling sites for algae on Oʻahu are displayed in @fig-sample_sites.
+
+## Plotting % Cover of Native vs Non-Native
+
+```{r}
+map_cols <- c("Native (likely)"       = "#2ca25f",
+              "Non-native (invasive)" = "#e34a33")
+
+popup_tbl <- quad |>
+  group_by(site_name, origin_group) |>
+  summarise(mean_cover = mean(cover), .groups = "drop") |>
+  pivot_wider(names_from = origin_group, values_from = mean_cover) |>
+  rename(native_cover = Native, nonnative_cover = `Non-native`)
+
+site_info <- quad |>
+  group_by(site_name) |>
+  summarise(n_quadrats = n_distinct(sample_id),
+            first_year = min(year), last_year = max(year),
+            n_years = n_distinct(year), .groups = "drop")
+
+site_map <- site_group |>
+  select(-n_quadrats) |>                      # avoid the duplicate column name
+  left_join(popup_tbl, by = "site_name") |>
+  left_join(site_info, by = "site_name") |>
+  mutate(popup = paste0("<b>", site_name, "</b><br>",
+                        "Native: ", round(native_cover, 1), "% cover<br>",
+                        "Non-native: ", round(nonnative_cover, 1), "% cover<br>",
+                        "Quadrats: ", n_quadrats, "<br>",
+                        "Survey years: ", n_years, " (", first_year, "-", last_year, ")"))
+
+native_pts <- site_map |> filter(origin_group == "Native")
+nonnat_pts <- site_map |> filter(origin_group == "Non-native")
+
+offset_deg <- 0.0035   # nudges the two circles ~400 m apart; set to 0 to stack them
+max_cover <- max(site_map$mean_cover, na.rm = TRUE)   # largest circle = highest cover
+```
+
+```{r}
+#| label: fig-invasive-native
+#| echo: true
+#| fig-cap: Mean percent cover of Native and Non-native algae across Oʻahu sampling locations.
+
+leaflet() |>
+  addProviderTiles(providers$Esri.WorldImagery) |>
+  addCircleMarkers(
+    data = native_pts, lng = ~lon - offset_deg, lat = ~lat,
+    radius = ~4 + 14 * sqrt(mean_cover / max_cover),
+    fillColor = map_cols[["Native (likely)"]], fillOpacity = 0.85,
+    color = "white", weight = 1,
+    label = ~paste0(site_name, " - native: ", round(mean_cover, 1), "% cover"),
+    popup = ~popup, group = "Native") |>
+  addCircleMarkers(
+    data = nonnat_pts, lng = ~lon + offset_deg, lat = ~lat,
+    radius = ~4 + 14 * sqrt(mean_cover / max_cover),
+    fillColor = map_cols[["Non-native (invasive)"]], fillOpacity = 0.85,
+    color = "white", weight = 1,
+    label = ~paste0(site_name, " - non-native: ", round(mean_cover, 1), "% cover"),
+    popup = ~popup, group = "Non-native") |>
+  addLayersControl(overlayGroups = c("Native", "Non-native"),
+                   options = layersControlOptions(collapsed = FALSE)) |>
+  addLegend("bottomright",
+            colors = unname(map_cols), labels = names(map_cols),
+            title = "Mean % cover<br>(all years)", opacity = 1) |>
+  fitBounds(-158.30, 21.25, -157.62, 21.72)
+```
+
+## Plotting Total % Algae cover
+
+```{r}
+#| label: fig-percent-cover
+#| echo: true
+#| fig-cap: Mean percent cover of total algae across Oʻahu sampling locations.
+
+pal <- colorNumeric("YlGn", site_algae$mean_cover)
+
+leaflet(site_algae) |>
+  addProviderTiles(providers$Esri.WorldImagery) |>
+  addCircleMarkers(
+    lng = ~lon, lat = ~lat,
+    radius = ~4 + 14 * sqrt(mean_cover / max(mean_cover)),   # bigger = more algae
+    fillColor = ~pal(mean_cover), fillOpacity = 0.9,
+    color = "white", weight = 1,
+    label = ~paste0(site_name, ": ", round(mean_cover, 1), "% algae cover"),
+    popup = ~paste0("<b>", site_name, "</b><br>Mean cover: ",
+                    round(mean_cover, 1), "%<br>Quadrats: ", n_quadrats)) |>
+  addLegend("bottomright", pal = pal, values = ~mean_cover,
+            title = "Mean % algae cover") |>
+  fitBounds(-158.30, 21.25, -157.62, 21.72)   # whole island
+```
+
+## Plot Function
+
+**Function:** plot_site
+
+This function generates a plot comparing the percent algae cover of native vs non-native species through a time series per location. The x-axis is the year and the y-axis is % algae cover.
+
+**Input:**
+
+Different locations.
+
+**Output:**
+
+Change of algae cover of native and non-native species over time based on that specific sampling location.
+
+```{r}
+# ----  TIME SERIES: NATIVE vs NON-NATIVE, ONE GRAPH PER SITE ------------------
+site_year <- quad |>
+  group_by(site_name, year, origin_group) |>
+  summarise(n_quadrats = n_distinct(sample_id),
+            mean_cover = mean(cover),
+            se = sd(cover) / sqrt(n()),
+            .groups = "drop")
+
+# Only sites with enough survey years for a line to mean anything
+min_years <- 3
+sites_to_plot <- site_year |>
+  group_by(site_name) |>
+  summarise(n_years = n_distinct(year), .groups = "drop") |>
+  filter(n_years >= min_years) |>
+  pull(site_name)
+sites_to_plot
+
+cols <- c("Native" = "#2ca25f", "Non-native" = "#e34a33")
+
+## Plot function for each individual site
+
+plot_site <- function(site) {
+  site_year |>
+    filter(site_name == site) |> # site is the variable that changes
+    ggplot(aes(year, mean_cover, color = origin_group)) +
+    geom_line(linewidth = 0.9) +
+    geom_point(size = 2) +
+    scale_color_manual(values = cols, name = NULL) +
+    labs(title = site, x = "Year", y = "Mean % Cover Per Quadrat", size=NULL) +
+    theme_classic(base_size = 12)
+}
+```
+
+```{r}
+#| label: fig-leahi
+#| echo: true
+#| fig-cap: Percent algal cover per quadrat at Leahi sampling location from 2005 to 2025.
+
+# View a single site (swap the name to change locations)
+plot_site("Leahi")
+
+```
+
+```{r}
+# Sites with enough survey years for a line to mean something
+min_years <- 3
+
+# One plot per site  <-- this is the line that was missing
+plots <- purrr::map(sites_to_plot, plot_site)
+
+# 1. Combine the plots, with the individual axis titles removed
+panels <- wrap_plots(plots, ncol = 3, guides = "collect") &
+  labs(x = NULL, y = NULL) &
+  theme(legend.position = "bottom")
+
+# 2. One shared label for each axis
+y_lab <- wrap_elements(panel = textGrob("Mean % Cover Per Quadrat", rot = 90))
+x_lab <- wrap_elements(panel = textGrob("Year"))
+
+# 3. Put it together: y label on the left, x label underneath
+all_sites <- ((y_lab | panels) + plot_layout(widths = c(0.03, 1))) /
+  x_lab + plot_layout(heights = c(1, 0.03))
+```
+
+```{r}
+#| label: fig-combines
+#| echo: true
+#| fig-cap: Percent algal cover of native and non-native species accross all seven sampling locations from data collection between 2005 to 2025. 
+
+all_sites
+```
+
 

@@ -75,6 +75,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="FinalScript_GroupC_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="FinalScript_GroupC_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="FinalScript_GroupC_files/libs/bootstrap/bootstrap-59c4df839358292b62718fddaac4b6dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="FinalScript_GroupC_files/libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="FinalScript_GroupC_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="FinalScript_GroupC_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="FinalScript_GroupC_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="FinalScript_GroupC_files/libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="FinalScript_GroupC_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="FinalScript_GroupC_files/libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="FinalScript_GroupC_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="FinalScript_GroupC_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="FinalScript_GroupC_files/libs/leaflet-binding-2.2.3/leaflet.js"></script>
+<script src="FinalScript_GroupC_files/libs/leaflet-providers-3.0.0/leaflet-providers.js"></script>
+<script src="FinalScript_GroupC_files/libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script>
 
 
 </head>
@@ -151,7 +163,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.30</span> Summary</a></li>
   <li><a href="#where-the-ai-was-wrong-and-how-it-was-caught" id="toc-where-the-ai-was-wrong-and-how-it-was-caught" class="nav-link" data-scroll-target="#where-the-ai-was-wrong-and-how-it-was-caught"><span class="header-section-number">2.31</span> Where the AI was wrong, and how it was caught</a></li>
   </ul></li>
-  <li><a href="#third-script-functions" id="toc-third-script-functions" class="nav-link" data-scroll-target="#third-script-functions"><span class="header-section-number">3</span> Third Script: Functions</a></li>
+  <li><a href="#rd-script-functions" id="toc-rd-script-functions" class="nav-link" data-scroll-target="#rd-script-functions"><span class="header-section-number">3</span> 3rd Script: Functions</a>
+  <ul class="collapse">
+  <li><a href="#writing-function-1---how-many-different-taxa-are-recorded-at-each-site" id="toc-writing-function-1---how-many-different-taxa-are-recorded-at-each-site" class="nav-link" data-scroll-target="#writing-function-1---how-many-different-taxa-are-recorded-at-each-site"><span class="header-section-number">3.1</span> Writing Function 1 - How Many Different Taxa are Recorded at Each Site</a></li>
+  <li><a href="#testing-function-1" id="toc-testing-function-1" class="nav-link" data-scroll-target="#testing-function-1"><span class="header-section-number">3.2</span> Testing Function 1</a></li>
+  <li><a href="#writing-function-2---taxon-richness-for-each-site-during-each-year" id="toc-writing-function-2---taxon-richness-for-each-site-during-each-year" class="nav-link" data-scroll-target="#writing-function-2---taxon-richness-for-each-site-during-each-year"><span class="header-section-number">3.3</span> Writing Function 2 - Taxon Richness for Each Site During Each Year</a></li>
+  <li><a href="#test-function-2" id="toc-test-function-2" class="nav-link" data-scroll-target="#test-function-2"><span class="header-section-number">3.4</span> Test Function 2</a></li>
+  <li><a href="#list-of-all-the-clean-taxon-in-the-datasheet" id="toc-list-of-all-the-clean-taxon-in-the-datasheet" class="nav-link" data-scroll-target="#list-of-all-the-clean-taxon-in-the-datasheet"><span class="header-section-number">3.5</span> List of all the “Clean” Taxon in the Datasheet</a></li>
+  <li><a href="#writing-function-3---specific-taxon-at-a-certain-site-and-year" id="toc-writing-function-3---specific-taxon-at-a-certain-site-and-year" class="nav-link" data-scroll-target="#writing-function-3---specific-taxon-at-a-certain-site-and-year"><span class="header-section-number">3.6</span> Writing Function 3 - Specific Taxon at A Certain Site and Year</a></li>
+  <li><a href="#test-function-3" id="toc-test-function-3" class="nav-link" data-scroll-target="#test-function-3"><span class="header-section-number">3.7</span> Test Function 3</a></li>
+  <li><a href="#writing-function-4---how-many-sites-recorded-a-particular-taxon-each-year" id="toc-writing-function-4---how-many-sites-recorded-a-particular-taxon-each-year" class="nav-link" data-scroll-target="#writing-function-4---how-many-sites-recorded-a-particular-taxon-each-year"><span class="header-section-number">3.8</span> Writing Function 4 - How Many Sites Recorded a Particular Taxon Each Year</a></li>
+  <li><a href="#test" id="toc-test" class="nav-link" data-scroll-target="#test"><span class="header-section-number">3.9</span> Test</a></li>
+  </ul></li>
+  <li><a href="#th-script-plotting" id="toc-th-script-plotting" class="nav-link" data-scroll-target="#th-script-plotting"><span class="header-section-number">4</span> 4th Script: Plotting</a>
+  <ul class="collapse">
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data"><span class="header-section-number">4.1</span> Load Data</a></li>
+  <li><a href="#organizing-data" id="toc-organizing-data" class="nav-link" data-scroll-target="#organizing-data"><span class="header-section-number">4.2</span> Organizing data</a></li>
+  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting"><span class="header-section-number">4.3</span> Plotting</a></li>
+  <li><a href="#ai-generated-plots" id="toc-ai-generated-plots" class="nav-link" data-scroll-target="#ai-generated-plots"><span class="header-section-number">4.4</span> AI generated plots:</a></li>
+  <li><a href="#plotting-cover-of-native-vs-non-native" id="toc-plotting-cover-of-native-vs-non-native" class="nav-link" data-scroll-target="#plotting-cover-of-native-vs-non-native"><span class="header-section-number">4.5</span> Plotting % Cover of Native vs Non-Native</a></li>
+  <li><a href="#plotting-total-algae-cover" id="toc-plotting-total-algae-cover" class="nav-link" data-scroll-target="#plotting-total-algae-cover"><span class="header-section-number">4.6</span> Plotting Total % Algae cover</a></li>
+  <li><a href="#plot-function" id="toc-plot-function" class="nav-link" data-scroll-target="#plot-function"><span class="header-section-number">4.7</span> Plot Function</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -205,52 +238,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Missing packages. Run this once, then re-run:</span><span class="sc">\n</span><span class="st">  install.packages(c("</span>,</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>       <span class="fu">paste0</span>(<span class="st">'"'</span>, missing, <span class="st">'"'</span>, <span class="at">collapse =</span> <span class="st">", "</span>), <span class="st">"))"</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyxl)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Project paths ----------------------------------------------------------</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Project layout (the top folder can have any name or location):</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;project&gt;/</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   ├── OPIHI.Rproj      marks the project root</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#   ├── Data/</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#   │   ├── Raw/         original Excel files, unedited, original names</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#   │   └── Processed/   everything this code writes (CSV copies, master, logs)</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#   ├── Scripts/         this .qmd + the R function files sourced below</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#   └── Output/          figures and tables for the report</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Nothing in Data/Raw/ is ever modified by this code.</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># here::i_am() declares where THIS file sits inside the project. here::here()</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># then builds every path from the project root, so the code runs unchanged on</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># any computer, whether rendered, run chunk-by-chunk, or run from the console.</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"Scripts/opihi_report.qmd"</span>)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>RAW_DIR    <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Raw"</span>)</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>CSV_DIR    <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Processed"</span>, <span class="st">"raw_csv"</span>)</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>CLEAN_DIR  <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Processed"</span>)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>OUTPUT_DIR <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Output"</span>)</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(CSV_DIR,    <span class="at">showWarnings =</span> <span class="cn">FALSE</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(OUTPUT_DIR, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Scripts"</span>, <span class="st">"helpers.R"</span>))</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Scripts"</span>, <span class="st">"import_legacy.R"</span>))</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Scripts"</span>, <span class="st">"import_modern.R"</span>))</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Scripts"</span>, <span class="st">"import_classroom.R"</span>))</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Scripts"</span>, <span class="st">"clean_build.R"</span>))</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Editable lookup tables (inputs, not outputs): see section 6</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>site_xw  <span class="ot">&lt;-</span> <span class="fu">read_lookup</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Lookups"</span>, <span class="st">"site_crosswalk.csv"</span>))</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>taxon_xw <span class="ot">&lt;-</span> <span class="fu">read_lookup</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Lookups"</span>, <span class="st">"taxon_crosswalk.csv"</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapdata)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapproj)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptiles)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyterra)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygeocoder)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leafpop)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grid)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Project paths ----------------------------------------------------------</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Project layout (the top folder can have any name or location):</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;project&gt;/</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">#   ├── OPIHI.Rproj      marks the project root</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#   ├── Data/</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#   │   ├── Raw/         original Excel files, unedited, original names</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#   │   └── Processed/   everything this code writes (CSV copies, master, logs)</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#   ├── Scripts/         this .qmd + the R function files sourced below</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#   └── Output/          figures and tables for the report</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Nothing in Data/Raw/ is ever modified by this code.</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># here::i_am() declares where THIS file sits inside the project. here::here()</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co"># then builds every path from the project root, so the code runs unchanged on</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co"># any computer, whether rendered, run chunk-by-chunk, or run from the console.</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"Scripts/opihi_report.qmd"</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>RAW_DIR    <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Raw"</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>CSV_DIR    <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Processed"</span>, <span class="st">"raw_csv"</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>CLEAN_DIR  <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Processed"</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>OUTPUT_DIR <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Output"</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(CSV_DIR,    <span class="at">showWarnings =</span> <span class="cn">FALSE</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(OUTPUT_DIR, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(<span class="fu">list_raw_xlsx</span>(RAW_DIR)) <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"No .xlsx files found in "</span>, RAW_DIR,</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>       <span class="st">". Put the original OPIHI Excel files there (see README)."</span>)</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Scripts"</span>, <span class="st">"helpers.R"</span>))</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Scripts"</span>, <span class="st">"import_legacy.R"</span>))</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Scripts"</span>, <span class="st">"import_modern.R"</span>))</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Scripts"</span>, <span class="st">"import_classroom.R"</span>))</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Scripts"</span>, <span class="st">"clean_build.R"</span>))</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Editable lookup tables (inputs, not outputs): see section 6</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>site_xw  <span class="ot">&lt;-</span> <span class="fu">read_lookup</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Lookups"</span>, <span class="st">"site_crosswalk.csv"</span>))</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>taxon_xw <span class="ot">&lt;-</span> <span class="fu">read_lookup</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"Lookups"</span>, <span class="st">"taxon_crosswalk.csv"</span>))</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(<span class="fu">list_raw_xlsx</span>(RAW_DIR)) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"No .xlsx files found in "</span>, RAW_DIR,</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>       <span class="st">". Put the original OPIHI Excel files there (see README)."</span>)</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -688,7 +731,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"2017"</span>, <span class="st">"2018"</span>, <span class="st">"2019"</span>, <span class="st">"2020"</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>raw_files <span class="ot">&lt;-</span> <span class="fu">list_raw_xlsx</span>(RAW_DIR, <span class="at">full.names =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>legacy_match <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">key =</span> LEGACY_KEYS) <span class="sc">|&gt;</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">files   =</span> <span class="fu">map</span>(key, \(k) raw_files[<span class="fu">str_starts</span>(raw_files, <span class="fu">fixed</span>(<span class="fu">paste</span>(<span class="st">"OPIHI data"</span>, k)))]),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">files   =</span> purrr<span class="sc">::</span><span class="fu">map</span>(key, \(k) raw_files[<span class="fu">str_starts</span>(raw_files, <span class="fu">fixed</span>(<span class="fu">paste</span>(<span class="st">"OPIHI data"</span>, k)))]),</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">n_found =</span> <span class="fu">lengths</span>(files))</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(legacy_match<span class="sc">$</span>n_found <span class="sc">!=</span> <span class="dv">1</span>)) {</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(legacy_match)</span>
@@ -857,7 +900,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>MODERN_KEYS <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"OPIHI 2024 datasheet"</span>, <span class="st">"OPIHI BIOL 499 2025"</span>,</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"OPIHI 2026 Longitudinal"</span>, <span class="st">"RAW Mauliola"</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>modern_match <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">key =</span> MODERN_KEYS) <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">files   =</span> <span class="fu">map</span>(key, \(k) raw_files[<span class="fu">str_starts</span>(raw_files, <span class="fu">fixed</span>(k))]),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">files =</span> purrr<span class="sc">::</span><span class="fu">map</span>(key, \(k) raw_files[<span class="fu">str_starts</span>(raw_files, <span class="fu">fixed</span>(k))]),</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">n_found =</span> <span class="fu">lengths</span>(files))</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(modern_match<span class="sc">$</span>n_found <span class="sc">!=</span> <span class="dv">1</span>)) {</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(modern_match)</span>
@@ -1154,7 +1197,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>CLASS_KEYS <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Copy of OPIHI Field Study 2023"</span>, <span class="st">"Copy of OPIHI Field Study 2025"</span>,</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">"OPIHI Field Study 2026"</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>class_match <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">key =</span> CLASS_KEYS) <span class="sc">|&gt;</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">files   =</span> <span class="fu">map</span>(key, \(k) raw_files[<span class="fu">str_starts</span>(raw_files, <span class="fu">fixed</span>(k))]),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">files =</span> purrr<span class="sc">::</span><span class="fu">map</span>(key, \(k) raw_files[<span class="fu">str_starts</span>(raw_files, <span class="fu">fixed</span>(k))]),</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">n_found =</span> <span class="fu">lengths</span>(files))</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(class_match<span class="sc">$</span>n_found <span class="sc">!=</span> <span class="dv">1</span>)) {</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(class_match)</span>
@@ -2071,24 +2114,34 @@ time zone: Pacific/Honolulu
 tzcode source: internal
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] grid      stats     graphics  grDevices utils     datasets  methods  
+[8] base     
 
 other attached packages:
-[1] tidyxl_1.0.10 janitor_2.2.1 here_1.0.2    readr_2.2.0   purrr_1.2.2  
-[6] stringr_1.6.0 tidyr_1.3.2   dplyr_1.2.1  
+ [1] patchwork_1.3.2    leafpop_0.1.0      ggspatial_1.1.11   tidygeocoder_1.0.6
+ [5] tidyterra_1.3.0    maptiles_0.12.0    sf_1.1-3           leaflet_2.2.3     
+ [9] mapproj_1.2.12     mapdata_2.3.1      maps_3.4.3         here_1.0.2        
+[13] janitor_2.2.1      lubridate_1.9.5    forcats_1.0.1      stringr_1.6.0     
+[17] dplyr_1.2.1        purrr_1.2.2        readr_2.2.0        tidyr_1.3.2       
+[21] tibble_3.3.1       ggplot2_4.0.3      tidyverse_2.0.0   
 
 loaded via a namespace (and not attached):
- [1] bit_4.6.0         jsonlite_2.0.0    crayon_1.5.3      compiler_4.6.1   
- [5] Rcpp_1.1.2        tidyselect_1.2.1  parallel_4.6.1    snakecase_0.11.1 
- [9] yaml_2.3.12       fastmap_1.2.0     readxl_1.5.0.1    R6_2.6.1         
-[13] generics_0.1.4    knitr_1.52        htmlwidgets_1.6.4 tibble_3.3.1     
-[17] rprojroot_2.1.1   lubridate_1.9.5   pillar_1.11.1     tzdb_0.5.0       
-[21] rlang_1.3.0       stringi_1.8.9     xfun_0.61         bit64_4.8.6      
-[25] otel_0.2.0        timechange_0.4.0  cli_3.6.6         withr_3.0.3      
-[29] magrittr_2.0.5    digest_0.6.39     vroom_1.7.1       rstudioapi_0.19.0
-[33] hms_1.1.4         lifecycle_1.0.5   vctrs_0.7.3       evaluate_1.0.5   
-[37] glue_1.8.1        cellranger_1.1.0  rmarkdown_2.32    tools_4.6.1      
-[41] pkgconfig_2.0.3   htmltools_0.5.9  </code></pre>
+ [1] gtable_0.3.6       xfun_0.61          htmlwidgets_1.6.4  tzdb_0.5.0        
+ [5] vctrs_0.7.3        tools_4.6.1        crosstalk_1.2.2    generics_0.1.4    
+ [9] parallel_4.6.1     proxy_0.4-29       pkgconfig_2.0.3    KernSmooth_2.23-26
+[13] RColorBrewer_1.1-3 S7_0.2.2           uuid_1.2-2         readxl_1.5.0.1    
+[17] lifecycle_1.0.5    compiler_4.6.1     farver_2.1.2       textshaping_1.0.5 
+[21] terra_1.9-50       codetools_0.2-20   snakecase_0.11.1   htmltools_0.5.9   
+[25] class_7.3-23       yaml_2.3.12        crayon_1.5.3       pillar_1.11.1     
+[29] classInt_0.4-11    brew_1.0-10        tidyselect_1.2.1   digest_0.6.39     
+[33] stringi_1.8.9      rprojroot_2.1.1    fastmap_1.2.0      cli_3.6.6         
+[37] magrittr_2.0.5     base64enc_0.1-6    e1071_1.7-17       withr_3.0.3       
+[41] scales_1.4.0       bit64_4.8.6        timechange_0.4.0   rmarkdown_2.32    
+[45] bit_4.6.0          otel_0.2.0         cellranger_1.1.0   hms_1.1.4         
+[49] evaluate_1.0.5     knitr_1.52         rlang_1.3.0        Rcpp_1.1.2        
+[53] glue_1.8.1         DBI_1.3.0          vroom_1.7.1        svglite_2.2.2     
+[57] rstudioapi_0.19.0  jsonlite_2.0.0     R6_2.6.1           systemfonts_1.3.2 
+[61] units_1.0-1       </code></pre>
 </div>
 </div>
 </section>
@@ -2172,8 +2225,8 @@ loaded via a namespace (and not attached):
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>raw_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(raw_dir, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.xlsx$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>raw_files <span class="ot">&lt;-</span> raw_files[<span class="sc">!</span><span class="fu">str_detect</span>(<span class="fu">basename</span>(raw_files), <span class="st">"^~</span><span class="sc">\\</span><span class="st">$"</span>)]   <span class="co"># skip Excel lock files</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>raw_cells <span class="ot">&lt;-</span> <span class="fu">map</span>(raw_files, \(p) {</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlsx_cells</span>(p) <span class="sc">|&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>raw_cells <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(raw_files, \(p) {</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  tidyxl<span class="sc">::</span><span class="fu">xlsx_cells</span>(p) <span class="sc">|&gt;</span></span>
 <span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span>is_blank) <span class="sc">|&gt;</span></span>
 <span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(<span class="at">src_file =</span> <span class="fu">basename</span>(p), sheet, row, col, data_type, numeric, character)</span>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">|&gt;</span> <span class="fu">list_rbind</span>()</span>
@@ -2932,8 +2985,8 @@ loaded via a namespace (and not attached):
 <details class="code-fold">
 <summary>Show R Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>wp <span class="ot">&lt;-</span> <span class="st">"OPIHI Field Study 2026 - Waipuilani Data.xlsx"</span></span>
-<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>old_wp <span class="ot">&lt;-</span> <span class="fu">xlsx_cells</span>(<span class="fu">file.path</span>(<span class="st">"~/Desktop/opihi_backup/old_AI_data_folder/Data/Raw"</span>, wp))</span>
-<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>new_wp <span class="ot">&lt;-</span> <span class="fu">xlsx_cells</span>(<span class="fu">file.path</span>(raw_dir, wp))</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>old_wp <span class="ot">&lt;-</span> tidyxl<span class="sc">::</span><span class="fu">xlsx_cells</span>((<span class="fu">file.path</span>(<span class="st">"~/Desktop/opihi_backup/old_AI_data_folder/Data/Raw"</span>, wp))</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>new_wp <span class="ot">&lt;-</span> tidyxl<span class="sc">::</span><span class="fu">xlsx_cells</span>((<span class="fu">file.path</span>(raw_dir, wp))</span>
 <span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sheet"</span>, <span class="st">"row"</span>, <span class="st">"col"</span>, <span class="st">"data_type"</span>, <span class="st">"numeric"</span>, <span class="st">"character"</span>)</span>
 <span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(</span>
 <span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">only_new =</span> <span class="fu">anti_join</span>(new_wp <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">all_of</span>(keep)), old_wp <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">all_of</span>(keep)), <span class="at">by =</span> keep),</span>
@@ -3723,7 +3776,7 @@ loaded via a namespace (and not attached):
 <details class="code-fold">
 <summary>Show R Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. total_points_mismatch: typed "Total Points" in the 2024 sheet vs the sum of the cells</span></span>
-<span id="cb183-2"><a href="#cb183-2" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> <span class="fu">xlsx_cells</span>(<span class="fu">file.path</span>(raw_dir, <span class="st">"OPIHI 2024 datasheet .xlsx"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb183-2"><a href="#cb183-2" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> tidyxl<span class="sc">::</span><span class="fu">xlsx_cells</span>(<span class="fu">file.path</span>(raw_dir, <span class="st">"OPIHI 2024 datasheet .xlsx"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb183-3"><a href="#cb183-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(sheet, <span class="fu">regex</span>(<span class="st">"pt</span><span class="sc">\\</span><span class="st">s*counts"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>)))</span>
 <span id="cb183-4"><a href="#cb183-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb183-5"><a href="#cb183-5" aria-hidden="true" tabindex="-1"></a>tp_col <span class="ot">&lt;-</span> pts <span class="sc">|&gt;</span></span>
@@ -4016,8 +4069,786 @@ loaded via a namespace (and not attached):
 </table>
 </section>
 </section>
-<section id="third-script-functions" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Third Script: Functions</h1>
+<section id="rd-script-functions" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 3rd Script: Functions</h1>
+<section id="writing-function-1---how-many-different-taxa-are-recorded-at-each-site" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="writing-function-1---how-many-different-taxa-are-recorded-at-each-site"><span class="header-section-number">3.1</span> Writing Function 1 - How Many Different Taxa are Recorded at Each Site</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>TaxonRichness <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb189-2"><a href="#cb189-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb189-3"><a href="#cb189-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb189-4"><a href="#cb189-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(site_name)) <span class="sc">|&gt;</span></span>
+<span id="cb189-5"><a href="#cb189-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(site_name) <span class="sc">|&gt;</span></span>
+<span id="cb189-6"><a href="#cb189-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb189-7"><a href="#cb189-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">richness =</span> <span class="fu">n_distinct</span>(analysis_taxon, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb189-8"><a href="#cb189-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb189-9"><a href="#cb189-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb189-10"><a href="#cb189-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb189-11"><a href="#cb189-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb189-12"><a href="#cb189-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="testing-function-1" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="testing-function-1"><span class="header-section-number">3.2</span> Testing Function 1</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb190"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a>SiteRichness <span class="ot">&lt;-</span> <span class="fu">TaxonRichness</span>(opihi_master)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="writing-function-2---taxon-richness-for-each-site-during-each-year" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="writing-function-2---taxon-richness-for-each-site-during-each-year"><span class="header-section-number">3.3</span> Writing Function 2 - Taxon Richness for Each Site During Each Year</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb191"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a>TaxonRichness <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb191-2"><a href="#cb191-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb191-3"><a href="#cb191-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb191-4"><a href="#cb191-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(site_name), <span class="sc">!</span><span class="fu">is.na</span>(year)) <span class="sc">|&gt;</span></span>
+<span id="cb191-5"><a href="#cb191-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(site_name, year) <span class="sc">|&gt;</span></span>
+<span id="cb191-6"><a href="#cb191-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb191-7"><a href="#cb191-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">richness =</span> <span class="fu">n_distinct</span>(analysis_taxon, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb191-8"><a href="#cb191-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb191-9"><a href="#cb191-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb191-10"><a href="#cb191-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(site_name, year)</span>
+<span id="cb191-11"><a href="#cb191-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb191-12"><a href="#cb191-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb191-13"><a href="#cb191-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="test-function-2" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="test-function-2"><span class="header-section-number">3.4</span> Test Function 2</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a>SiteRichnessYear <span class="ot">&lt;-</span> <span class="fu">TaxonRichness</span>(opihi_master)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="list-of-all-the-clean-taxon-in-the-datasheet" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="list-of-all-the-clean-taxon-in-the-datasheet"><span class="header-section-number">3.5</span> List of all the “Clean” Taxon in the Datasheet</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb193"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href="#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(opihi_master<span class="sc">$</span>taxon_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "Crustose coralline algae"       "Turf algae"                    
+  [3] "Unknown red algae"              "Brachidontes crebristriatus"   
+  [5] "Barnacles (unidentified)"       "Sargassum spp."                
+  [7] "Acanthophora spicifera"         "Nerita picea"                  
+  [9] "Ulva fasciata"                  "Asteronema breviarticulatum"   
+ [11] "Littoraria pintado"             "Dictyota spp."                 
+ [13] "Laurencia spp."                 "Padina spp."                   
+ [15] "Dendropoma gregaria"            "Siphonaria normalis"           
+ [17] "Lyngbya majuscula"              "Halimeda discoidea"            
+ [19] "Turbinaria ornata"              "Polychaeta (unidentified)"     
+ [21] "Cladophora/Cladophoropsis spp." "Echinolittorina hawaiiensis"   
+ [23] "Microdictyon setchellianum"     "Calcinus elegans"              
+ [25] "Isognomon californicum"         "Isognomon perna"               
+ [27] "Holothuria atra"                "Dictyosphaeria versluysii"     
+ [29] "Monetaria caputserpentis"       "Echinometra oblonga"           
+ [31] "Thylacodes variabilis"          "Lobophora variegata"           
+ [33] "Echinometra mathaei"            "Brown crust"                   
+ [35] "Morula granulata"               "Bornetella sphaerica"          
+ [37] "Codium spp."                    "Mauritia mauritiana"           
+ [39] "Martensia spp."                 "Neomeris spp."                 
+ [41] "Gelidiales (unidentified)"      "Calcinus seurati"              
+ [43] "Snail (unidentified)"           "Stomatopoda (unidentified)"    
+ [45] "Asparagopsis taxiformis"        "Colpomenia sinuosa"            
+ [47] "Hydroclathrus clathratus"       "Wrangelia elegantissima"       
+ [49] "Hypnea musciformis"             "Ulva reticulata"               
+ [51] "Ophiocoma erinaceus"            "Actinopyga varians"            
+ [53] "Holothuria cinerascens"         "Avrainvillea lacerata"         
+ [55] "Ulva flexuosa"                  "Fireworm (unidentified)"       
+ [57] "Hypnea cervicornis"             "Dictyota sandvicensis"         
+ [59] "Gracilaria salicornia"          "Coral (unidentified)"          
+ [61] "Dictyota acutiloba"             "Trichogloea spp."              
+ [63] "Codium edule"                   "Dictyosphaeria cavernosa"      
+ [65] "Dictyosphaeria spp."            "Pterocladiella caerulescens"   
+ [67] "Liagora spp."                   "Chaetomorpha antennina"        
+ [69] "Montipora capitata"             "Amphipoda (unidentified)"      
+ [71] "Chnoospora minima"              "Dictyopteris spp."             
+ [73] "Pterocladiella capillacea"      "Spyridia filamentosa"          
+ [75] "Laurencia mcdermidiae"          "Coelothrix irregularis"        
+ [77] "Morula uva"                     "Amansia glomerata"             
+ [79] "Botryocladia skottsbergii"      "Peasiella tantilla"            
+ [81] "Sphacelaria spp."               "Anthopleura nigrescens"        
+ [83] "Sponge (unidentified)"          "Conus ebraeus"                 
+ [85] "Colobocentrotus atratus"        "Articulated coralline algae"   
+ [87] "Calcinus laevimanus"            "Bryopsis spp."                 
+ [89] "Codium arabicum"                "Hermit crab (unidentified)"    
+ [91] "Porites lobata"                 "Pocillopora damicornis"        
+ [93] "Spirobranchus giganteus"        "Hypnea chordacea"              
+ [95] "Gelidiella acerosa"             "Caulerpa racemosa"             
+ [97] "Hypnea spp."                    "Vermetidae (unidentified)"     
+ [99] "Cyanobacteria (unidentified)"   "Leptolyngbya crosbyana"        
+[101] "Coral (bleached)"               "Boodlea composita"             
+[103] "Symploca hydnoides"             "Holothuria difficilis"         
+[105] "Ahnfeltiopsis concinna"         "Dasya spp."                    
+[107] "Akalaphycus setchelliae"        "Ophiuroidea (unidentified)"    
+[109] "Protopalythoa spp."             "Stylocheilus striatus"         
+[111] "Grateloupia spp."               "Pterocladiella spp."           
+[113] "Cellana exarata"                "Tripneustes gratilla"          
+[115] "Ulva spp."                      "Galaxaura spp."                
+[117] "Zoanthid (unidentified)"        "Palisada parvipapillata"       
+[119] "Sargassum aquifolium"           "Gelidium pusillum"             
+[121] "Ahnfeltiopsis flabelliformis"   "Crab (unidentified)"           
+[123] "Conus spp."                     "Echinothrix spp."              
+[125] "Gelidiopsis intricata"          "Cypraea tigris"                
+[127] "Nesochthamalus intertextus"     "Nerita polita"                 
+[129] "Smaragdinella calyculata"       "Onchidium verruculatum"        
+[131] "Trochus intextus"               "Sargassum polyphyllum"         
+[133] "Laurencia dendroidea"           "Unknown brown algae"           
+[135] "Caulerpa sertularioides"        "Pennaria disticha"             
+[137] "Rhodymenia spp."                "Aiptasia pulchella"            
+[139] "Unknown green algae"            "Unknown fuzzy algae"           
+[141] "Caulerpa spp."                  "Diadema paucispinum"           
+[143] "Ophiocoma brevipes"             "Aplysia spp."                  
+[145] "Cellana sandwicensis"           "Holothuria pardalis"           
+[147] "Centroceras clavulatum"         "Holothuria hilla"              
+[149] "Griffithsia spp."               "Holothuria whitmaei"           
+[151] "Grapsus tenuicrustatus"         "Dichotomaria marginata"        
+[153] "Loimia medusa"                  "Unknown"                       
+[155] "Parvocaulis parvulus"           "Laurencia dotyi"               
+[157] "Portieria hornemannii"          "Chondria spp."                 
+[159] "Palythoa caesia"                "Holothuria spp."               
+[161] "Champia parvula"                "Morula spp."                   
+[163] "Haminoea cymbalum"              "Echinometra spp."              
+[165] "Porites spp."                   "Galaxaura/Liagora spp."        
+[167] "Drupa morum"                    "Gelidiopsis spp."              
+[169] "Pocillopora spp."               "Montipora spp."                
+[171] "Valonia spp."                   "Bare rock"                     
+[173] "Sand"                           "Cladophora spp."               
+[175] "Lobophora spp."                 "Microdictyon spp."             
+[177] "Amansia spp."                   "Rubble"                        
+[179] "Jania spp."                     "Hole"                          
+[181] "Halimeda spp."                  "Pebble"                        
+[183] "Ceramium spp."                  "Lyngbya spp."                  
+[185] "Laurencia majuscula"            "Ahnfeltiopsis spp."            
+[187] "Nerita spp."                    "Chaetomorpha basiretrorsa"     
+[189] "Gelidiella spp."                "Jania pumila"                  
+[191] "Chnoospora spp."                "Colpomenia spp."               
+[193] "Asteronema spp."                "Limestone"                     
+[195] "Dasya iridescens"               "Lobophora obscura"             
+[197] "Gracilaria spp."                "Asparagopsis spp."             
+[199] "Codium reediae"                 "Urchin (unidentified)"         
+[201] "Avrainvillea spp."              "Actinopyga spp."               
+[203] "Wrangelia spp."                 "Limpet (unidentified)"         
+[205] "Littoraria spp."                "Botryocladia spp."             
+[207] "Laurencia crustiformans"        "Mud/silt"                      
+[209] "Ophiocoma spp."                 "Dictyopteris plagiogramma"     
+[211] "Holothuroidea (unidentified)"   "Unknown fish"                  
+[213] "Bryopsis pennata"               "Dictyopteris sandvicensis"     
+[215] "Spyridia spp."                 </code></pre>
+</div>
+</div>
+</section>
+<section id="writing-function-3---specific-taxon-at-a-certain-site-and-year" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="writing-function-3---specific-taxon-at-a-certain-site-and-year"><span class="header-section-number">3.6</span> Writing Function 3 - Specific Taxon at A Certain Site and Year</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb195"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a>FindTaxon <span class="ot">&lt;-</span> <span class="cf">function</span>(data, taxon, site, <span class="at">sampling_year =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb195-2"><a href="#cb195-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb195-3"><a href="#cb195-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb195-4"><a href="#cb195-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
+<span id="cb195-5"><a href="#cb195-5" aria-hidden="true" tabindex="-1"></a>      taxon_clean <span class="sc">==</span> taxon,</span>
+<span id="cb195-6"><a href="#cb195-6" aria-hidden="true" tabindex="-1"></a>      site_name <span class="sc">==</span> site</span>
+<span id="cb195-7"><a href="#cb195-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb195-8"><a href="#cb195-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb195-9"><a href="#cb195-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(sampling_year)) {</span>
+<span id="cb195-10"><a href="#cb195-10" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> result <span class="sc">|&gt;</span></span>
+<span id="cb195-11"><a href="#cb195-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(year <span class="sc">==</span> sampling_year)</span>
+<span id="cb195-12"><a href="#cb195-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb195-13"><a href="#cb195-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb195-14"><a href="#cb195-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb195-15"><a href="#cb195-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="test-function-3" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="test-function-3"><span class="header-section-number">3.7</span> Test Function 3</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb196"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">FindTaxon</span>(opihi_master, <span class="st">"Sargassum spp."</span>, <span class="st">"Kahana Bay"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 26
+  survey_id sample_id date        year site_name  site_alias_english island
+  &lt;chr&gt;     &lt;chr&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt; 
+1 S0001     S0001-006 2004-02-01  2004 Kahana Bay &lt;NA&gt;               Oahu  
+2 S0003     S0003-005 2004-03-04  2004 Kahana Bay &lt;NA&gt;               Oahu  
+# ℹ 19 more variables: latitude &lt;dbl&gt;, longitude &lt;dbl&gt;, teacher_id &lt;chr&gt;,
+#   resolution &lt;chr&gt;, sample_type &lt;chr&gt;, group_label &lt;chr&gt;, transect &lt;dbl&gt;,
+#   quadrat &lt;dbl&gt;, point_m &lt;dbl&gt;, n_quadrats &lt;dbl&gt;, taxon_raw &lt;chr&gt;,
+#   taxon_clean &lt;chr&gt;, analysis_taxon &lt;chr&gt;, category &lt;chr&gt;, count &lt;dbl&gt;,
+#   points_possible &lt;dbl&gt;, sample_flag &lt;chr&gt;, source_family &lt;chr&gt;,
+#   source_cell &lt;chr&gt;</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="fu">FindTaxon</span>(opihi_master, <span class="st">"Sargassum spp."</span>, <span class="st">"Leahi"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 349 × 26
+   survey_id sample_id date        year site_name site_alias_english island
+   &lt;chr&gt;     &lt;chr&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;              &lt;chr&gt; 
+ 1 S0002     S0002-001 2004-02-24  2004 Leahi     Diamond Head       Oahu  
+ 2 S0002     S0002-010 2004-02-24  2004 Leahi     Diamond Head       Oahu  
+ 3 S0002     S0002-011 2004-02-24  2004 Leahi     Diamond Head       Oahu  
+ 4 S0002     S0002-012 2004-02-24  2004 Leahi     Diamond Head       Oahu  
+ 5 S0002     S0002-013 2004-02-24  2004 Leahi     Diamond Head       Oahu  
+ 6 S0002     S0002-019 2004-02-24  2004 Leahi     Diamond Head       Oahu  
+ 7 S0002     S0002-021 2004-02-24  2004 Leahi     Diamond Head       Oahu  
+ 8 S0002     S0002-031 2004-02-24  2004 Leahi     Diamond Head       Oahu  
+ 9 S0002     S0002-043 2004-02-24  2004 Leahi     Diamond Head       Oahu  
+10 S0005     S0005-001 2005-02-18  2005 Leahi     Diamond Head       Oahu  
+# ℹ 339 more rows
+# ℹ 19 more variables: latitude &lt;dbl&gt;, longitude &lt;dbl&gt;, teacher_id &lt;chr&gt;,
+#   resolution &lt;chr&gt;, sample_type &lt;chr&gt;, group_label &lt;chr&gt;, transect &lt;dbl&gt;,
+#   quadrat &lt;dbl&gt;, point_m &lt;dbl&gt;, n_quadrats &lt;dbl&gt;, taxon_raw &lt;chr&gt;,
+#   taxon_clean &lt;chr&gt;, analysis_taxon &lt;chr&gt;, category &lt;chr&gt;, count &lt;dbl&gt;,
+#   points_possible &lt;dbl&gt;, sample_flag &lt;chr&gt;, source_family &lt;chr&gt;,
+#   source_cell &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="writing-function-4---how-many-sites-recorded-a-particular-taxon-each-year" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="writing-function-4---how-many-sites-recorded-a-particular-taxon-each-year"><span class="header-section-number">3.8</span> Writing Function 4 - How Many Sites Recorded a Particular Taxon Each Year</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a>TaxonByYear <span class="ot">&lt;-</span> <span class="cf">function</span>(data, taxon) {</span>
+<span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-3"><a href="#cb200-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb200-4"><a href="#cb200-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(taxon_clean <span class="sc">==</span> taxon) <span class="sc">|&gt;</span></span>
+<span id="cb200-5"><a href="#cb200-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb200-6"><a href="#cb200-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb200-7"><a href="#cb200-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">number_sites =</span> <span class="fu">n_distinct</span>(site_name, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb200-8"><a href="#cb200-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb200-9"><a href="#cb200-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb200-10"><a href="#cb200-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(year)</span>
+<span id="cb200-11"><a href="#cb200-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-12"><a href="#cb200-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb200-13"><a href="#cb200-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="test" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="test"><span class="header-section-number">3.9</span> Test</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb201"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TaxonByYear</span>(opihi_master, <span class="st">"Dictyosphaeria versluysii"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 2
+   year number_sites
+  &lt;dbl&gt;        &lt;int&gt;
+1  2005            3
+2  2006            4
+3  2007            3
+4  2016            1
+5  2017            7
+6  2018            4
+7  2019            5
+8  2024            3
+9  2026            1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb203"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TaxonByYear</span>(opihi_master, <span class="st">"Diadema paucispinum"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+   year number_sites
+  &lt;dbl&gt;        &lt;int&gt;
+1  2017            3
+2  2019            2</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="th-script-plotting" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 4th Script: Plotting</h1>
+<section id="load-data" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="load-data"><span class="header-section-number">4.1</span> Load Data</h2>
+<p>Read in all of the data</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb205"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a>master <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../Data/Processed/opihi_master_completed.csv"</span>)</span>
+<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a>algae_review <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../Data/Algae/algae_origin_review.csv"</span>)</span>
+<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a>raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../Data/Processed/opihi_master_completed.csv"</span>,<span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb205-4"><a href="#cb205-4" aria-hidden="true" tabindex="-1"></a>lookup <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../Data/Algae/algae_origin_lookup.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb205-5"><a href="#cb205-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(taxon_clean, origin_status)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="organizing-data" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="organizing-data"><span class="header-section-number">4.2</span> Organizing data</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb206"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="co"># only the algae data</span></span>
+<span id="cb206-2"><a href="#cb206-2" aria-hidden="true" tabindex="-1"></a>algae <span class="ot">&lt;-</span> raw <span class="sc">|&gt;</span></span>
+<span id="cb206-3"><a href="#cb206-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(category <span class="sc">==</span> <span class="st">"Algae"</span>, island<span class="sc">==</span><span class="st">"Oahu"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb206-4"><a href="#cb206-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(lookup, <span class="at">by =</span> <span class="st">"taxon_clean"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb206-5"><a href="#cb206-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">origin_group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb206-6"><a href="#cb206-6" aria-hidden="true" tabindex="-1"></a>    origin_status <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Native"</span>, <span class="st">"Native (likely)"</span>)             <span class="sc">~</span> <span class="st">"Native"</span>,</span>
+<span id="cb206-7"><a href="#cb206-7" aria-hidden="true" tabindex="-1"></a>    origin_status <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Non-native"</span>, <span class="st">"Non-native (invasive)"</span>)   <span class="sc">~</span> <span class="st">"Non-native"</span>,</span>
+<span id="cb206-8"><a href="#cb206-8" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Unresolved"</span>   <span class="co"># cryptogenic, genus-level, turf, unknown groups</span></span>
+<span id="cb206-9"><a href="#cb206-9" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb206-10"><a href="#cb206-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-11"><a href="#cb206-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Every quadrat surveyed on Oahu (so quadrats with no algae count as 0)</span></span>
+<span id="cb206-12"><a href="#cb206-12" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> raw <span class="sc">|&gt;</span></span>
+<span id="cb206-13"><a href="#cb206-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sample_type <span class="sc">==</span> <span class="st">"quadrat"</span>, island <span class="sc">==</span> <span class="st">"Oahu"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb206-14"><a href="#cb206-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(sample_id, site_name, year, <span class="at">lat =</span> latitude, <span class="at">lon =</span> longitude, points_possible)</span>
+<span id="cb206-15"><a href="#cb206-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-16"><a href="#cb206-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Algae points per quadrat</span></span>
+<span id="cb206-17"><a href="#cb206-17" aria-hidden="true" tabindex="-1"></a>algae_pts <span class="ot">&lt;-</span> raw <span class="sc">|&gt;</span></span>
+<span id="cb206-18"><a href="#cb206-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(category <span class="sc">==</span> <span class="st">"Algae"</span>, sample_type <span class="sc">==</span> <span class="st">"quadrat"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb206-19"><a href="#cb206-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sample_id) <span class="sc">|&gt;</span></span>
+<span id="cb206-20"><a href="#cb206-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">points =</span> <span class="fu">sum</span>(count, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb206-21"><a href="#cb206-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-22"><a href="#cb206-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean % cover per site</span></span>
+<span id="cb206-23"><a href="#cb206-23" aria-hidden="true" tabindex="-1"></a>site_algae <span class="ot">&lt;-</span> samples <span class="sc">|&gt;</span></span>
+<span id="cb206-24"><a href="#cb206-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(algae_pts, <span class="at">by =</span> <span class="st">"sample_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb206-25"><a href="#cb206-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cover =</span> <span class="fu">pmin</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">replace_na</span>(points, <span class="dv">0</span>) <span class="sc">/</span> points_possible, <span class="dv">100</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb206-26"><a href="#cb206-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_name, lat, lon) <span class="sc">|&gt;</span></span>
+<span id="cb206-27"><a href="#cb206-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_cover =</span> <span class="fu">mean</span>(cover), <span class="at">n_quadrats =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb206-28"><a href="#cb206-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-29"><a href="#cb206-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Algae points per quadrat, split into native vs non-native</span></span>
+<span id="cb206-30"><a href="#cb206-30" aria-hidden="true" tabindex="-1"></a>group_pts <span class="ot">&lt;-</span> raw <span class="sc">|&gt;</span></span>
+<span id="cb206-31"><a href="#cb206-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(category <span class="sc">==</span> <span class="st">"Algae"</span>, sample_type <span class="sc">==</span> <span class="st">"quadrat"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb206-32"><a href="#cb206-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(lookup, <span class="at">by =</span> <span class="st">"taxon_clean"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb206-33"><a href="#cb206-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">origin_group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb206-34"><a href="#cb206-34" aria-hidden="true" tabindex="-1"></a>    origin_status <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Native"</span>, <span class="st">"Native (likely)"</span>)           <span class="sc">~</span> <span class="st">"Native"</span>,</span>
+<span id="cb206-35"><a href="#cb206-35" aria-hidden="true" tabindex="-1"></a>    origin_status <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Non-native"</span>, <span class="st">"Non-native (invasive)"</span>) <span class="sc">~</span> <span class="st">"Non-native"</span>,</span>
+<span id="cb206-36"><a href="#cb206-36" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Unresolved"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb206-37"><a href="#cb206-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(origin_group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Native"</span>, <span class="st">"Non-native"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb206-38"><a href="#cb206-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sample_id, origin_group) <span class="sc">|&gt;</span></span>
+<span id="cb206-39"><a href="#cb206-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">points =</span> <span class="fu">sum</span>(count, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb206-40"><a href="#cb206-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-41"><a href="#cb206-41" aria-hidden="true" tabindex="-1"></a>quad <span class="ot">&lt;-</span> samples <span class="sc">|&gt;</span></span>
+<span id="cb206-42"><a href="#cb206-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crossing</span>(<span class="at">origin_group =</span> <span class="fu">c</span>(<span class="st">"Native"</span>, <span class="st">"Non-native"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb206-43"><a href="#cb206-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(group_pts, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"sample_id"</span>, <span class="st">"origin_group"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb206-44"><a href="#cb206-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cover =</span> <span class="fu">pmin</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">replace_na</span>(points, <span class="dv">0</span>) <span class="sc">/</span> points_possible, <span class="dv">100</span>))</span>
+<span id="cb206-45"><a href="#cb206-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-46"><a href="#cb206-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Site level (map circles) and site x year level (popup graphs)</span></span>
+<span id="cb206-47"><a href="#cb206-47" aria-hidden="true" tabindex="-1"></a>site_group <span class="ot">&lt;-</span> quad <span class="sc">|&gt;</span></span>
+<span id="cb206-48"><a href="#cb206-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_name, lat, lon, origin_group) <span class="sc">|&gt;</span></span>
+<span id="cb206-49"><a href="#cb206-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_cover =</span> <span class="fu">mean</span>(cover), <span class="at">n_quadrats =</span> <span class="fu">n_distinct</span>(sample_id),</span>
+<span id="cb206-50"><a href="#cb206-50" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb206-51"><a href="#cb206-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-52"><a href="#cb206-52" aria-hidden="true" tabindex="-1"></a>site_year <span class="ot">&lt;-</span> quad <span class="sc">|&gt;</span></span>
+<span id="cb206-53"><a href="#cb206-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_name, year, origin_group) <span class="sc">|&gt;</span></span>
+<span id="cb206-54"><a href="#cb206-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_cover =</span> <span class="fu">mean</span>(cover), <span class="at">n_quadrats =</span> <span class="fu">n_distinct</span>(sample_id),</span>
+<span id="cb206-55"><a href="#cb206-55" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb207"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lookup)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  taxon_clean                  origin_status        
+  &lt;chr&gt;                        &lt;chr&gt;                
+1 Acanthophora spicifera       Non-native (invasive)
+2 Avrainvillea lacerata        Non-native (invasive)
+3 Gracilaria salicornia        Non-native (invasive)
+4 Hypnea musciformis           Non-native (invasive)
+5 Ahnfeltiopsis concinna       Native (likely)      
+6 Ahnfeltiopsis flabelliformis Native (likely)      </code></pre>
+</div>
+</div>
+</section>
+<section id="plotting" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="plotting"><span class="header-section-number">4.3</span> Plotting</h2>
+</section>
+<section id="ai-generated-plots" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="ai-generated-plots"><span class="header-section-number">4.4</span> AI generated plots:</h2>
+<p>Mapping Oʻahu</p>
+<p>Put points on all of the Locations</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb209"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geo</span>(<span class="st">"Diamond Head"</span>, <span class="at">method =</span> <span class="st">"osm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  address        lat  long
+  &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;
+1 Diamond Head  21.3 -158.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geo</span>(<span class="st">"Ewa Beach"</span>, <span class="at">method =</span> <span class="st">"osm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  address     lat  long
+  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
+1 Ewa Beach  21.3 -158.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb213"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geo</span>(<span class="st">"Kahana Bay"</span>, <span class="at">method =</span> <span class="st">"osm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  address      lat  long
+  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+1 Kahana Bay  21.6 -158.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geo</span>(<span class="st">"Sand Island, Hawaii"</span>, <span class="at">method =</span> <span class="st">"osm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  address               lat  long
+  &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;
+1 Sand Island, Hawaii  21.3 -158.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb217"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geo</span>(<span class="st">"Barbers Point, Hawaii"</span>, <span class="at">method =</span> <span class="st">"osm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  address                 lat  long
+  &lt;chr&gt;                 &lt;dbl&gt; &lt;dbl&gt;
+1 Barbers Point, Hawaii  21.3 -158.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb219"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geo</span>(<span class="st">"Turtle Bay, Hawaii"</span>, <span class="at">method =</span> <span class="st">"osm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  address              lat  long
+  &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;
+1 Turtle Bay, Hawaii  21.7 -158.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb221"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geo</span>(<span class="st">"Sandy Beach, Hawaii"</span>, <span class="at">method =</span> <span class="st">"osm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  address               lat  long
+  &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;
+1 Sandy Beach, Hawaii  21.3 -158.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb223"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb223-1"><a href="#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geo</span>(<span class="st">"Maili Point, Hawaii"</span>, <span class="at">method =</span> <span class="st">"osm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  address               lat  long
+  &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;
+1 Maili Point, Hawaii  21.4 -158.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb225"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb225-1"><a href="#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geo</span>(<span class="st">"Baby Makapuu, Hawaii"</span>, <span class="at">method =</span> <span class="st">"osm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  address                lat  long
+  &lt;chr&gt;                &lt;dbl&gt; &lt;dbl&gt;
+1 Baby Makapuu, Hawaii    NA    NA</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb227"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb227-1"><a href="#cb227-1" aria-hidden="true" tabindex="-1"></a>oahu_sites <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb227-2"><a href="#cb227-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>place,</span>
+<span id="cb227-3"><a href="#cb227-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Diamond Head"</span>,</span>
+<span id="cb227-4"><a href="#cb227-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Ewa Beach"</span>,</span>
+<span id="cb227-5"><a href="#cb227-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Kahana Bay"</span>,</span>
+<span id="cb227-6"><a href="#cb227-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Sand Island, Hawaii"</span>,</span>
+<span id="cb227-7"><a href="#cb227-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Barbers Point, Hawaii"</span>, </span>
+<span id="cb227-8"><a href="#cb227-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Turtle Bay, Hawaii"</span>,</span>
+<span id="cb227-9"><a href="#cb227-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Sandy Beach, Hawaii"</span>,</span>
+<span id="cb227-10"><a href="#cb227-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Maili Point, Hawaii"</span>,</span>
+<span id="cb227-11"><a href="#cb227-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Baby Makapuu, Hawaii"</span></span>
+<span id="cb227-12"><a href="#cb227-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb227-13"><a href="#cb227-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-14"><a href="#cb227-14" aria-hidden="true" tabindex="-1"></a>oahu_geocoded <span class="ot">&lt;-</span> oahu_sites <span class="sc">|&gt;</span></span>
+<span id="cb227-15"><a href="#cb227-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geocode</span>(place, <span class="at">method =</span> <span class="st">"osm"</span>) <span class="co"># geocode the 'place' column</span></span>
+<span id="cb227-16"><a href="#cb227-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-17"><a href="#cb227-17" aria-hidden="true" tabindex="-1"></a>oahu_geocoded</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 3
+  place                   lat  long
+  &lt;chr&gt;                 &lt;dbl&gt; &lt;dbl&gt;
+1 Diamond Head           21.3 -158.
+2 Ewa Beach              21.3 -158.
+3 Kahana Bay             21.6 -158.
+4 Sand Island, Hawaii    21.3 -158.
+5 Barbers Point, Hawaii  21.3 -158.
+6 Turtle Bay, Hawaii     21.7 -158.
+7 Sandy Beach, Hawaii    21.3 -158.
+8 Maili Point, Hawaii    21.4 -158.
+9 Baby Makapuu, Hawaii   NA     NA </code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb229"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb229-1"><a href="#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(oahu_geocoded) <span class="sc">|&gt;</span></span>
+<span id="cb229-2"><a href="#cb229-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>Esri.WorldImagery) <span class="sc">|&gt;</span></span>
+<span id="cb229-3"><a href="#cb229-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(</span>
+<span id="cb229-4"><a href="#cb229-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> <span class="sc">~</span>long, <span class="at">lat =</span> <span class="sc">~</span>lat,   <span class="co"># tidygeocoder always returns 'lat' and 'long'</span></span>
+<span id="cb229-5"><a href="#cb229-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="sc">~</span>place)            <span class="co"># hover to see place name</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="fig-sample_sites" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sample_sites-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-3767ffe65b4f4ce35202" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-3767ffe65b4f4ce35202">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[21.2597515,21.315603,21.5638061,21.3064577,21.2963395,21.7033106,21.2852142,21.401503,null],[-157.8116771,-158.008804,-157.8691672,-157.879207,-158.1060148,-158.0027716,-157.6740781,-158.1765711,null],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["Diamond Head","Ewa Beach","Kahana Bay","Sand Island, Hawaii","Barbers Point, Hawaii","Turtle Bay, Hawaii","Sandy Beach, Hawaii","Maili Point, Hawaii","Baby Makapuu, Hawaii"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[21.2597515,21.7033106],"lng":[-158.1765711,-157.6740781]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sample_sites-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Oʻahu algae sampling locations.
+</figcaption>
+</figure>
+</div>
+</div>
+<p>All sampling sites for algae on Oʻahu are displayed in <a href="#fig-sample_sites" class="quarto-xref">Figure&nbsp;1</a>.</p>
+</section>
+<section id="plotting-cover-of-native-vs-non-native" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="plotting-cover-of-native-vs-non-native"><span class="header-section-number">4.5</span> Plotting % Cover of Native vs Non-Native</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb230"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb230-1"><a href="#cb230-1" aria-hidden="true" tabindex="-1"></a>map_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Native (likely)"</span>       <span class="ot">=</span> <span class="st">"#2ca25f"</span>,</span>
+<span id="cb230-2"><a href="#cb230-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Non-native (invasive)"</span> <span class="ot">=</span> <span class="st">"#e34a33"</span>)</span>
+<span id="cb230-3"><a href="#cb230-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-4"><a href="#cb230-4" aria-hidden="true" tabindex="-1"></a>popup_tbl <span class="ot">&lt;-</span> quad <span class="sc">|&gt;</span></span>
+<span id="cb230-5"><a href="#cb230-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_name, origin_group) <span class="sc">|&gt;</span></span>
+<span id="cb230-6"><a href="#cb230-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_cover =</span> <span class="fu">mean</span>(cover), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb230-7"><a href="#cb230-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> origin_group, <span class="at">values_from =</span> mean_cover) <span class="sc">|&gt;</span></span>
+<span id="cb230-8"><a href="#cb230-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">native_cover =</span> Native, <span class="at">nonnative_cover =</span> <span class="st">`</span><span class="at">Non-native</span><span class="st">`</span>)</span>
+<span id="cb230-9"><a href="#cb230-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-10"><a href="#cb230-10" aria-hidden="true" tabindex="-1"></a>site_info <span class="ot">&lt;-</span> quad <span class="sc">|&gt;</span></span>
+<span id="cb230-11"><a href="#cb230-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_name) <span class="sc">|&gt;</span></span>
+<span id="cb230-12"><a href="#cb230-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_quadrats =</span> <span class="fu">n_distinct</span>(sample_id),</span>
+<span id="cb230-13"><a href="#cb230-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">first_year =</span> <span class="fu">min</span>(year), <span class="at">last_year =</span> <span class="fu">max</span>(year),</span>
+<span id="cb230-14"><a href="#cb230-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">n_years =</span> <span class="fu">n_distinct</span>(year), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb230-15"><a href="#cb230-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-16"><a href="#cb230-16" aria-hidden="true" tabindex="-1"></a>site_map <span class="ot">&lt;-</span> site_group <span class="sc">|&gt;</span></span>
+<span id="cb230-17"><a href="#cb230-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>n_quadrats) <span class="sc">|&gt;</span>                      <span class="co"># avoid the duplicate column name</span></span>
+<span id="cb230-18"><a href="#cb230-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(popup_tbl, <span class="at">by =</span> <span class="st">"site_name"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb230-19"><a href="#cb230-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(site_info, <span class="at">by =</span> <span class="st">"site_name"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb230-20"><a href="#cb230-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">"&lt;b&gt;"</span>, site_name, <span class="st">"&lt;/b&gt;&lt;br&gt;"</span>,</span>
+<span id="cb230-21"><a href="#cb230-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"Native: "</span>, <span class="fu">round</span>(native_cover, <span class="dv">1</span>), <span class="st">"% cover&lt;br&gt;"</span>,</span>
+<span id="cb230-22"><a href="#cb230-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"Non-native: "</span>, <span class="fu">round</span>(nonnative_cover, <span class="dv">1</span>), <span class="st">"% cover&lt;br&gt;"</span>,</span>
+<span id="cb230-23"><a href="#cb230-23" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"Quadrats: "</span>, n_quadrats, <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb230-24"><a href="#cb230-24" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"Survey years: "</span>, n_years, <span class="st">" ("</span>, first_year, <span class="st">"-"</span>, last_year, <span class="st">")"</span>))</span>
+<span id="cb230-25"><a href="#cb230-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-26"><a href="#cb230-26" aria-hidden="true" tabindex="-1"></a>native_pts <span class="ot">&lt;-</span> site_map <span class="sc">|&gt;</span> <span class="fu">filter</span>(origin_group <span class="sc">==</span> <span class="st">"Native"</span>)</span>
+<span id="cb230-27"><a href="#cb230-27" aria-hidden="true" tabindex="-1"></a>nonnat_pts <span class="ot">&lt;-</span> site_map <span class="sc">|&gt;</span> <span class="fu">filter</span>(origin_group <span class="sc">==</span> <span class="st">"Non-native"</span>)</span>
+<span id="cb230-28"><a href="#cb230-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb230-29"><a href="#cb230-29" aria-hidden="true" tabindex="-1"></a>offset_deg <span class="ot">&lt;-</span> <span class="fl">0.0035</span>   <span class="co"># nudges the two circles ~400 m apart; set to 0 to stack them</span></span>
+<span id="cb230-30"><a href="#cb230-30" aria-hidden="true" tabindex="-1"></a>max_cover <span class="ot">&lt;-</span> <span class="fu">max</span>(site_map<span class="sc">$</span>mean_cover, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># largest circle = highest cover</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb231"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">|&gt;</span></span>
+<span id="cb231-2"><a href="#cb231-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>Esri.WorldImagery) <span class="sc">|&gt;</span></span>
+<span id="cb231-3"><a href="#cb231-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
+<span id="cb231-4"><a href="#cb231-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> native_pts, <span class="at">lng =</span> <span class="sc">~</span>lon <span class="sc">-</span> offset_deg, <span class="at">lat =</span> <span class="sc">~</span>lat,</span>
+<span id="cb231-5"><a href="#cb231-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="sc">~</span><span class="dv">4</span> <span class="sc">+</span> <span class="dv">14</span> <span class="sc">*</span> <span class="fu">sqrt</span>(mean_cover <span class="sc">/</span> max_cover),</span>
+<span id="cb231-6"><a href="#cb231-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillColor =</span> map_cols[[<span class="st">"Native (likely)"</span>]], <span class="at">fillOpacity =</span> <span class="fl">0.85</span>,</span>
+<span id="cb231-7"><a href="#cb231-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb231-8"><a href="#cb231-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="sc">~</span><span class="fu">paste0</span>(site_name, <span class="st">" - native: "</span>, <span class="fu">round</span>(mean_cover, <span class="dv">1</span>), <span class="st">"% cover"</span>),</span>
+<span id="cb231-9"><a href="#cb231-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span>popup, <span class="at">group =</span> <span class="st">"Native"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb231-10"><a href="#cb231-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
+<span id="cb231-11"><a href="#cb231-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> nonnat_pts, <span class="at">lng =</span> <span class="sc">~</span>lon <span class="sc">+</span> offset_deg, <span class="at">lat =</span> <span class="sc">~</span>lat,</span>
+<span id="cb231-12"><a href="#cb231-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="sc">~</span><span class="dv">4</span> <span class="sc">+</span> <span class="dv">14</span> <span class="sc">*</span> <span class="fu">sqrt</span>(mean_cover <span class="sc">/</span> max_cover),</span>
+<span id="cb231-13"><a href="#cb231-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillColor =</span> map_cols[[<span class="st">"Non-native (invasive)"</span>]], <span class="at">fillOpacity =</span> <span class="fl">0.85</span>,</span>
+<span id="cb231-14"><a href="#cb231-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb231-15"><a href="#cb231-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="sc">~</span><span class="fu">paste0</span>(site_name, <span class="st">" - non-native: "</span>, <span class="fu">round</span>(mean_cover, <span class="dv">1</span>), <span class="st">"% cover"</span>),</span>
+<span id="cb231-16"><a href="#cb231-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span>popup, <span class="at">group =</span> <span class="st">"Non-native"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb231-17"><a href="#cb231-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLayersControl</span>(<span class="at">overlayGroups =</span> <span class="fu">c</span>(<span class="st">"Native"</span>, <span class="st">"Non-native"</span>),</span>
+<span id="cb231-18"><a href="#cb231-18" aria-hidden="true" tabindex="-1"></a>                   <span class="at">options =</span> <span class="fu">layersControlOptions</span>(<span class="at">collapsed =</span> <span class="cn">FALSE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb231-19"><a href="#cb231-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="st">"bottomright"</span>,</span>
+<span id="cb231-20"><a href="#cb231-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">colors =</span> <span class="fu">unname</span>(map_cols), <span class="at">labels =</span> <span class="fu">names</span>(map_cols),</span>
+<span id="cb231-21"><a href="#cb231-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"Mean % cover&lt;br&gt;(all years)"</span>, <span class="at">opacity =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb231-22"><a href="#cb231-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fitBounds</span>(<span class="sc">-</span><span class="fl">158.30</span>, <span class="fl">21.25</span>, <span class="sc">-</span><span class="fl">157.62</span>, <span class="fl">21.72</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="fig-invasive-native" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-invasive-native-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-a79573465fc27b980713" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-a79573465fc27b980713">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[21.316488,21.310612,null,21.559278,21.295799,null,21.7057,21.3962,21.25544,21.25544,null,21.4104,21.3002,null,21.311893,21.2843,21.2882,21.706499,21.452875],[-157.667761,-158.00791,null,-157.875402,-158.107199,null,-157.999197,-157.723806,-157.813803,-157.8138,null,-158.181204,-157.886099,null,-157.898642,-157.678793,-157.671499,-158.002005,-158.203466],[7.163939405776413,10.02477172979485,13.24890189542551,5.162026057309385,10.78535649777757,16.76330101780228,7.317983258921311,6.598369255769851,10.77531173736395,7.232936223588345,16.02459424807074,15.30601994322148,6.301489803241988,7.274219635253185,5.762299771063875,5.177486063591282,10.89554313655645,15.68423797554822,5.608752229496457],null,"Native",{"interactive":true,"className":"","stroke":true,"color":"white","weight":1,"opacity":0.5,"fill":true,"fillColor":"#2ca25f","fillOpacity":0.85},null,null,["<b>Baby Makapuu<\/b><br>Native: 1% cover<br>Non-native: 0.5% cover<br>Quadrats: 159<br>Survey years: 3 (2018-2020)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Kahana Bay<\/b><br>Native: 0.1% cover<br>Non-native: 6.8% cover<br>Quadrats: 115<br>Survey years: 2 (2004-2005)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Keiki Bay<\/b><br>Native: 1.1% cover<br>Non-native: 0% cover<br>Quadrats: 67<br>Survey years: 2 (2016-2017)","<b>Lanikai Point<\/b><br>Native: 0.7% cover<br>Non-native: 0% cover<br>Quadrats: 69<br>Survey years: 1 (2019-2019)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Maili Beach<\/b><br>Native: 13.2% cover<br>Non-native: 20.2% cover<br>Quadrats: 164<br>Survey years: 4 (2007-2019)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mokauea Island<\/b><br>Native: 0.3% cover<br>Non-native: 0% cover<br>Quadrats: 25<br>Survey years: 1 (2019-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Turtle Bay<\/b><br>Native: 14.1% cover<br>Non-native: 0.5% cover<br>Quadrats: 60<br>Survey years: 2 (2005-2017)","<b>Waianae High School Reef<\/b><br>Native: 0.3% cover<br>Non-native: 0.9% cover<br>Quadrats: 30<br>Survey years: 1 (2019-2019)"],null,["Baby Makapuu - native: 1% cover","Ewa - native: 3.7% cover","Ewa - native: 8.8% cover","Kahana Bay - native: 0.1% cover","Kalaeloa - native: 4.7% cover","Kalaeloa - native: 16.8% cover","Keiki Bay - native: 1.1% cover","Lanikai Point - native: 0.7% cover","Leahi - native: 4.7% cover","Leahi - native: 1.1% cover","Leahi - native: 14.9% cover","Maili Beach - native: 13.2% cover","Mauliola - native: 0.5% cover","Mauliola - native: 1.1% cover","Mokauea Island - native: 0.3% cover","Sandy Beach - native: 0.1% cover","Sandy Beach - native: 4.9% cover","Turtle Bay - native: 14.1% cover","Waianae High School Reef - native: 0.3% cover"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[[21.316488,21.310612,null,21.559278,21.295799,null,21.7057,21.3962,21.25544,21.25544,null,21.4104,21.3002,null,21.311893,21.2843,21.2882,21.706499,21.452875],[-157.660761,-158.00091,null,-157.868402,-158.100199,null,-157.992197,-157.716806,-157.806803,-157.8068,null,-158.174204,-157.879099,null,-157.891642,-157.671793,-157.664499,-157.995005,-158.196466],[6.209791134973442,11.94664980706963,13.96544980752536,12.11340540069133,11.45048064461271,7.574439244336593,4,4,8.071995591105029,5.49655866854043,4.662937340492032,18,6.510495436393674,7.042799026746088,4,4,6.05259824858294,6.275119221451844,7.009699831492233],null,"Non-native",{"interactive":true,"className":"","stroke":true,"color":"white","weight":1,"opacity":0.5,"fill":true,"fillColor":"#e34a33","fillOpacity":0.85},null,null,["<b>Baby Makapuu<\/b><br>Native: 1% cover<br>Non-native: 0.5% cover<br>Quadrats: 159<br>Survey years: 3 (2018-2020)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Ewa<\/b><br>Native: 4.9% cover<br>Non-native: 7.3% cover<br>Quadrats: 772<br>Survey years: 7 (2006-2024)","<b>Kahana Bay<\/b><br>Native: 0.1% cover<br>Non-native: 6.8% cover<br>Quadrats: 115<br>Survey years: 2 (2004-2005)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Kalaeloa<\/b><br>Native: 8.7% cover<br>Non-native: 4.3% cover<br>Quadrats: 486<br>Survey years: 7 (2005-2024)","<b>Keiki Bay<\/b><br>Native: 1.1% cover<br>Non-native: 0% cover<br>Quadrats: 67<br>Survey years: 2 (2016-2017)","<b>Lanikai Point<\/b><br>Native: 0.7% cover<br>Non-native: 0% cover<br>Quadrats: 69<br>Survey years: 1 (2019-2019)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Leahi<\/b><br>Native: 6.7% cover<br>Non-native: 1.3% cover<br>Quadrats: 1298<br>Survey years: 11 (2004-2026)","<b>Maili Beach<\/b><br>Native: 13.2% cover<br>Non-native: 20.2% cover<br>Quadrats: 164<br>Survey years: 4 (2007-2019)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mauliola<\/b><br>Native: 0.7% cover<br>Non-native: 0.7% cover<br>Quadrats: 818<br>Survey years: 10 (2005-2026)","<b>Mokauea Island<\/b><br>Native: 0.3% cover<br>Non-native: 0% cover<br>Quadrats: 25<br>Survey years: 1 (2019-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Sandy Beach<\/b><br>Native: 4.1% cover<br>Non-native: 0.4% cover<br>Quadrats: 157<br>Survey years: 6 (2006-2019)","<b>Turtle Bay<\/b><br>Native: 14.1% cover<br>Non-native: 0.5% cover<br>Quadrats: 60<br>Survey years: 2 (2005-2017)","<b>Waianae High School Reef<\/b><br>Native: 0.3% cover<br>Non-native: 0.9% cover<br>Quadrats: 30<br>Survey years: 1 (2019-2019)"],null,["Baby Makapuu - non-native: 0.5% cover","Ewa - non-native: 6.5% cover","Ewa - non-native: 10.2% cover","Kahana Bay - non-native: 6.8% cover","Kalaeloa - non-native: 5.7% cover","Kalaeloa - non-native: 1.3% cover","Keiki Bay - non-native: 0% cover","Lanikai Point - non-native: 0% cover","Leahi - non-native: 1.7% cover","Leahi - non-native: 0.2% cover","Leahi - non-native: 0% cover","Maili Beach - non-native: 20.2% cover","Mauliola - non-native: 0.6% cover","Mauliola - non-native: 1% cover","Mokauea Island - non-native: 0% cover","Sandy Beach - non-native: 0% cover","Sandy Beach - non-native: 0.4% cover","Turtle Bay - non-native: 0.5% cover","Waianae High School Reef - non-native: 0.9% cover"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLayersControl","args":[[],["Native","Non-native"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addLegend","args":[{"colors":["#2ca25f","#e34a33"],"labels":["Native (likely)","Non-native (invasive)"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"unknown","title":"Mean % cover<br>(all years)","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[21.25544,21.706499],"lng":[-158.203466,-157.660761]},"fitBounds":[21.25,-158.3,21.72,-157.62,[]]},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-invasive-native-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Mean percent cover of Native and Non-native algae across Oʻahu sampling locations.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="plotting-total-algae-cover" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="plotting-total-algae-cover"><span class="header-section-number">4.6</span> Plotting Total % Algae cover</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb232"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb232-1"><a href="#cb232-1" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">colorNumeric</span>(<span class="st">"YlGn"</span>, site_algae<span class="sc">$</span>mean_cover)</span>
+<span id="cb232-2"><a href="#cb232-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb232-3"><a href="#cb232-3" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(site_algae) <span class="sc">|&gt;</span></span>
+<span id="cb232-4"><a href="#cb232-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>Esri.WorldImagery) <span class="sc">|&gt;</span></span>
+<span id="cb232-5"><a href="#cb232-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
+<span id="cb232-6"><a href="#cb232-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> <span class="sc">~</span>lon, <span class="at">lat =</span> <span class="sc">~</span>lat,</span>
+<span id="cb232-7"><a href="#cb232-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="sc">~</span><span class="dv">4</span> <span class="sc">+</span> <span class="dv">14</span> <span class="sc">*</span> <span class="fu">sqrt</span>(mean_cover <span class="sc">/</span> <span class="fu">max</span>(mean_cover)),   <span class="co"># bigger = more algae</span></span>
+<span id="cb232-8"><a href="#cb232-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillColor =</span> <span class="sc">~</span><span class="fu">pal</span>(mean_cover), <span class="at">fillOpacity =</span> <span class="fl">0.9</span>,</span>
+<span id="cb232-9"><a href="#cb232-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb232-10"><a href="#cb232-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="sc">~</span><span class="fu">paste0</span>(site_name, <span class="st">": "</span>, <span class="fu">round</span>(mean_cover, <span class="dv">1</span>), <span class="st">"% algae cover"</span>),</span>
+<span id="cb232-11"><a href="#cb232-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span><span class="fu">paste0</span>(<span class="st">"&lt;b&gt;"</span>, site_name, <span class="st">"&lt;/b&gt;&lt;br&gt;Mean cover: "</span>,</span>
+<span id="cb232-12"><a href="#cb232-12" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">round</span>(mean_cover, <span class="dv">1</span>), <span class="st">"%&lt;br&gt;Quadrats: "</span>, n_quadrats)) <span class="sc">|&gt;</span></span>
+<span id="cb232-13"><a href="#cb232-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="st">"bottomright"</span>, <span class="at">pal =</span> pal, <span class="at">values =</span> <span class="sc">~</span>mean_cover,</span>
+<span id="cb232-14"><a href="#cb232-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"Mean % algae cover"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb232-15"><a href="#cb232-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fitBounds</span>(<span class="sc">-</span><span class="fl">158.30</span>, <span class="fl">21.25</span>, <span class="sc">-</span><span class="fl">157.62</span>, <span class="fl">21.72</span>)   <span class="co"># whole island</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="fig-percent-cover" class="cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-percent-cover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-a3fedbbd35e08cfac34c" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-a3fedbbd35e08cfac34c">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[21.316488,21.310612,null,21.559278,21.295799,null,21.7057,21.3962,21.25544,21.25544,null,21.4104,21.3002,null,21.311893,21.2843,21.2882,21.706499,21.452875],[-157.664261,-158.00441,null,-157.871902,-158.103699,null,-157.995697,-157.720306,-157.810303,-157.8103,null,-158.177704,-157.882599,null,-157.895142,-157.675293,-157.667999,-157.998505,-158.199966],[14.70491186831894,16.67196446434332,17.52328635701058,10.74688909580091,15.86361153658663,16.5310455309652,12.74537261256473,12.68716363656868,16.1927580852859,16.5453601866845,16.42364507227106,17.2922245189828,14.84946019959996,15.75938246827631,14.17797733199151,13.49674090276736,14.91317874371798,17.32544176074933,18],null,null,{"interactive":true,"className":"","stroke":true,"color":"white","weight":1,"opacity":0.5,"fill":true,"fillColor":["#8ACE80","#208142","#005D33","#FFFFE5","#3FA95B","#258745","#E4F4AB","#E5F5AC","#339850","#258644","#2A8C48","#016937","#81CA7C","#45AD5F","#A9DB8C","#C9E99B","#7DC87B","#006737","#004529"],"fillOpacity":0.9},null,null,["<b>Baby Makapuu<\/b><br>Mean cover: 49.7%<br>Quadrats: 159","<b>Ewa<\/b><br>Mean cover: 69.7%<br>Quadrats: 600","<b>Ewa<\/b><br>Mean cover: 79.4%<br>Quadrats: 172","<b>Kahana Bay<\/b><br>Mean cover: 19.8%<br>Quadrats: 115","<b>Kalaeloa<\/b><br>Mean cover: 61.1%<br>Quadrats: 328","<b>Kalaeloa<\/b><br>Mean cover: 68.2%<br>Quadrats: 158","<b>Keiki Bay<\/b><br>Mean cover: 33.2%<br>Quadrats: 67","<b>Lanikai Point<\/b><br>Mean cover: 32.8%<br>Quadrats: 69","<b>Leahi<\/b><br>Mean cover: 64.5%<br>Quadrats: 981","<b>Leahi<\/b><br>Mean cover: 68.3%<br>Quadrats: 52","<b>Leahi<\/b><br>Mean cover: 67%<br>Quadrats: 265","<b>Maili Beach<\/b><br>Mean cover: 76.7%<br>Quadrats: 164","<b>Mauliola<\/b><br>Mean cover: 51.1%<br>Quadrats: 579","<b>Mauliola<\/b><br>Mean cover: 60%<br>Quadrats: 239","<b>Mokauea Island<\/b><br>Mean cover: 45%<br>Quadrats: 25","<b>Sandy Beach<\/b><br>Mean cover: 39.1%<br>Quadrats: 28","<b>Sandy Beach<\/b><br>Mean cover: 51.7%<br>Quadrats: 129","<b>Turtle Bay<\/b><br>Mean cover: 77.1%<br>Quadrats: 60","<b>Waianae High School Reef<\/b><br>Mean cover: 85.1%<br>Quadrats: 30"],null,["Baby Makapuu: 49.7% algae cover","Ewa: 69.7% algae cover","Ewa: 79.4% algae cover","Kahana Bay: 19.8% algae cover","Kalaeloa: 61.1% algae cover","Kalaeloa: 68.2% algae cover","Keiki Bay: 33.2% algae cover","Lanikai Point: 32.8% algae cover","Leahi: 64.5% algae cover","Leahi: 68.3% algae cover","Leahi: 67% algae cover","Maili Beach: 76.7% algae cover","Mauliola: 51.1% algae cover","Mauliola: 60% algae cover","Mokauea Island: 45% algae cover","Sandy Beach: 39.1% algae cover","Sandy Beach: 51.7% algae cover","Turtle Bay: 77.1% algae cover","Waianae High School Reef: 85.1% algae cover"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFE5 , #FFFFE4 0.372803124445245%, #EFF9B3 15.684360021303%, #C4E799 30.9959169181608%, #88CD7F 46.3074738150186%, #45AD5F 61.6190307118764%, #1F8041 76.9305876087342%, #005A32 92.242144505592%, #004529 "],"labels":["20","30","40","50","60","70","80"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"bottomright","type":"numeric","title":"Mean % algae cover","extra":{"p_1":0.003728031244452448,"p_n":0.9224214450559204},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[21.25544,21.706499],"lng":[-158.199966,-157.664261]},"fitBounds":[21.25,-158.3,21.72,-157.62,[]]},"evals":[],"jsHooks":[]}</script>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-percent-cover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Mean percent cover of total algae across Oʻahu sampling locations.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="plot-function" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="plot-function"><span class="header-section-number">4.7</span> Plot Function</h2>
+<p><strong>Function:</strong> plot_site</p>
+<p>This function generates a plot comparing the percent algae cover of native vs non-native species through a time series per location. The x-axis is the year and the y-axis is % algae cover.</p>
+<p><strong>Input:</strong></p>
+<p>Different locations.</p>
+<p><strong>Output:</strong></p>
+<p>Change of algae cover of native and non-native species over time based on that specific sampling location.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb233"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb233-1"><a href="#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----  TIME SERIES: NATIVE vs NON-NATIVE, ONE GRAPH PER SITE ------------------</span></span>
+<span id="cb233-2"><a href="#cb233-2" aria-hidden="true" tabindex="-1"></a>site_year <span class="ot">&lt;-</span> quad <span class="sc">|&gt;</span></span>
+<span id="cb233-3"><a href="#cb233-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_name, year, origin_group) <span class="sc">|&gt;</span></span>
+<span id="cb233-4"><a href="#cb233-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_quadrats =</span> <span class="fu">n_distinct</span>(sample_id),</span>
+<span id="cb233-5"><a href="#cb233-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_cover =</span> <span class="fu">mean</span>(cover),</span>
+<span id="cb233-6"><a href="#cb233-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">se =</span> <span class="fu">sd</span>(cover) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb233-7"><a href="#cb233-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb233-8"><a href="#cb233-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb233-9"><a href="#cb233-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Only sites with enough survey years for a line to mean anything</span></span>
+<span id="cb233-10"><a href="#cb233-10" aria-hidden="true" tabindex="-1"></a>min_years <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb233-11"><a href="#cb233-11" aria-hidden="true" tabindex="-1"></a>sites_to_plot <span class="ot">&lt;-</span> site_year <span class="sc">|&gt;</span></span>
+<span id="cb233-12"><a href="#cb233-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_name) <span class="sc">|&gt;</span></span>
+<span id="cb233-13"><a href="#cb233-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n_years =</span> <span class="fu">n_distinct</span>(year), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb233-14"><a href="#cb233-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_years <span class="sc">&gt;=</span> min_years) <span class="sc">|&gt;</span></span>
+<span id="cb233-15"><a href="#cb233-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(site_name)</span>
+<span id="cb233-16"><a href="#cb233-16" aria-hidden="true" tabindex="-1"></a>sites_to_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Baby Makapuu" "Ewa"          "Kalaeloa"     "Leahi"        "Maili Beach" 
+[6] "Mauliola"     "Sandy Beach" </code></pre>
+</div>
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb235"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb235-1"><a href="#cb235-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Native"</span> <span class="ot">=</span> <span class="st">"#2ca25f"</span>, <span class="st">"Non-native"</span> <span class="ot">=</span> <span class="st">"#e34a33"</span>)</span>
+<span id="cb235-2"><a href="#cb235-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-3"><a href="#cb235-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot function for each individual site</span></span>
+<span id="cb235-4"><a href="#cb235-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-5"><a href="#cb235-5" aria-hidden="true" tabindex="-1"></a>plot_site <span class="ot">&lt;-</span> <span class="cf">function</span>(site) {</span>
+<span id="cb235-6"><a href="#cb235-6" aria-hidden="true" tabindex="-1"></a>  site_year <span class="sc">|&gt;</span></span>
+<span id="cb235-7"><a href="#cb235-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(site_name <span class="sc">==</span> site) <span class="sc">|&gt;</span> <span class="co"># site is the variable that changes</span></span>
+<span id="cb235-8"><a href="#cb235-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(year, mean_cover, <span class="at">color =</span> origin_group)) <span class="sc">+</span></span>
+<span id="cb235-9"><a href="#cb235-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb235-10"><a href="#cb235-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb235-11"><a href="#cb235-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols, <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb235-12"><a href="#cb235-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> site, <span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Mean % Cover Per Quadrat"</span>, <span class="at">size=</span><span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb235-13"><a href="#cb235-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span>
+<span id="cb235-14"><a href="#cb235-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb236"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb236-1"><a href="#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View a single site (swap the name to change locations)</span></span>
+<span id="cb236-2"><a href="#cb236-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_site</span>(<span class="st">"Leahi"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-leahi" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-leahi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="FinalScript_GroupC_files/figure-html/fig-leahi-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-leahi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Percent algal cover per quadrat at Leahi sampling location from 2005 to 2025.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb237"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb237-1"><a href="#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sites with enough survey years for a line to mean something</span></span>
+<span id="cb237-2"><a href="#cb237-2" aria-hidden="true" tabindex="-1"></a>min_years <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb237-3"><a href="#cb237-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb237-4"><a href="#cb237-4" aria-hidden="true" tabindex="-1"></a><span class="co"># One plot per site  &lt;-- this is the line that was missing</span></span>
+<span id="cb237-5"><a href="#cb237-5" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(sites_to_plot, plot_site)</span>
+<span id="cb237-6"><a href="#cb237-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb237-7"><a href="#cb237-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Combine the plots, with the individual axis titles removed</span></span>
+<span id="cb237-8"><a href="#cb237-8" aria-hidden="true" tabindex="-1"></a>panels <span class="ot">&lt;-</span> <span class="fu">wrap_plots</span>(plots, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">guides =</span> <span class="st">"collect"</span>) <span class="sc">&amp;</span></span>
+<span id="cb237-9"><a href="#cb237-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">&amp;</span></span>
+<span id="cb237-10"><a href="#cb237-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb237-11"><a href="#cb237-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb237-12"><a href="#cb237-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. One shared label for each axis</span></span>
+<span id="cb237-13"><a href="#cb237-13" aria-hidden="true" tabindex="-1"></a>y_lab <span class="ot">&lt;-</span> <span class="fu">wrap_elements</span>(<span class="at">panel =</span> <span class="fu">textGrob</span>(<span class="st">"Mean % Cover Per Quadrat"</span>, <span class="at">rot =</span> <span class="dv">90</span>))</span>
+<span id="cb237-14"><a href="#cb237-14" aria-hidden="true" tabindex="-1"></a>x_lab <span class="ot">&lt;-</span> <span class="fu">wrap_elements</span>(<span class="at">panel =</span> <span class="fu">textGrob</span>(<span class="st">"Year"</span>))</span>
+<span id="cb237-15"><a href="#cb237-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb237-16"><a href="#cb237-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Put it together: y label on the left, x label underneath</span></span>
+<span id="cb237-17"><a href="#cb237-17" aria-hidden="true" tabindex="-1"></a>all_sites <span class="ot">&lt;-</span> ((y_lab <span class="sc">|</span> panels) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">widths =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="dv">1</span>))) <span class="sc">/</span></span>
+<span id="cb237-18"><a href="#cb237-18" aria-hidden="true" tabindex="-1"></a>  x_lab <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.03</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show R Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb238"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb238-1"><a href="#cb238-1" aria-hidden="true" tabindex="-1"></a>all_sites</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-combines" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-combines-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="FinalScript_GroupC_files/figure-html/fig-combines-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-combines-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Percent algal cover of native and non-native species accross all seven sampling locations from data collection between 2005 to 2025.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 
 </main>

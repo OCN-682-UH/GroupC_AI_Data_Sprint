@@ -127,7 +127,7 @@ TaxonByYear <- function(data, taxon) {
 }
 ```
 
-Test - Function 4
+## Test - Function 4
 
 ```{r}
 TaxonByYear(opihi_master, "Dictyosphaeria versluysii")
